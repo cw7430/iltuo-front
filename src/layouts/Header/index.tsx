@@ -1,0 +1,107 @@
+import React from "react";
+import { useLocation, Link } from "react-router-dom";
+import {
+    Navbar,
+    Nav,
+    Container,
+    Row,
+    Col,
+    InputGroup,
+    Form,
+} from "react-bootstrap";
+
+import { MAIN_PATH } from "../../constants";
+
+export default function Header() {
+    const { pathname } = useLocation();
+
+    return (
+        <div
+            className={`header_section ${
+                pathname === MAIN_PATH() ? "" : "header_bg"
+            }`}
+        >
+            <Container>
+                <Navbar expand="lg">
+                    <Navbar.Brand as={Link} to={MAIN_PATH()}>
+                        <img
+                            src={require("../../assets/images/logo.png")}
+                            alt="로고"
+                        />
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="ms-auto">
+                            <Nav.Link
+                                as={Link}
+                                to={MAIN_PATH()}
+                                active={pathname === MAIN_PATH()}
+                            >
+                                {"홈"}
+                            </Nav.Link>
+                            <Nav.Link href="#">{"원두커피"}</Nav.Link>
+                            <Nav.Link href="#">{"드립백"}</Nav.Link>
+                            <Nav.Link href="#">{"커피용품"}</Nav.Link>
+                        </Nav>
+                        <div className="form-inline my-2 my-lg-0">
+                            <div className="login_bt">
+                                <Row>
+                                    <Col xs={3}>
+                                        <button className="button_front" style={{minWidth: "142px"}}>
+                                            <span className="user_icon">
+                                                <i
+                                                    className="fa fa-user"
+                                                    aria-hidden="true"
+                                                ></i>
+                                            </span>
+                                            {"로그아웃"}
+                                        </button>
+                                    </Col>
+                                    <Col xs={2} style={{paddingLeft: "30px"}}>
+                                        <button>
+                                            {"프로필"}
+                                        </button>
+                                    </Col>
+                                    <Col xs={7}>
+                                        <Row>
+                                            <Col xs={10}>
+                                                <Form.Control
+                                                    type="text"
+                                                    readOnly={true}
+                                                />
+                                            </Col>
+                                            <Col xs={2}>
+                                                <button>
+                                                    <i
+                                                        className="fa fa-search"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                </button>
+                                            </Col>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </div>
+                    </Navbar.Collapse>
+                </Navbar>
+            </Container>
+            {pathname === MAIN_PATH() && (
+                <div className="banner_section layout_padding">
+                    <Container>
+                        <Row>
+                            <Col className="md-12">
+                                <div className="banner_taital_main">
+                                    <h1 className="banner_taital">
+                                        {"Iltuo"} <br />
+                                        {"Coffee"}
+                                    </h1>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )}
+        </div>
+    );
+}
