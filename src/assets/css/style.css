@@ -276,7 +276,7 @@ button {
 }
 
 .login_bt {
-    min-width: 210px;
+    min-width: 250px;
     margin-top: 28px;
 }
 
@@ -293,12 +293,12 @@ button {
     padding: 0px 0px 0px 50px;
 }
 
-.login_bt .button_front {
+.login_bt button {
     float: left;
     font-size: 18px;
     color: #fefefd;
     text-transform: uppercase;
-    padding: 0px 0px 0px 40px;
+    padding: 0px 0px 0px 20px;
     background: none;
     border: none;
     outline: none;

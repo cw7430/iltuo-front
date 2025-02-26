@@ -1,14 +1,6 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-    Navbar,
-    Nav,
-    Container,
-    Row,
-    Col,
-    InputGroup,
-    Form,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 
 import { MAIN_PATH } from "../../constants";
 
@@ -42,43 +34,36 @@ export default function Header() {
                             <Nav.Link href="#">{"원두커피"}</Nav.Link>
                             <Nav.Link href="#">{"드립백"}</Nav.Link>
                             <Nav.Link href="#">{"커피용품"}</Nav.Link>
+                            <Nav.Link href="#">{"주문내역"}</Nav.Link>
+                            <Nav.Link href="#">{"장바구니"}</Nav.Link>
                         </Nav>
                         <div className="form-inline my-2 my-lg-0">
                             <div className="login_bt">
                                 <Row>
-                                    <Col xs={3}>
-                                        <button className="button_front" style={{minWidth: "142px"}}>
+                                    {/* <Col xs={6}>
+                                        <button>
                                             <span className="user_icon">
                                                 <i
                                                     className="fa fa-user"
                                                     aria-hidden="true"
                                                 ></i>
                                             </span>
-                                            {"로그아웃"}
+                                            {"내정보"}
                                         </button>
                                     </Col>
-                                    <Col xs={2} style={{paddingLeft: "30px"}}>
+                                    <Col xs={6}>
+                                        <button>{"로그아웃"}</button>
+                                    </Col> */}
+                                    <Col xs={6}>
                                         <button>
-                                            {"프로필"}
+                                            <span className="user_icon">
+                                                <i
+                                                    className="fa fa-user"
+                                                    aria-hidden="true"
+                                                ></i>
+                                            </span>
+                                            {"로그인"}
                                         </button>
-                                    </Col>
-                                    <Col xs={7}>
-                                        <Row>
-                                            <Col xs={10}>
-                                                <Form.Control
-                                                    type="text"
-                                                    readOnly={true}
-                                                />
-                                            </Col>
-                                            <Col xs={2}>
-                                                <button>
-                                                    <i
-                                                        className="fa fa-search"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </button>
-                                            </Col>
-                                        </Row>
                                     </Col>
                                 </Row>
                             </div>
