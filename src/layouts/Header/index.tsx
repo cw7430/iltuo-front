@@ -1,11 +1,15 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-
 import { MAIN_PATH } from "../../constants";
+import { useMajorCategoryStore } from "../../stores";
 
 export default function Header() {
     const { pathname } = useLocation();
+
+    const majorCategoryList = useMajorCategoryStore((state) => state.data);
+
+    console.log(majorCategoryList)
 
     return (
         <div
@@ -31,6 +35,16 @@ export default function Header() {
                             >
                                 {"홈"}
                             </Nav.Link>
+                             {/* <>
+                                {majorCategoryList.map((category) => (
+                                    <Nav.Link
+                                        key={category.majorCategoryID}
+                                        href="#"
+                                    >
+                                        {category.majorCategoryName}
+                                    </Nav.Link>
+                                ))}
+                            </> */}
                             <Nav.Link href="#">{"원두커피"}</Nav.Link>
                             <Nav.Link href="#">{"드립백"}</Nav.Link>
                             <Nav.Link href="#">{"커피용품"}</Nav.Link>
