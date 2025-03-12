@@ -17,7 +17,7 @@ export default function Loader() {
             }}
         >
             <img
-                src={require("../assets/image/loader.gif")}
+                src={require("../../assets/images/loader.gif")}
                 alt="로딩중..."
                 style={{
                     width: "50px", // 로딩 GIF의 가로 크기

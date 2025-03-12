@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-import { MAIN_PATH } from "../../constants";
+import { MAIN_PATH, LIST_PATH } from "../../constants";
 import { useMajorCategoryStore } from "../../stores";
 
 export default function Header() {
@@ -36,8 +36,10 @@ export default function Header() {
                              <>
                                 {majorCategoryList.map((category) => (
                                     <Nav.Link
-                                        key={category.majorCategoryID}
-                                        href="#"
+                                        key={category.majorCategoryId}
+                                        as={Link}
+                                        to={LIST_PATH("product",category.majorCategoryId)}
+                                        active={pathname === LIST_PATH("product",category.majorCategoryId)}
                                     >
                                         {category.majorCategoryName}
                                     </Nav.Link>

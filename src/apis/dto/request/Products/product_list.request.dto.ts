@@ -1,3 +1,3 @@
 export default interface ProductListRequestDto {
-    majorCategoryID: number;
+    majorCategoryId: number;
 }

@@ -1,12 +1,12 @@
 import React from "react";
-import { Col, Container, Row, Carousel, Card } from "react-bootstrap";
+import { Col, Container, Row, Carousel } from "react-bootstrap";
+import { ProductCard } from "../../components/Cards";
 import { useRecommendatedProductStore } from "../../stores";
 
 export default function Main() {
     const recommendatedProductList = useRecommendatedProductStore(
         (state) => state.data
     );
-    console.log(recommendatedProductList);
 
     return (
         <div className="coffee_section layout_padding">
@@ -31,22 +31,7 @@ export default function Main() {
                                             className="mb-4 d-flex"
                                             key={itemIdx}
                                         >
-                                            <Card className="w-100">
-                                                <div className="coffee_img">
-                                                    <img src={`http://localhost:3000/mock/images/product/${item.productCode}.jpg`} alt="#" />
-                                                </div>
-                                                <Card.Body className="coffee_box d-flex flex-column flex-grow-1">
-                                                    <Card.Title className="types_text">
-                                                        {item.productName}
-                                                    </Card.Title>
-                                                    <Card.Text className="looking_text flex-grow-1">
-                                                        {item.productComments}
-                                                    </Card.Text>
-                                                    <div className="types_text">
-                                                        {item.price.toLocaleString()}
-                                                    </div>
-                                                </Card.Body>
-                                            </Card>
+                                            <ProductCard productView={item} isMainPage={true} />
                                         </Col>
                                     ))}
                                 </Row>

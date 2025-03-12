@@ -1,5 +1,8 @@
 import axios from "axios";
-import { ProductListRequestDto, RecommendatedProductsRequestDto } from "../../dto/request/Products";
+import {
+    ProductListRequestDto,
+    RecommendatedProductsRequestDto,
+} from "../../dto/request/Products";
 import {
     ProductResponseDto,
     MajorCategoryResponseDto,
@@ -38,7 +41,10 @@ export const fetchRecommendatedProductList = async (
                 (product) => product.isRecommendated
             );
         }
-        const responseBody: ProductResponseDto[][] = chunkArray(responseBodyRaw, 4)
+        const responseBody: ProductResponseDto[][] = chunkArray(
+            responseBodyRaw,
+            4
+        );
         return responseBody;
     } catch (error) {
         console.error("초기데이터 설정 중 오류 발생:", error);
@@ -46,7 +52,9 @@ export const fetchRecommendatedProductList = async (
     }
 };
 
-export const fetchMinerCategoryList = async(requestBody: ProductListRequestDto) => {
+export const fetchMinerCategoryList = async (
+    requestBody: ProductListRequestDto
+) => {
     try {
         const result = await axios.get(
             `${DOMAIN}/mock/data/product/miner_category.json`,
@@ -55,9 +63,38 @@ export const fetchMinerCategoryList = async(requestBody: ProductListRequestDto) 
             }
         );
         let responseBody: MinerCategoryResponseDto[] = result.data;
+        if (requestBody.majorCategoryId) {
+            responseBody = responseBody.filter(
+                (minerCategory) =>
+                    minerCategory.majorCategoryId ===
+                    requestBody.majorCategoryId
+            );
+        }
         return responseBody;
     } catch (error) {
         console.error("소분류 목록 조회 중 오류 발생:", error);
         return [];
     }
-}
+};
+
+export const fetchProductList = async (requestBody: ProductListRequestDto) => {
+    try {
+        const result = await axios.get(
+            `${DOMAIN}/mock/data/product/product_view.json`,
+            {
+                params: requestBody,
+            }
+        );
+        let responseBody: ProductResponseDto[] = result.data;
+        if (requestBody.majorCategoryId) {
+            responseBody = responseBody.filter(
+                (product) =>
+                    product.majorCategoryId === requestBody.majorCategoryId
+            );
+        }
+        return responseBody;
+    } catch (error) {
+        console.error("상품 목록 조회 중 오류 발생:", error);
+        return [];
+    }
+};
