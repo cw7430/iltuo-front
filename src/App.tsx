@@ -11,16 +11,24 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import { MAIN_PATH, SHOP_PATH } from "./constants";
 import Main from "./views/Main";
-import { useMajorCategoryStore } from "./stores";
+import { useMajorCategoryStore, useRecommendatedProductStore } from "./stores";
+import { RecommendatedProductsRequestDto } from "./apis/dto/request/Products";
 
 function App() {
     const fetchMajorCategoryList = useMajorCategoryStore(
         (state) => state.fetchData
     );
 
+    const fetchRecommendatedProductList = useRecommendatedProductStore(
+        (state) => state.fetchData
+    );
+
     useEffect(() => {
         fetchMajorCategoryList();
-    }, [fetchMajorCategoryList]);
+        fetchRecommendatedProductList({
+            isRecommendated: true,
+        } as RecommendatedProductsRequestDto);
+    }, [fetchMajorCategoryList, fetchRecommendatedProductList]);
 
     return (
         <Routes>

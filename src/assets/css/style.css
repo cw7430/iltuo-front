@@ -616,7 +616,7 @@ button {
     border: 1px solid #fefefd;
 }
 
-#main_slider a.carousel-control-prev {
+/* #main_slider a.carousel-control-prev {
     left: -50px;
     top: 170px;
 }
@@ -626,6 +626,7 @@ button {
     top: 170px;
 
 }
+
 
 #main_slider .carousel-control-next,
 #main_slider .carousel-control-prev {
@@ -643,8 +644,54 @@ button {
 #main_slider .carousel-control-prev:hover {
     color: #fefefd;
     background-color: #f01c1c;
+} */
+/* 부모 요소에 position: relative 설정 */
+#main_slider {
+    position: relative;
 }
 
+/* 공통 설정 */
+#main_slider .carousel-control-next,
+#main_slider .carousel-control-prev {
+    width: 55px;
+    height: 55px;
+    opacity: 1;
+    font-size: 16px;
+    color: #fefefd;
+    background-color: #4a4949;
+    position: absolute;
+    top: 50% !important;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+#main_slider .carousel-control-next:focus,
+#main_slider .carousel-control-next:hover,
+#main_slider .carousel-control-prev:focus,
+#main_slider .carousel-control-prev:hover {
+    color: #fefefd;
+    background-color: #f01c1c;
+}
+
+/* 넓은 화면에서 위치 조정 */
+@media (min-width: 992px) {
+    #main_slider .carousel-control-prev {
+        left: -50px;
+    }
+    #main_slider .carousel-control-next {
+        right: -50px;
+    }
+}
+
+/* 테블릿에서 위치 조정 */
+@media (min-width: 768px) and (max-width: 991px) {
+    #main_slider .carousel-control-prev {
+        left: 10px; /* 화면 안쪽으로 이동 */
+    }
+    #main_slider .carousel-control-next {
+        right: 10px; /* 화면 안쪽으로 이동 */
+    }
+}
 
 /* coffee section end */
 

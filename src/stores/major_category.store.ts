@@ -8,17 +8,17 @@ interface MajorCategoryState {
 }
 
 const useMajorCategoryStore = create<MajorCategoryState>((set) => ({
-    data: [],
-    fetchData: async () => {
-        try {
-          const data = await fetchMajorCategoryList();
-          if (data) {
-            set({ data: data });
-          }
-        } catch (error) {
-          console.error('Failed to fetch categories:', error);
-        }
-      },
+  data: [],
+  fetchData: async () => {
+    try {
+      const data = await fetchMajorCategoryList();
+      set({ data });
+    } catch (error) {
+      console.error('데이터를 불러오지 못했습니다:', error);
+      set({ data: [] }); // 오류 발생 시 빈 배열 설정
+    }
+  },
 }));
+
 
 export default useMajorCategoryStore;

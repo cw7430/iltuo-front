@@ -9,8 +9,6 @@ export default function Header() {
 
     const majorCategoryList = useMajorCategoryStore((state) => state.data);
 
-    console.log(majorCategoryList)
-
     return (
         <div
             className={`header_section ${
@@ -35,7 +33,7 @@ export default function Header() {
                             >
                                 {"홈"}
                             </Nav.Link>
-                             {/* <>
+                             <>
                                 {majorCategoryList.map((category) => (
                                     <Nav.Link
                                         key={category.majorCategoryID}
@@ -44,10 +42,7 @@ export default function Header() {
                                         {category.majorCategoryName}
                                     </Nav.Link>
                                 ))}
-                            </> */}
-                            <Nav.Link href="#">{"원두커피"}</Nav.Link>
-                            <Nav.Link href="#">{"드립백"}</Nav.Link>
-                            <Nav.Link href="#">{"커피용품"}</Nav.Link>
+                            </>
                             <Nav.Link href="#">{"주문내역"}</Nav.Link>
                             <Nav.Link href="#">{"장바구니"}</Nav.Link>
                         </Nav>
