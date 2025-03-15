@@ -43,7 +43,7 @@ export const fetchRecommendatedProductList = async (
         }
         const reponseBodyTuned = responseBodyRaw.map((product) => ({
             ...product,
-            discountedPrice: Math.ceil((product.price * (product.discountedRate + 100)) / 100 / 10) * 10,
+            discountedPrice: Math.ceil((product.price * (100 - product.discountedRate)) / 100 / 10) * 10,
         }));
         const responseBody: ProductResponseDto[][] = chunkArray(
             reponseBodyTuned,
@@ -98,7 +98,7 @@ export const fetchProductList = async (requestBody: ProductListRequestDto) => {
         }
         const reponseBodyTuned = responseBody.map((product) => ({
             ...product,
-            discountedPrice: Math.ceil((product.price * (product.discountedRate + 100)) / 100 / 10) * 10,
+            discountedPrice: Math.ceil((product.price * (100 - product.discountedRate)) / 100 / 10) * 10,
         }));
         return reponseBodyTuned;
     } catch (error) {
