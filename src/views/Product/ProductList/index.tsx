@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMajorCategoryStore } from "../../../stores";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Nav } from "react-bootstrap";
 import {
     MinerCategoryResponseDto,
     ProductResponseDto,
@@ -11,6 +11,9 @@ import {
     fetchProductList,
 } from "../../../apis/server/Products";
 import Loader from "../../../components/Loader";
+import { ProductCard } from "../../../components/Cards";
+import CustomPagination from "../../../components/CustomPagination";
+import { sortDate, sortNumber } from "../../../utils/sort";
 
 export default function ProductList() {
     const { majorCategoryId } = useParams<{ majorCategoryId: string }>();
@@ -25,9 +28,24 @@ export default function ProductList() {
         MinerCategoryResponseDto[]
     >([]);
     const [productList, setProductList] = useState<ProductResponseDto[]>([]);
-    const [filteredProductList, setFilteredProductList] =
-        useState<ProductResponseDto[]>(productList);
+    const [pagedProductList, setPagedProductList] = useState<
+        ProductResponseDto[]
+    >([]);
     const [minerCategoryId, setMinerCategoryId] = useState<string>("0");
+    const [sortKey, setSortKey] = useState<
+        "recommendatedAsc" | "regisertDateDesc" | "priceAsc" | "priceDesc"
+    >("recommendatedAsc");
+
+    const handleChangeMinerCategoryId = (categoryId: string) => {
+        setMinerCategoryId(categoryId);
+        handleSort("recommendatedAsc");
+    };
+
+    const handleSort = (
+        key: "recommendatedAsc" | "regisertDateDesc" | "priceAsc" | "priceDesc"
+    ) => {
+        setSortKey(key);
+    };
 
     useEffect(() => {
         if (majorCategoryId) {
@@ -52,27 +70,27 @@ export default function ProductList() {
         }
     }, [majorCategoryId]);
 
-    useEffect(() => {
-        const filterProducts = () => {
-            if (minerCategoryId === "0") {
-                setFilteredProductList(productList);
-            } else {
-                const filtered = productList.filter(
-                    (product) =>
-                        String(product.minerCategoryId) === minerCategoryId
-                );
-                setFilteredProductList(filtered);
-            }
-        };
+    const filteredAndSortedList = useMemo(() => {
+        let filteredList =
+            minerCategoryId === "0"
+                ? productList
+                : productList.filter(
+                      (product) =>
+                          String(product.minerCategoryId) === minerCategoryId
+                  );
 
-        filterProducts();
-    }, [minerCategoryId, productList]);
-
-    const handleChangeMinerCategoryId = (categoryId: string) => {
-        setMinerCategoryId(categoryId);
-    };
-
-    console.log(filteredProductList);
+        switch (sortKey) {
+            case "regisertDateDesc":
+                return sortDate(filteredList, "regisertDate", "desc");
+            case "priceAsc":
+                return sortNumber(filteredList, "discountedPrice", "asc");
+            case "priceDesc":
+                return sortNumber(filteredList, "discountedPrice", "desc");
+            case "recommendatedAsc":
+            default:
+                return filteredList;
+        }
+    }, [productList, minerCategoryId, sortKey]);
 
     return (
         <div className="coffee_section layout_padding">
@@ -125,7 +143,107 @@ export default function ProductList() {
                             ))}
                         </Row>
                     </Container>
-                    <div className="coffee_section_2"></div>
+                    <div className="coffee_section_2">
+                        <Container>
+                            <Row className="my-5 justify-content-end">
+                                <Col xs="auto" className="d-flex">
+                                    <Nav.Link
+                                        as="button"
+                                        disabled={
+                                            sortKey === "recommendatedAsc"
+                                        }
+                                        style={{
+                                            fontWeight:
+                                                sortKey === "recommendatedAsc"
+                                                    ? "bold"
+                                                    : "normal",
+                                        }}
+                                        onClick={() =>
+                                            handleSort("recommendatedAsc")
+                                        }
+                                    >
+                                        {"추천순"}
+                                    </Nav.Link>
+                                </Col>
+                                <Col xs="auto" className="d-flex">
+                                    <Nav.Link
+                                        as="button"
+                                        disabled={
+                                            sortKey === "regisertDateDesc"
+                                        }
+                                        style={{
+                                            fontWeight:
+                                                sortKey === "regisertDateDesc"
+                                                    ? "bold"
+                                                    : "normal",
+                                        }}
+                                        onClick={() =>
+                                            handleSort("regisertDateDesc")
+                                        }
+                                    >
+                                        {"등록순"}
+                                    </Nav.Link>
+                                </Col>
+                                <Col xs="auto" className="d-flex">
+                                    <Nav.Link
+                                        as="button"
+                                        disabled={sortKey === "priceAsc"}
+                                        style={{
+                                            fontWeight:
+                                                sortKey === "priceAsc"
+                                                    ? "bold"
+                                                    : "normal",
+                                        }}
+                                        onClick={() => handleSort("priceAsc")}
+                                    >
+                                        {"낮은가격순"}
+                                    </Nav.Link>
+                                </Col>
+                                <Col xs="auto" className="d-flex">
+                                    <Nav.Link
+                                        as="button"
+                                        disabled={sortKey === "priceDesc"}
+                                        style={{
+                                            fontWeight:
+                                                sortKey === "priceDesc"
+                                                    ? "bold"
+                                                    : "normal",
+                                        }}
+                                        onClick={() => handleSort("priceDesc")}
+                                    >
+                                        {"높은가격순"}
+                                    </Nav.Link>
+                                </Col>
+                            </Row>
+                            <Row className="my-5 d-flex align-items-stretch">
+                                {pagedProductList.map((item, itemIdx) => (
+                                    <Col
+                                        lg={3}
+                                        md={6}
+                                        className="mb-4 d-flex"
+                                        key={itemIdx}
+                                    >
+                                        <ProductCard
+                                            productView={item}
+                                            isMainPage={false}
+                                        />
+                                    </Col>
+                                ))}
+                            </Row>
+                        </Container>
+                        <Container>
+                            <Row className="my-5 justify-content-center">
+                                <Col xs="auto">
+                                    <CustomPagination
+                                        data={filteredAndSortedList}
+                                        itemsPerPage={4}
+                                        pageBlockSize={5}
+                                        setPagedData={setPagedProductList}
+                                    />
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
                 </>
             )}
         </div>

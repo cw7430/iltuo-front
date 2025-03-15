@@ -10,7 +10,7 @@ interface Props {
 export default function ProductCard({ productView, isMainPage }: Props) {
     const { productCode, productName, productComments, price } = productView;
     return (
-        <Card className="w-100">
+        <Card className="w-100" style={{ cursor: "pointer" }}>
             <div className="coffee_img">
                 <img
                     src={`http://localhost:3000/mock/images/product/${productCode}.jpg`}

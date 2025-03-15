@@ -34,6 +34,15 @@ export default function CustomPagination<T>(props: Props<T>) {
     const isFirstBlock = currentBlock === 1;
     const isLastBlock = endPage === totalPages;
 
+    // 데이터가 변경되면 첫 페이지로 이동
+    useEffect(() => {
+        setPage(1);
+    }, [data]);
+
+    if (totalPages <= 1) {
+        return null;
+    }
+
     return (
         <Pagination>
             {/* 첫 페이지가 아니면 First 블록 버튼 활성화 */}

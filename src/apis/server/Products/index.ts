@@ -41,8 +41,12 @@ export const fetchRecommendatedProductList = async (
                 (product) => product.isRecommendated
             );
         }
+        const reponseBodyTuned = responseBodyRaw.map((product) => ({
+            ...product,
+            discountedPrice: Math.ceil((product.price * (product.discountedRate + 100)) / 100 / 10) * 10,
+        }));
         const responseBody: ProductResponseDto[][] = chunkArray(
-            responseBodyRaw,
+            reponseBodyTuned,
             4
         );
         return responseBody;
@@ -92,7 +96,11 @@ export const fetchProductList = async (requestBody: ProductListRequestDto) => {
                     product.majorCategoryId === requestBody.majorCategoryId
             );
         }
-        return responseBody;
+        const reponseBodyTuned = responseBody.map((product) => ({
+            ...product,
+            discountedPrice: Math.ceil((product.price * (product.discountedRate + 100)) / 100 / 10) * 10,
+        }));
+        return reponseBodyTuned;
     } catch (error) {
         console.error("상품 목록 조회 중 오류 발생:", error);
         return [];

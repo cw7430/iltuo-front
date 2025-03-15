@@ -6,8 +6,8 @@ export default interface ProductView {
     productName: string;
     productComments: string | null;
     price: number;
-    isDiscontinued: boolean;
-    discontinuedRate: number;
+    isDiscounted: boolean;
+    discountedRate: number;
     hasOption: boolean;
     isRecommendated: boolean;
     regisertDate: string;
