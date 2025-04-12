@@ -23,7 +23,7 @@ export default function ProductList() {
         (category) => category.majorCategoryId === Number(majorCategoryId)
     )?.majorCategoryName;
 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [minerCategoryList, setMinerCategoryList] = useState<
         MinerCategoryResponseDto[]
     >([]);

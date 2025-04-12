@@ -1,6 +1,8 @@
 import React from "react";
 import { ProductView } from "../../../typs/interface/product";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { DETAIL_PATH } from "../../../constants";
 
 interface Props {
     productView: ProductView;
@@ -8,9 +10,9 @@ interface Props {
 }
 
 export default function ProductCard({ productView, isMainPage }: Props) {
-    const { productCode, productName, productComments, price } = productView;
+    const { productId, productCode, productName, productComments, price } = productView;
     return (
-        <Card className="w-100" style={{ cursor: "pointer" }}>
+        <Card className="w-100" as={Link} to={DETAIL_PATH("product", productId)} style={{ cursor: "pointer" }}>
             <div className="coffee_img">
                 <img
                     src={`http://localhost:3000/mock/images/product/${productCode}.jpg`}

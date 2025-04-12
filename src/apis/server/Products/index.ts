@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+    ProductDetailRequestDto,
     ProductListRequestDto,
     RecommendatedProductsRequestDto,
 } from "../../dto/request/Products";
@@ -43,7 +44,10 @@ export const fetchRecommendatedProductList = async (
         }
         const reponseBodyTuned = responseBodyRaw.map((product) => ({
             ...product,
-            discountedPrice: Math.ceil((product.price * (100 - product.discountedRate)) / 100 / 10) * 10,
+            discountedPrice:
+                Math.ceil(
+                    (product.price * (100 - product.discountedRate)) / 100 / 10
+                ) * 10,
         }));
         const responseBody: ProductResponseDto[][] = chunkArray(
             reponseBodyTuned,
@@ -98,11 +102,50 @@ export const fetchProductList = async (requestBody: ProductListRequestDto) => {
         }
         const reponseBodyTuned = responseBody.map((product) => ({
             ...product,
-            discountedPrice: Math.ceil((product.price * (100 - product.discountedRate)) / 100 / 10) * 10,
+            discountedPrice:
+                Math.ceil(
+                    (product.price * (100 - product.discountedRate)) / 100 / 10
+                ) * 10,
         }));
         return reponseBodyTuned;
     } catch (error) {
         console.error("상품 목록 조회 중 오류 발생:", error);
         return [];
+    }
+};
+
+export const fetchProductDetail = async (
+    requestBody: ProductDetailRequestDto
+) => {
+    try {
+        const result = await axios.get(
+            `${DOMAIN}/mock/data/product/product_view.json`,
+            {
+                params: requestBody,
+            }
+        );
+        const responseBodyList: ProductResponseDto[] = result.data;
+        let responseBody: ProductResponseDto | undefined = undefined;
+        if (requestBody.productId) {
+            responseBody = responseBodyList.find(
+                (product) => product.productId === requestBody.productId
+            );
+        }
+        if (responseBody) {
+            const discountedPrice =
+                Math.ceil(
+                    (responseBody.price * (100 - responseBody.discountedRate)) /
+                        100 /
+                        10
+                ) * 10;
+
+            return { ...responseBody, discountedPrice };
+        } else {
+            console.error("해당 productId에 대한 상품을 찾을 수 없습니다.");
+            return {};
+        }
+    } catch (error) {
+        console.error("상품 상세 조회 중 오류 발생:", error);
+        return {};
     }
 };
