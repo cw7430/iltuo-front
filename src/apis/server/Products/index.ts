@@ -142,10 +142,10 @@ export const fetchProductDetail = async (
             return { ...responseBody, discountedPrice };
         } else {
             console.error("해당 productId에 대한 상품을 찾을 수 없습니다.");
-            return {};
+            return undefined;
         }
     } catch (error) {
         console.error("상품 상세 조회 중 오류 발생:", error);
-        return {};
+        return undefined;
     }
 };

@@ -224,7 +224,7 @@ export default function ProductList() {
                                         key={itemIdx}
                                     >
                                         <ProductCard
-                                            productView={item}
+                                            product={item}
                                             isMainPage={false}
                                         />
                                     </Col>

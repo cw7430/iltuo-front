@@ -1,5 +1,5 @@
-import ProductView from "./product_view.interface";
+import Product from "./product.interface";
 import MajorCategory from "./major_category.interface";
 import MinerCategory from "./miner_category.interface";
 
-export type { ProductView, MajorCategory, MinerCategory };
+export type { Product, MajorCategory, MinerCategory };

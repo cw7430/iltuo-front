@@ -1,5 +1,8 @@
-import { ProductView } from "../../../../typs/interface/product";
+import { Product } from "../../../../typs/interface/product";
 
-export default interface ProductResponseDto extends ProductView {
+export default interface ProductResponseDto extends Product {
+    majorCategoryId: number;
+    isDiscounted: boolean;
+    hasOption: boolean;
     discountedPrice: number;
 }

@@ -31,7 +31,7 @@ export default function Main() {
                                             className="mb-4 d-flex"
                                             key={itemIdx}
                                         >
-                                            <ProductCard productView={item} isMainPage={true} />
+                                            <ProductCard product={item} isMainPage={true} />
                                         </Col>
                                     ))}
                                 </Row>

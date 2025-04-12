@@ -1,16 +1,16 @@
 import React from "react";
-import { ProductView } from "../../../typs/interface/product";
+import { ProductResponseDto } from "../../../apis/dto/response/Products";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { DETAIL_PATH } from "../../../constants";
 
 interface Props {
-    productView: ProductView;
+    product: ProductResponseDto;
     isMainPage: boolean;
 }
 
-export default function ProductCard({ productView, isMainPage }: Props) {
-    const { productId, productCode, productName, productComments, price } = productView;
+export default function ProductCard({ product, isMainPage }: Props) {
+    const { productId, productCode, productName, productComments, price } = product;
     return (
         <Card className="w-100" as={Link} to={DETAIL_PATH("product", productId)} style={{ cursor: "pointer" }}>
             <div className="coffee_img">
