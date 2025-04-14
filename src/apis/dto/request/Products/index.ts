@@ -1,5 +1,11 @@
 import RecommendatedProductsRequestDto from "./recommendated_products.request.dto";
 import ProductListRequestDto from "./product_list.request.dto";
 import ProductDetailRequestDto from "./product_detail.request.dto";
+import OptionDetailListRequestDto from "./option_detail_list.request.dto";
 
-export type { RecommendatedProductsRequestDto, ProductListRequestDto, ProductDetailRequestDto};
+export type {
+    RecommendatedProductsRequestDto,
+    ProductListRequestDto,
+    ProductDetailRequestDto,
+    OptionDetailListRequestDto,
+};

@@ -3,13 +3,17 @@ import {
     ProductDetailRequestDto,
     ProductListRequestDto,
     RecommendatedProductsRequestDto,
+    OptionDetailListRequestDto,
 } from "../../dto/request/Products";
 import {
     ProductResponseDto,
     MajorCategoryResponseDto,
     MinerCategoryResponseDto,
+    OptionResponseDto,
+    OptionDetailResponseDto,
 } from "../../dto/response/Products";
 import { chunkArray } from "../../../utils/array";
+import Decimal from "decimal.js";
 
 const DOMAIN = "http://localhost:3000";
 
@@ -44,10 +48,13 @@ export const fetchRecommendatedProductList = async (
         }
         const reponseBodyTuned = responseBodyRaw.map((product) => ({
             ...product,
-            discountedPrice:
-                Math.ceil(
-                    (product.price * (100 - product.discountedRate)) / 100 / 10
-                ) * 10,
+            discountedPrice: new Decimal(product.price)
+                .mul(new Decimal(100).minus(product.discountedRate))
+                .div(100)
+                .div(10)
+                .ceil()
+                .mul(10)
+                .toNumber(),
         }));
         const responseBody: ProductResponseDto[][] = chunkArray(
             reponseBodyTuned,
@@ -102,10 +109,13 @@ export const fetchProductList = async (requestBody: ProductListRequestDto) => {
         }
         const reponseBodyTuned = responseBody.map((product) => ({
             ...product,
-            discountedPrice:
-                Math.ceil(
-                    (product.price * (100 - product.discountedRate)) / 100 / 10
-                ) * 10,
+            discountedPrice: new Decimal(product.price)
+                .mul(new Decimal(100).minus(product.discountedRate))
+                .div(100)
+                .div(10)
+                .ceil()
+                .mul(10)
+                .toNumber(),
         }));
         return reponseBodyTuned;
     } catch (error) {
@@ -132,12 +142,13 @@ export const fetchProductDetail = async (
             );
         }
         if (responseBody) {
-            const discountedPrice =
-                Math.ceil(
-                    (responseBody.price * (100 - responseBody.discountedRate)) /
-                        100 /
-                        10
-                ) * 10;
+            const discountedPrice = new Decimal(responseBody.price)
+                .mul(new Decimal(100).minus(responseBody.discountedRate))
+                .div(100)
+                .div(10)
+                .ceil()
+                .mul(10)
+                .toNumber();
 
             return { ...responseBody, discountedPrice };
         } else {
@@ -149,3 +160,47 @@ export const fetchProductDetail = async (
         return undefined;
     }
 };
+
+export const fetchOptionList = async (requestBody: ProductListRequestDto) => {
+    try {
+        const result = await axios.get(
+            `${DOMAIN}/mock/data/product/option.json`,
+            {
+                params: requestBody,
+            }
+        );
+        let responseBody: OptionResponseDto[] = result.data;
+        if (requestBody.majorCategoryId) {
+            responseBody = responseBody.filter(
+                (option) =>
+                    option.majorCategoryId === requestBody.majorCategoryId
+            );
+        }
+        return responseBody;
+    } catch (error) {
+        console.error("옵션 목록 조회 중 오류 발생:", error);
+        return [];
+    }
+};
+
+export const fetchOptionDetailList = async (requestBody: OptionDetailListRequestDto) => {
+    try {
+        const result = await axios.get(
+            `${DOMAIN}/mock/data/product/option_view.json`,
+            {
+                params: requestBody,
+            }
+        );
+        let responseBody: OptionDetailResponseDto[] = result.data;
+        if (requestBody.optionId) {
+            responseBody = responseBody.filter(
+                (option) =>
+                    option.optionId === requestBody.optionId
+            );
+        }
+        return responseBody;
+    } catch (error) {
+        console.error("옵션 목록 조회 중 오류 발생:", error);
+        return [];
+    }
+}
