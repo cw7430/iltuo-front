@@ -68,6 +68,8 @@ export default function ProductList() {
             };
             fetchData();
         }
+        setMinerCategoryId("0");
+        setSortKey("recommendatedAsc");
     }, [majorCategoryId]);
 
     const filteredAndSortedList = useMemo(() => {

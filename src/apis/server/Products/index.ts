@@ -3,7 +3,6 @@ import {
     ProductDetailRequestDto,
     ProductListRequestDto,
     RecommendatedProductsRequestDto,
-    OptionDetailListRequestDto,
 } from "../../dto/request/Products";
 import {
     ProductResponseDto,
@@ -183,7 +182,7 @@ export const fetchOptionList = async (requestBody: ProductListRequestDto) => {
     }
 };
 
-export const fetchOptionDetailList = async (requestBody: OptionDetailListRequestDto) => {
+export const fetchOptionDetailList = async (requestBody: ProductListRequestDto) => {
     try {
         const result = await axios.get(
             `${DOMAIN}/mock/data/product/option_view.json`,
@@ -192,10 +191,10 @@ export const fetchOptionDetailList = async (requestBody: OptionDetailListRequest
             }
         );
         let responseBody: OptionDetailResponseDto[] = result.data;
-        if (requestBody.optionId) {
+        if (requestBody.majorCategoryId) {
             responseBody = responseBody.filter(
                 (option) =>
-                    option.optionId === requestBody.optionId
+                    option.majorCategoryId === requestBody.majorCategoryId
             );
         }
         return responseBody;
