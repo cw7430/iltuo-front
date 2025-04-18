@@ -76,9 +76,6 @@ export default function ProuctDetail() {
         }
     }, [productId]);
 
-    console.log(optionCategory);
-    console.log(detailOption);
-
     return (
         <Container>
             {isLoading ? (
@@ -113,12 +110,40 @@ export default function ProuctDetail() {
                                     <th scope="row">{"수량"}</th>
                                     <td>{"숫자조절"}</td>
                                 </tr>
-                                {product?.hasOption && (
-                                    <tr>
-                                        <th scope="row">{"옵션"}</th>
-                                        <td>{"옵션조절"}</td>
-                                    </tr>
-                                )}
+                                {product?.hasOption &&
+                                    optionCategory.map((item, itemIdx) => {
+                                        const filteredDetails =
+                                            detailOption.filter(
+                                                (detail) =>
+                                                    detail.optionId ===
+                                                    item.optionId
+                                            );
+
+                                        return (
+                                            <tr key={itemIdx}>
+                                                <th scope="row">
+                                                    {item.optionName}
+                                                </th>
+                                                <td>
+                                                    {filteredDetails.map(
+                                                        (detail, detailIdx) => (
+                                                            <span
+                                                                key={detailIdx}
+                                                            >
+                                                                {
+                                                                    detail.optionDetailName
+                                                                }
+                                                                {detailIdx !==
+                                                                    filteredDetails.length -
+                                                                        1 &&
+                                                                    ", "}
+                                                            </span>
+                                                        )
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 <tr>
                                     <th scope="row">{"총 상품 가격"}</th>
                                     <td>
