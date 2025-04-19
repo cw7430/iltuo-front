@@ -1,6 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import {
+    Container,
+    Row,
+    Col,
+    Table,
+    Button,
+    Form,
+    InputGroup,
+} from "react-bootstrap";
 import { MAIN_PATH, LIST_PATH } from "../../../constants";
 import Loader from "../../../components/Loader";
 import {
@@ -16,7 +24,6 @@ import {
 
 export default function ProuctDetail() {
     const { productId } = useParams<{ productId: string }>();
-    console.log(Number(productId));
 
     const navigate = useNavigate();
 
@@ -31,12 +38,53 @@ export default function ProuctDetail() {
         []
     );
     const [totalPrice, setTotalPrice] = useState<number>(0);
+    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>(
+        []
+    );
+
+    const quantityRef = useRef<HTMLInputElement>(null);
 
     const handleBack = () => {
         if (product) {
             navigate(LIST_PATH("product", product.majorCategoryId));
         } else {
             navigate(MAIN_PATH());
+        }
+    };
+
+    const handleQuantityFormat = (event: React.FormEvent<HTMLInputElement>) => {
+        const inputValue = event.currentTarget.value;
+        const formattedValue = inputValue.replace(/[^0-9]/g, "");
+        if (quantityRef.current) {
+            quantityRef.current.value = formattedValue;
+        }
+    };
+
+    const handleQuantityBlur = () => {
+        if (quantityRef.current) {
+            const currentValue = quantityRef.current.value;
+            if (!currentValue || Number(currentValue) <= 0) {
+                quantityRef.current.value = "1";
+            }
+            if (Number(currentValue) > 99) {
+                quantityRef.current.value = "99";
+            }
+        }
+    };
+
+    const handleOptionChange = (priorityIndex: number, selectedId: number) => {
+        const newOptionDetailIdArray = [...optionDetailIdArray];
+
+        // 선택값이 "==선택=="이면 하위 옵션 제거
+        if (selectedId === 0) {
+            setOptionDetailIdArray(
+                newOptionDetailIdArray.slice(0, priorityIndex - 1)
+            );
+        } else {
+            newOptionDetailIdArray[priorityIndex - 1] = selectedId;
+            setOptionDetailIdArray(
+                newOptionDetailIdArray.slice(0, priorityIndex)
+            );
         }
     };
 
@@ -51,6 +99,7 @@ export default function ProuctDetail() {
                     setProduct(productResponse);
                     if (productResponse) {
                         setTotalPrice(productResponse.discountedPrice);
+
                         if (productResponse?.hasOption) {
                             const optionCategoryResponse =
                                 await fetchOptionList({
@@ -108,10 +157,22 @@ export default function ProuctDetail() {
                             <tbody>
                                 <tr>
                                     <th scope="row">{"수량"}</th>
-                                    <td>{"숫자조절"}</td>
+                                    <td>
+                                        <InputGroup style={{ width: "80px" }}>
+                                            <Form.Control
+                                                type="number"
+                                                ref={quantityRef}
+                                                defaultValue={1}
+                                                min={1}
+                                                max={99}
+                                                onInput={handleQuantityFormat}
+                                                onBlur={handleQuantityBlur}
+                                            />
+                                        </InputGroup>
+                                    </td>
                                 </tr>
                                 {product?.hasOption &&
-                                    optionCategory.map((item, itemIdx) => {
+                                    optionCategory.map((item) => {
                                         const filteredDetails =
                                             detailOption.filter(
                                                 (detail) =>
@@ -120,26 +181,57 @@ export default function ProuctDetail() {
                                             );
 
                                         return (
-                                            <tr key={itemIdx}>
+                                            <tr key={item.priorityIndex}>
                                                 <th scope="row">
                                                     {item.optionName}
                                                 </th>
                                                 <td>
-                                                    {filteredDetails.map(
-                                                        (detail, detailIdx) => (
-                                                            <span
-                                                                key={detailIdx}
-                                                            >
-                                                                {
-                                                                    detail.optionDetailName
-                                                                }
-                                                                {detailIdx !==
-                                                                    filteredDetails.length -
-                                                                        1 &&
-                                                                    ", "}
-                                                            </span>
-                                                        )
-                                                    )}
+                                                    <Form.Select
+                                                        disabled={
+                                                            item.priorityIndex ===
+                                                            1
+                                                                ? false
+                                                                : !optionDetailIdArray[
+                                                                      item.priorityIndex -
+                                                                          2
+                                                                  ]
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleOptionChange(
+                                                                item.priorityIndex,
+                                                                Number(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            )
+                                                        }
+                                                        value={
+                                                            optionDetailIdArray[
+                                                                item.priorityIndex -
+                                                                    1
+                                                            ] || 0
+                                                        }
+                                                    >
+                                                        <option value={0}>
+                                                            {"==선택=="}
+                                                        </option>
+                                                        {filteredDetails.map(
+                                                            (detail) => (
+                                                                <option
+                                                                    key={
+                                                                        detail.optionDetailId
+                                                                    }
+                                                                    value={
+                                                                        detail.optionDetailId
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        detail.optionDetailName
+                                                                    }
+                                                                </option>
+                                                            )
+                                                        )}
+                                                    </Form.Select>
                                                 </td>
                                             </tr>
                                         );
