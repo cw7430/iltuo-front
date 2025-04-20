@@ -28,19 +28,11 @@ export default function ProuctDetail() {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [product, setProduct] = useState<ProductResponseDto | undefined>(
-        undefined
-    );
-    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>(
-        []
-    );
-    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>(
-        []
-    );
+    const [product, setProduct] = useState<ProductResponseDto | undefined>(undefined);
+    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>([]);
+    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>(
-        []
-    );
+    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>([]);
 
     const quantityRef = useRef<HTMLInputElement>(null);
 
@@ -58,16 +50,25 @@ export default function ProuctDetail() {
         if (quantityRef.current) {
             quantityRef.current.value = formattedValue;
         }
+        const quantity = Number(formattedValue || "1");
+        if (product) {
+            setTotalPrice(product.discountedPrice * quantity);
+        }
     };
 
     const handleQuantityBlur = () => {
         if (quantityRef.current) {
-            const currentValue = quantityRef.current.value;
-            if (!currentValue || Number(currentValue) <= 0) {
+            let currentValue = Number(quantityRef.current.value);
+            if (!currentValue || currentValue <= 0) {
                 quantityRef.current.value = "1";
+                currentValue = 1;
             }
-            if (Number(currentValue) > 99) {
+            if (currentValue > 99) {
                 quantityRef.current.value = "99";
+                currentValue = 99;
+            }
+            if (product) {
+                setTotalPrice(product.discountedPrice * currentValue);
             }
         }
     };
@@ -100,7 +101,7 @@ export default function ProuctDetail() {
                     if (productResponse) {
                         setTotalPrice(productResponse.discountedPrice);
 
-                        if (productResponse?.hasOption) {
+                        if (productResponse.optionCount > 0) {
                             const optionCategoryResponse =
                                 await fetchOptionList({
                                     majorCategoryId:
@@ -171,7 +172,8 @@ export default function ProuctDetail() {
                                         </InputGroup>
                                     </td>
                                 </tr>
-                                {product?.hasOption &&
+                                {product &&
+                                    product.optionCount > 0 &&
                                     optionCategory.map((item) => {
                                         const filteredDetails =
                                             detailOption.filter(
@@ -187,47 +189,22 @@ export default function ProuctDetail() {
                                                 </th>
                                                 <td>
                                                     <Form.Select
-                                                        disabled={
-                                                            item.priorityIndex ===
-                                                            1
-                                                                ? false
-                                                                : !optionDetailIdArray[
-                                                                      item.priorityIndex -
-                                                                          2
-                                                                  ]
-                                                        }
+                                                        disabled={item.priorityIndex === 1 ? false : !optionDetailIdArray[item.priorityIndex - 2 ]}
                                                         onChange={(e) =>
-                                                            handleOptionChange(
-                                                                item.priorityIndex,
-                                                                Number(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            )
+                                                            handleOptionChange(item.priorityIndex, Number(e.target.value))
                                                         }
-                                                        value={
-                                                            optionDetailIdArray[
-                                                                item.priorityIndex -
-                                                                    1
-                                                            ] || 0
-                                                        }
+                                                        value={optionDetailIdArray[item.priorityIndex - 1] || 0}
                                                     >
                                                         <option value={0}>
                                                             {"==선택=="}
                                                         </option>
                                                         {filteredDetails.map(
-                                                            (detail) => (
+                                                            (detail, detailIdx) => (
                                                                 <option
-                                                                    key={
-                                                                        detail.optionDetailId
-                                                                    }
-                                                                    value={
-                                                                        detail.optionDetailId
-                                                                    }
+                                                                    key={detailIdx}
+                                                                    value={detail.optionDetailId}
                                                                 >
-                                                                    {
-                                                                        detail.optionDetailName
-                                                                    }
+                                                                    {detail.optionDetailName}
                                                                 </option>
                                                             )
                                                         )}
