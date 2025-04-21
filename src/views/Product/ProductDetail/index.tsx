@@ -9,6 +9,7 @@ import {
     Form,
     InputGroup,
 } from "react-bootstrap";
+import Decimal from "decimal.js";
 import { MAIN_PATH, LIST_PATH } from "../../../constants";
 import Loader from "../../../components/Loader";
 import {
@@ -28,11 +29,19 @@ export default function ProuctDetail() {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [product, setProduct] = useState<ProductResponseDto | undefined>(undefined);
-    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>([]);
-    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>([]);
+    const [product, setProduct] = useState<ProductResponseDto | undefined>(
+        undefined
+    );
+    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>(
+        []
+    );
+    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>(
+        []
+    );
     const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>([]);
+    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>(
+        []
+    );
 
     const quantityRef = useRef<HTMLInputElement>(null);
 
@@ -44,48 +53,136 @@ export default function ProuctDetail() {
         }
     };
 
-    const handleQuantityFormat = (event: React.FormEvent<HTMLInputElement>) => {
-        const inputValue = event.currentTarget.value;
-        const formattedValue = inputValue.replace(/[^0-9]/g, "");
-        if (quantityRef.current) {
-            quantityRef.current.value = formattedValue;
-        }
-        const quantity = Number(formattedValue || "1");
+    const sanitizeQuantity = (value: number): number => {
+        if (isNaN(value) || value <= 0) return 1;
+        if (value > 99) return 99;
+        return value;
+    };
+
+    const updateTotalPrice = (quantity: number) => {
         if (product) {
             setTotalPrice(product.discountedPrice * quantity);
         }
     };
 
+    const getQuantity = (): number => {
+        const input = quantityRef.current;
+        if (!input) return 1;
+
+        const value = Number(input.value);
+        return sanitizeQuantity(value);
+    };
+
+    const handleQuantityFormat = (event: React.FormEvent<HTMLInputElement>) => {
+        const formattedValue = event.currentTarget.value.replace(/[^0-9]/g, "");
+
+        const input = quantityRef.current;
+        if (!input) return;
+
+        input.value = formattedValue;
+
+        const quantity = sanitizeQuantity(Number(formattedValue || "1"));
+        updateTotalPrice(quantity);
+    };
+
     const handleQuantityBlur = () => {
-        if (quantityRef.current) {
-            let currentValue = Number(quantityRef.current.value);
-            if (!currentValue || currentValue <= 0) {
-                quantityRef.current.value = "1";
-                currentValue = 1;
-            }
-            if (currentValue > 99) {
-                quantityRef.current.value = "99";
-                currentValue = 99;
-            }
-            if (product) {
-                setTotalPrice(product.discountedPrice * currentValue);
-            }
+        const input = quantityRef.current;
+        if (!input) return;
+
+        const raw = Number(input.value);
+        const quantity = sanitizeQuantity(raw);
+
+        input.value = quantity.toString();
+        updateTotalPrice(quantity);
+    };
+
+    const getOptionDelta = (
+        basePrice: number,
+        option: OptionDetailResponseDto
+    ): number => {
+        if (option.optionTypeCode === "OPT002") {
+            return option.optionFluctuatingPrice;
+        } else if (option.optionTypeCode === "OPT001") {
+            const percentage = new Decimal(option.optionFluctuatingPrice).minus(
+                100
+            );
+            const result = new Decimal(basePrice)
+                .mul(percentage)
+                .div(100)
+                .div(10)
+                .floor()
+                .mul(10);
+            return result.toNumber();
         }
+        return 0;
+    };
+
+    const applyOptionPrice = (
+        basePrice: number,
+        option: OptionDetailResponseDto
+    ): number => {
+        const delta = getOptionDelta(basePrice, option);
+        return basePrice + delta;
+    };
+
+    const formatPriceDelta = (delta: number): string => {
+        const prefix = delta >= 0 ? "+" : "-";
+        return `${prefix}${Math.abs(delta).toLocaleString()}원`;
+    };
+
+    const calculateTotalPrice = (
+        quantity: number,
+        selectedOptionIds: number[]
+    ) => {
+        if (!product) return;
+
+        let basePrice = product.discountedPrice * quantity;
+
+        selectedOptionIds.forEach((id) => {
+            const option = detailOption.find(
+                (opt) => opt.optionDetailId === id
+            );
+            if (!option) return;
+            basePrice = applyOptionPrice(basePrice, option);
+        });
+
+        setTotalPrice(basePrice);
+    };
+
+    const getOptionLabel = (option: OptionDetailResponseDto): string => {
+        if (!product) return option.optionDetailName;
+
+        const quantity = getQuantity();
+        let basePrice = product.discountedPrice * quantity;
+
+        // 우선순위 이하 옵션까지만 계산
+        optionDetailIdArray.forEach((id, idx) => {
+            const opt = detailOption.find((o) => o.optionDetailId === id);
+            if (!opt || idx + 1 >= option.priorityIndex) return;
+            basePrice = applyOptionPrice(basePrice, opt);
+        });
+
+        const delta = getOptionDelta(basePrice, option);
+        return delta !== 0
+            ? `${option.optionDetailName} (${formatPriceDelta(delta)})`
+            : option.optionDetailName;
     };
 
     const handleOptionChange = (priorityIndex: number, selectedId: number) => {
         const newOptionDetailIdArray = [...optionDetailIdArray];
 
-        // 선택값이 "==선택=="이면 하위 옵션 제거
         if (selectedId === 0) {
-            setOptionDetailIdArray(
-                newOptionDetailIdArray.slice(0, priorityIndex - 1)
+            const truncated = newOptionDetailIdArray.slice(
+                0,
+                priorityIndex - 1
             );
+            setOptionDetailIdArray(truncated);
+            calculateTotalPrice(getQuantity(), truncated);
         } else {
             newOptionDetailIdArray[priorityIndex - 1] = selectedId;
-            setOptionDetailIdArray(
-                newOptionDetailIdArray.slice(0, priorityIndex)
-            );
+            const truncated = newOptionDetailIdArray.slice(0, priorityIndex);
+            setOptionDetailIdArray(truncated);
+            calculateTotalPrice(getQuantity(), truncated);
         }
     };
 
@@ -189,22 +286,50 @@ export default function ProuctDetail() {
                                                 </th>
                                                 <td>
                                                     <Form.Select
-                                                        disabled={item.priorityIndex === 1 ? false : !optionDetailIdArray[item.priorityIndex - 2 ]}
-                                                        onChange={(e) =>
-                                                            handleOptionChange(item.priorityIndex, Number(e.target.value))
+                                                        disabled={
+                                                            item.priorityIndex ===
+                                                            1
+                                                                ? false
+                                                                : !optionDetailIdArray[
+                                                                      item.priorityIndex -
+                                                                          2
+                                                                  ]
                                                         }
-                                                        value={optionDetailIdArray[item.priorityIndex - 1] || 0}
+                                                        onChange={(e) =>
+                                                            handleOptionChange(
+                                                                item.priorityIndex,
+                                                                Number(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            )
+                                                        }
+                                                        value={
+                                                            optionDetailIdArray[
+                                                                item.priorityIndex -
+                                                                    1
+                                                            ] || 0
+                                                        }
                                                     >
                                                         <option value={0}>
                                                             {"==선택=="}
                                                         </option>
                                                         {filteredDetails.map(
-                                                            (detail, detailIdx) => (
+                                                            (
+                                                                detail,
+                                                                detailIdx
+                                                            ) => (
                                                                 <option
-                                                                    key={detailIdx}
-                                                                    value={detail.optionDetailId}
+                                                                    key={
+                                                                        detailIdx
+                                                                    }
+                                                                    value={
+                                                                        detail.optionDetailId
+                                                                    }
                                                                 >
-                                                                    {detail.optionDetailName}
+                                                                    {getOptionLabel(
+                                                                        detail
+                                                                    )}
                                                                 </option>
                                                             )
                                                         )}
