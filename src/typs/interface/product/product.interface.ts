@@ -6,7 +6,7 @@ export default interface Product {
     productComments: string | null;
     price: number;
     discountedRate: number;
-    isRecommendated: boolean;
-    regisertDate: string;
-    isVaild: boolean;
+    isRecommended: boolean;
+    registerDate: string;
+    isValid: boolean;
 }

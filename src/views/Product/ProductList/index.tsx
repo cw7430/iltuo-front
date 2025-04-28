@@ -33,16 +33,16 @@ export default function ProductList() {
     >([]);
     const [minerCategoryId, setMinerCategoryId] = useState<string>("0");
     const [sortKey, setSortKey] = useState<
-        "recommendatedAsc" | "regisertDateDesc" | "priceAsc" | "priceDesc"
-    >("recommendatedAsc");
+        "RecommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
+    >("RecommendedAsc");
 
     const handleChangeMinerCategoryId = (categoryId: string) => {
         setMinerCategoryId(categoryId);
-        handleSort("recommendatedAsc");
+        handleSort("RecommendedAsc");
     };
 
     const handleSort = (
-        key: "recommendatedAsc" | "regisertDateDesc" | "priceAsc" | "priceDesc"
+        key: "RecommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
     ) => {
         setSortKey(key);
     };
@@ -69,7 +69,7 @@ export default function ProductList() {
             fetchData();
         }
         setMinerCategoryId("0");
-        setSortKey("recommendatedAsc");
+        setSortKey("RecommendedAsc");
     }, [majorCategoryId]);
 
     const filteredAndSortedList = useMemo(() => {
@@ -82,13 +82,13 @@ export default function ProductList() {
                   );
 
         switch (sortKey) {
-            case "regisertDateDesc":
-                return sortDate(filteredList, "regisertDate", "desc");
+            case "registerDateDesc":
+                return sortDate(filteredList, "registerDate", "desc");
             case "priceAsc":
                 return sortNumber(filteredList, "discountedPrice", "asc");
             case "priceDesc":
                 return sortNumber(filteredList, "discountedPrice", "desc");
-            case "recommendatedAsc":
+            case "RecommendedAsc":
             default:
                 return filteredList;
         }
@@ -152,16 +152,16 @@ export default function ProductList() {
                                     <Nav.Link
                                         as="button"
                                         disabled={
-                                            sortKey === "recommendatedAsc"
+                                            sortKey === "RecommendedAsc"
                                         }
                                         style={{
                                             fontWeight:
-                                                sortKey === "recommendatedAsc"
+                                                sortKey === "RecommendedAsc"
                                                     ? "bold"
                                                     : "normal",
                                         }}
                                         onClick={() =>
-                                            handleSort("recommendatedAsc")
+                                            handleSort("RecommendedAsc")
                                         }
                                     >
                                         {"추천순"}
@@ -171,16 +171,16 @@ export default function ProductList() {
                                     <Nav.Link
                                         as="button"
                                         disabled={
-                                            sortKey === "regisertDateDesc"
+                                            sortKey === "registerDateDesc"
                                         }
                                         style={{
                                             fontWeight:
-                                                sortKey === "regisertDateDesc"
+                                                sortKey === "registerDateDesc"
                                                     ? "bold"
                                                     : "normal",
                                         }}
                                         onClick={() =>
-                                            handleSort("regisertDateDesc")
+                                            handleSort("registerDateDesc")
                                         }
                                     >
                                         {"등록순"}

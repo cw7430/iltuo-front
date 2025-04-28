@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Container, Row, Carousel } from "react-bootstrap";
 import { ProductCard } from "../../components/Cards";
-import { useRecommendatedProductStore } from "../../stores";
+import { useRecommendedProductStore } from "../../stores";
 
 export default function Main() {
-    const recommendatedProductList = useRecommendatedProductStore(
+    const RecommendedProductList = useRecommendedProductStore(
         (state) => state.data
     );
 
@@ -19,7 +19,7 @@ export default function Main() {
             </Container>
             <div className="coffee_section_2">
                 <Carousel id="main_slider" indicators={false}>
-                    {recommendatedProductList.map((group, groupIdx) => (
+                    {RecommendedProductList.map((group, groupIdx) => (
                         <Carousel.Item key={groupIdx}>
                             <Container fluid>
                                 <Row className="justify-content-center align-items-stretch">

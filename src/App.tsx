@@ -11,8 +11,8 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import { MAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants";
 import Main from "./views/Main";
-import { useMajorCategoryStore, useRecommendatedProductStore } from "./stores";
-import { RecommendatedProductsRequestDto } from "./apis/dto/request/Products";
+import { useMajorCategoryStore, useRecommendedProductStore } from "./stores";
+import { RecommendedProductsRequestDto } from "./apis/dto/request/Products";
 import ProductList from "./views/Product/ProductList";
 import ProuctDetail from "./views/Product/ProductDetail";
 
@@ -21,16 +21,16 @@ function App() {
         (state) => state.fetchData
     );
 
-    const fetchRecommendatedProductList = useRecommendatedProductStore(
+    const fetchRecommendedProductList = useRecommendedProductStore(
         (state) => state.fetchData
     );
 
     useEffect(() => {
         fetchMajorCategoryList();
-        fetchRecommendatedProductList({
-            isRecommendated: true,
-        } as RecommendatedProductsRequestDto);
-    }, [fetchMajorCategoryList, fetchRecommendatedProductList]);
+        fetchRecommendedProductList({
+            isRecommended: true,
+        } as RecommendedProductsRequestDto);
+    }, [fetchMajorCategoryList, fetchRecommendedProductList]);
 
     return (
         <Routes>

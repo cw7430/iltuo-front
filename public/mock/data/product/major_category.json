@@ -2,16 +2,16 @@
     {
         "majorCategoryId":1,
         "majorCategoryName":"원두커피",
-        "is_valid":true
+        "isValid":true
     },
     {
         "majorCategoryId":2,
         "majorCategoryName":"드립백",
-        "is_valid":true
+        "isValid":true
     },
     {
         "majorCategoryId":3,
         "majorCategoryName":"커피용품",
-        "is_valid":true
+        "isValid":true
     }
 ]

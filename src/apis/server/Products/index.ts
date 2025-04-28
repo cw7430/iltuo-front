@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     ProductDetailRequestDto,
     ProductListRequestDto,
-    RecommendatedProductsRequestDto,
+    RecommendedProductsRequestDto,
 } from "../../dto/request/Products";
 import {
     ProductResponseDto,
@@ -29,8 +29,8 @@ export const fetchMajorCategoryList = async () => {
     }
 };
 
-export const fetchRecommendatedProductList = async (
-    requestBody: RecommendatedProductsRequestDto
+export const fetchRecommendedProductList = async (
+    requestBody: RecommendedProductsRequestDto
 ) => {
     try {
         const result = await axios.get(
@@ -40,9 +40,9 @@ export const fetchRecommendatedProductList = async (
             }
         );
         let responseBodyRaw: ProductResponseDto[] = result.data;
-        if (requestBody.isRecommendated) {
+        if (requestBody.isRecommended) {
             responseBodyRaw = responseBodyRaw.filter(
-                (product) => product.isRecommendated
+                (product) => product.isRecommended
             );
         }
         const reponseBodyTuned = responseBodyRaw.map((product) => ({

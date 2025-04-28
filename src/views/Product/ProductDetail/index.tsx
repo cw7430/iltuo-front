@@ -22,6 +22,7 @@ import {
     fetchOptionList,
     fetchOptionDetailList,
 } from "../../../apis/server/Products";
+import { ConfirmModal } from "../../../components/Modals";
 
 export default function ProuctDetail() {
     const { productId } = useParams<{ productId: string }>();
@@ -42,8 +43,31 @@ export default function ProuctDetail() {
     const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>(
         []
     );
+    const [invalidOptions, setInvalidOptions] = useState<number[]>([]);
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+    const [confirmTitle, setConfirmTitle] = useState<string>("");
+    const [confirmText, setConfirmText] = useState<string>("");
+    const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
     const quantityRef = useRef<HTMLInputElement>(null);
+
+    const showGenericConfirmModal = (
+        title: string,
+        text: string,
+        onConfirm: () => void
+    ) => {
+        setConfirmTitle(title);
+        setConfirmText(text);
+        setConfirmAction(() => () => {
+            onConfirm();
+            setShowConfirmModal(false); // 모달 닫기
+        });
+        setShowConfirmModal(true);
+    };
+
+    const handleCloseConfirmModal = () => setShowConfirmModal(false);
+
+    const handleConfirm = () => confirmAction();
 
     const handleBack = () => {
         if (product) {
@@ -163,9 +187,8 @@ export default function ProuctDetail() {
         });
 
         const delta = getOptionDelta(basePrice, option);
-        return delta !== 0
-            ? `${option.optionDetailName} (${formatPriceDelta(delta)})`
-            : option.optionDetailName;
+
+        return`${option.optionDetailName} (${formatPriceDelta(delta)})`;
     };
 
     const handleOptionChange = (priorityIndex: number, selectedId: number) => {
@@ -183,7 +206,37 @@ export default function ProuctDetail() {
             const truncated = newOptionDetailIdArray.slice(0, priorityIndex);
             setOptionDetailIdArray(truncated);
             calculateTotalPrice(getQuantity(), truncated);
+            setInvalidOptions((prev) =>
+                prev.filter((idx) => idx !== priorityIndex)
+            );
         }
+    };
+
+    const validateOptions = (): boolean => {
+        const invalid = optionCategory
+            .filter((cat) => {
+                const selectedId = optionDetailIdArray[cat.priorityIndex - 1];
+                return !selectedId || selectedId === 0;
+            })
+            .map((cat) => cat.priorityIndex);
+
+        setInvalidOptions(invalid);
+        return invalid.length === 0;
+    };
+
+    const handleAddToCart = () => {
+        if (!validateOptions()) return;
+        // 실제 장바구니 로직 여기에
+        showGenericConfirmModal("확인", "장바구니 페이지로 이동하시겠습니까?", () => {
+            console.log("✅ 장바구니 이동");
+        });
+    };
+
+    const handleBuyNow = () => {
+        if (!validateOptions()) return;
+        showGenericConfirmModal("확인", "상품을 구매하시겠습니까?", () => {
+            console.log("✅ 상품 구매 처리 로직 실행");
+        });
     };
 
     useEffect(() => {
@@ -224,140 +277,184 @@ export default function ProuctDetail() {
     }, [productId]);
 
     return (
-        <Container>
-            {isLoading ? (
-                <div className="d-flex justify-content-center my-5">
-                    <Loader />
-                </div>
-            ) : (
-                <Row>
-                    <Col className="mt-5" md={6}>
-                        <div>
-                            {product ? (
-                                <img
-                                    src={`http://localhost:3000/mock/images/product/${product.productCode}.jpg`}
-                                    alt="사진"
-                                />
-                            ) : (
-                                <div>{"사진"}</div>
-                            )}
-                        </div>
-                    </Col>
-                    <Col className="mt-5" md={6}>
-                        <h2>{product ? product.productName : "제목"}</h2>
-                        <h6>{product ? product.productComments : "코멘트"}</h6>
-                        <h5>
-                            {product
-                                ? `${product.discountedPrice.toLocaleString()} 원`
-                                : "가격"}
-                        </h5>
-                        <Table>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">{"수량"}</th>
-                                    <td>
-                                        <InputGroup style={{ width: "80px" }}>
-                                            <Form.Control
-                                                type="number"
-                                                ref={quantityRef}
-                                                defaultValue={1}
-                                                min={1}
-                                                max={99}
-                                                onInput={handleQuantityFormat}
-                                                onBlur={handleQuantityBlur}
-                                            />
-                                        </InputGroup>
-                                    </td>
-                                </tr>
-                                {product &&
-                                    product.optionCount > 0 &&
-                                    optionCategory.map((item) => {
-                                        const filteredDetails =
-                                            detailOption.filter(
-                                                (detail) =>
-                                                    detail.optionId ===
-                                                    item.optionId
-                                            );
+        <>
+            <Container>
+                {isLoading ? (
+                    <div className="d-flex justify-content-center my-5">
+                        <Loader />
+                    </div>
+                ) : (
+                    <Row>
+                        <Col className="mt-5" md={6}>
+                            <div>
+                                {product ? (
+                                    <img
+                                        src={`http://localhost:3000/mock/images/product/${product.productCode}.jpg`}
+                                        alt="사진"
+                                    />
+                                ) : (
+                                    <div>{"사진"}</div>
+                                )}
+                            </div>
+                        </Col>
+                        <Col className="mt-5" md={6}>
+                            <h2>{product ? product.productName : "제목"}</h2>
+                            <h6>
+                                {product ? product.productComments : "코멘트"}
+                            </h6>
+                            <h5>
+                                {product
+                                    ? `${product.discountedPrice.toLocaleString()} 원`
+                                    : "가격"}
+                            </h5>
+                            <Table>
+                                <tbody>
+                                    <tr>
+                                        <th
+                                            scope="row"
+                                            style={{ width: "100px" }}
+                                        >
+                                            {"수량"}
+                                        </th>
+                                        <td>
+                                            <InputGroup
+                                                style={{ width: "80px" }}
+                                            >
+                                                <Form.Control
+                                                    type="number"
+                                                    ref={quantityRef}
+                                                    defaultValue={1}
+                                                    min={1}
+                                                    max={99}
+                                                    onInput={
+                                                        handleQuantityFormat
+                                                    }
+                                                    onBlur={handleQuantityBlur}
+                                                />
+                                            </InputGroup>
+                                        </td>
+                                    </tr>
+                                    {product &&
+                                        product.optionCount > 0 &&
+                                        optionCategory.map((item) => {
+                                            const filteredDetails =
+                                                detailOption.filter(
+                                                    (detail) =>
+                                                        detail.optionId ===
+                                                        item.optionId
+                                                );
 
-                                        return (
-                                            <tr key={item.priorityIndex}>
-                                                <th scope="row">
-                                                    {item.optionName}
-                                                </th>
-                                                <td>
-                                                    <Form.Select
-                                                        disabled={
-                                                            item.priorityIndex ===
-                                                            1
-                                                                ? false
-                                                                : !optionDetailIdArray[
-                                                                      item.priorityIndex -
-                                                                          2
-                                                                  ]
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleOptionChange(
-                                                                item.priorityIndex,
-                                                                Number(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            )
-                                                        }
-                                                        value={
-                                                            optionDetailIdArray[
-                                                                item.priorityIndex -
+                                            return (
+                                                <tr key={item.priorityIndex}>
+                                                    <th scope="row">
+                                                        {item.optionName}
+                                                    </th>
+                                                    <td>
+                                                        <InputGroup
+                                                            style={{
+                                                                maxWidth:
+                                                                    "450px",
+                                                            }}
+                                                        >
+                                                            <Form.Select
+                                                                disabled={
+                                                                    item.priorityIndex ===
                                                                     1
-                                                            ] || 0
-                                                        }
-                                                    >
-                                                        <option value={0}>
-                                                            {"==선택=="}
-                                                        </option>
-                                                        {filteredDetails.map(
-                                                            (
-                                                                detail,
-                                                                detailIdx
-                                                            ) => (
+                                                                        ? false
+                                                                        : !optionDetailIdArray[
+                                                                              item.priorityIndex -
+                                                                                  2
+                                                                          ]
+                                                                }
+                                                                onChange={(e) =>
+                                                                    handleOptionChange(
+                                                                        item.priorityIndex,
+                                                                        Number(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    )
+                                                                }
+                                                                value={
+                                                                    optionDetailIdArray[
+                                                                        item.priorityIndex -
+                                                                            1
+                                                                    ] || 0
+                                                                }
+                                                                isInvalid={invalidOptions.includes(
+                                                                    item.priorityIndex
+                                                                )}
+                                                            >
                                                                 <option
-                                                                    key={
-                                                                        detailIdx
-                                                                    }
-                                                                    value={
-                                                                        detail.optionDetailId
-                                                                    }
+                                                                    value={0}
                                                                 >
-                                                                    {getOptionLabel(
-                                                                        detail
-                                                                    )}
+                                                                    {"==선택=="}
                                                                 </option>
-                                                            )
-                                                        )}
-                                                    </Form.Select>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                <tr>
-                                    <th scope="row">{"총 상품 가격"}</th>
-                                    <td>
-                                        {product
-                                            ? `${totalPrice.toLocaleString()} 원`
-                                            : "총액"}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                        <div className="d-flex justify-content-end align-items-center gap-2 mt-5 mb-5">
-                            <Button variant="primary">{"장바구니"}</Button>
-                            <Button variant="danger">{"바로구매"}</Button>
-                            <Button variant="info" onClick={handleBack}>
-                                {"목록으로"}
-                            </Button>
-                        </div>
-                    </Col>
-                </Row>
-            )}
-        </Container>
+                                                                {filteredDetails.map(
+                                                                    (
+                                                                        detail,
+                                                                        detailIdx
+                                                                    ) => (
+                                                                        <option
+                                                                            key={
+                                                                                detailIdx
+                                                                            }
+                                                                            value={
+                                                                                detail.optionDetailId
+                                                                            }
+                                                                        >
+                                                                            {getOptionLabel(
+                                                                                detail
+                                                                            )}
+                                                                        </option>
+                                                                    )
+                                                                )}
+                                                            </Form.Select>
+                                                            <Form.Control.Feedback type="invalid">
+                                                                옵션을
+                                                                선택해주세요
+                                                            </Form.Control.Feedback>
+                                                        </InputGroup>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    <tr>
+                                        <th scope="row">{"총 상품 가격"}</th>
+                                        <td>
+                                            {product
+                                                ? `${totalPrice.toLocaleString()} 원`
+                                                : "총액"}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                            <div className="d-flex justify-content-end align-items-center gap-2 mt-5 mb-5">
+                                <Button
+                                    variant="primary"
+                                    onClick={handleAddToCart}
+                                >
+                                    {"장바구니"}
+                                </Button>
+                                <Button variant="danger" onClick={handleBuyNow}>
+                                    {"바로구매"}
+                                </Button>
+                                <Button variant="info" onClick={handleBack}>
+                                    {"목록으로"}
+                                </Button>
+                            </div>
+                        </Col>
+                    </Row>
+                )}
+            </Container>
+            <ConfirmModal
+                showConfirmModal={showConfirmModal}
+                handleCloseConfirmModal={handleCloseConfirmModal}
+                handleConfirm={handleConfirm}
+                confirmTitle={confirmTitle}
+                confirmText={confirmText}
+            />
+        </>
     );
 }

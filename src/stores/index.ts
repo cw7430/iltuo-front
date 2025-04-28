@@ -1,4 +1,4 @@
 import useMajorCategoryStore from "./major_category.store";
-import useRecommendatedProductStore from "./recommendated_product.store";
+import useRecommendedProductStore from "./recommended_product.store";
 
-export { useMajorCategoryStore, useRecommendatedProductStore };
+export { useMajorCategoryStore, useRecommendedProductStore };

@@ -3,5 +3,5 @@ export default interface OptionDetail {
     optionId: number;
     optionDetailName: string;
     optionFluctuatingPrice: number;
-    is_valid: boolean;
+    isValid: boolean;
 }

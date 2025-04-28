@@ -5,7 +5,7 @@
        "priorityIndex":1,
        "optionName":"용량",
        "optionTypeCode":"OPT001",
-       "isVaild":true
+       "isValid":true
     },
     {
         "optionId":2,
@@ -13,7 +13,7 @@
         "priorityIndex":2,
         "optionName":"분쇄도",
         "optionTypeCode":"OPT001",
-        "isVaild":true
+        "isValid":true
      },
      {
         "optionId":3,
@@ -21,6 +21,6 @@
         "priorityIndex":3,
         "optionName":"배전도",
         "optionTypeCode":"OPT002",
-        "isVaild":true
+        "isValid":true
      }
 ]

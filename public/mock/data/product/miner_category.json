@@ -3,36 +3,36 @@
         "minerCategoryId": 1,
         "majorCategoryId": 1,
         "minerCategoryName": "싱글 오리진",
-        "isVaild": true
+        "isValid": true
     },
     {
         "minerCategoryId": 2,
         "majorCategoryId": 1,
         "minerCategoryName": "블랜드",
-        "isVaild": true
+        "isValid": true
     },
     {
         "minerCategoryId": 3,
         "majorCategoryId": 2,
         "minerCategoryName": "드립백세트",
-        "isVaild": true
+        "isValid": true
     },
     {
         "minerCategoryId": 4,
         "majorCategoryId": 2,
         "minerCategoryName": "드립백단품",
-        "isVaild": true
+        "isValid": true
     },
     {
         "minerCategoryId": 5,
         "majorCategoryId": 3,
         "minerCategoryName": "핸드드립용품",
-        "isVaild": true
+        "isValid": true
     },
     {
         "minerCategoryId": 6,
         "majorCategoryId": 3,
         "minerCategoryName": "기타용품",
-        "isVaild": true
+        "isValid": true
     }
 ]

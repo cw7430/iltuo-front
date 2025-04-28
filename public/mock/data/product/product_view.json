@@ -9,9 +9,9 @@
         "price": 5000,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 18,
@@ -23,9 +23,9 @@
         "price": 5400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 2,
@@ -37,9 +37,9 @@
         "price": 5400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 11:31",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 11:31",
+        "isValid": true
     },
     {
         "productId": 3,
@@ -51,9 +51,9 @@
         "price": 3400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 11:31",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 11:31",
+        "isValid": true
     },
     {
         "productId": 27,
@@ -65,9 +65,9 @@
         "price": 4500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 30,
@@ -79,9 +79,9 @@
         "price": 5200,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 26,
@@ -93,9 +93,9 @@
         "price": 12500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 24,
@@ -107,9 +107,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 23,
@@ -121,9 +121,9 @@
         "price": 4600,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 22,
@@ -135,9 +135,9 @@
         "price": 2900,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 21,
@@ -149,9 +149,9 @@
         "price": 3200,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 20,
@@ -163,9 +163,9 @@
         "price": 5300,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 15,
@@ -177,9 +177,9 @@
         "price": 4900,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 14,
@@ -191,9 +191,9 @@
         "price": 5000,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 12,
@@ -205,9 +205,9 @@
         "price": 4600,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 17,
@@ -219,9 +219,9 @@
         "price": 6100,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 9,
@@ -233,9 +233,9 @@
         "price": 4500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 6,
@@ -247,9 +247,9 @@
         "price": 4300,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 4,
@@ -261,9 +261,9 @@
         "price": 3400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:31",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:31",
+        "isValid": true
     },
     {
         "productId": 5,
@@ -275,9 +275,9 @@
         "price": 4500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:31",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:31",
+        "isValid": true
     },
     {
         "productId": 1,
@@ -289,9 +289,9 @@
         "price": 6100,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:31",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:31",
+        "isValid": true
     },
     {
         "productId": 32,
@@ -303,9 +303,9 @@
         "price": 5400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 31,
@@ -317,9 +317,9 @@
         "price": 4200,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 29,
@@ -331,9 +331,9 @@
         "price": 3400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 19,
@@ -345,9 +345,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 25,
@@ -359,9 +359,9 @@
         "price": 4100,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 28,
@@ -373,9 +373,9 @@
         "price": 3400,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:35",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:35",
+        "isValid": true
     },
     {
         "productId": 16,
@@ -387,9 +387,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:33",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:33",
+        "isValid": true
     },
     {
         "productId": 11,
@@ -401,9 +401,9 @@
         "price": 4500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 10,
@@ -415,9 +415,9 @@
         "price": 4500,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 8,
@@ -429,9 +429,9 @@
         "price": 3700,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 7,
@@ -443,9 +443,9 @@
         "price": 4600,
         "discountedRate": 0,
         "optionCount":3,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 11:32",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 11:32",
+        "isValid": true
     },
     {
         "productId": 43,
@@ -457,9 +457,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 12:16",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 12:16",
+        "isValid": true
     },
     {
         "productId": 42,
@@ -471,9 +471,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 39,
@@ -485,9 +485,9 @@
         "price": 4200,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 38,
@@ -499,9 +499,9 @@
         "price": 4400,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 46,
@@ -513,9 +513,9 @@
         "price": 23900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:17",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:17",
+        "isValid": true
     },
     {
         "productId": 45,
@@ -527,9 +527,9 @@
         "price": 13300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:17",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:17",
+        "isValid": true
     },
     {
         "productId": 44,
@@ -541,9 +541,9 @@
         "price": 29500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:17",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:17",
+        "isValid": true
     },
     {
         "productId": 41,
@@ -555,9 +555,9 @@
         "price": 22000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 40,
@@ -569,9 +569,9 @@
         "price": 14500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 33,
@@ -583,9 +583,9 @@
         "price": 17500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 34,
@@ -597,9 +597,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 35,
@@ -611,9 +611,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 36,
@@ -625,9 +625,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 37,
@@ -639,9 +639,9 @@
         "price": 4200,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 12:15",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 12:15",
+        "isValid": true
     },
     {
         "productId": 97,
@@ -653,9 +653,9 @@
         "price": 3700,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 17:52",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 17:52",
+        "isValid": true
     },
     {
         "productId": 92,
@@ -667,9 +667,9 @@
         "price": 5300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 90,
@@ -681,9 +681,9 @@
         "price": 6300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 61,
@@ -695,9 +695,9 @@
         "price": 5600,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": true,
-        "regisertDate": "2024-07-08 17:48",
-        "isVaild": true
+        "isRecommended": true,
+        "registerDate": "2024-07-08 17:48",
+        "isValid": true
     },
     {
         "productId": 94,
@@ -709,9 +709,9 @@
         "price": 5500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:52",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:52",
+        "isValid": true
     },
     {
         "productId": 96,
@@ -723,9 +723,9 @@
         "price": 1500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:52",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:52",
+        "isValid": true
     },
     {
         "productId": 95,
@@ -737,9 +737,9 @@
         "price": 3000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:52",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:52",
+        "isValid": true
     },
     {
         "productId": 93,
@@ -751,9 +751,9 @@
         "price": 5900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 91,
@@ -765,9 +765,9 @@
         "price": 5700,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 89,
@@ -779,9 +779,9 @@
         "price": 18000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 88,
@@ -793,9 +793,9 @@
         "price": 18000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 87,
@@ -807,9 +807,9 @@
         "price": 3700,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 86,
@@ -821,9 +821,9 @@
         "price": 3900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 85,
@@ -835,9 +835,9 @@
         "price": 6600,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 84,
@@ -849,9 +849,9 @@
         "price": 7300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 81,
@@ -863,9 +863,9 @@
         "price": 9000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 82,
@@ -877,9 +877,9 @@
         "price": 8200,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 83,
@@ -891,9 +891,9 @@
         "price": 7300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:51",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:51",
+        "isValid": true
     },
     {
         "productId": 80,
@@ -905,9 +905,9 @@
         "price": 10900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 79,
@@ -919,9 +919,9 @@
         "price": 3000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 78,
@@ -933,9 +933,9 @@
         "price": 2300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 77,
@@ -947,9 +947,9 @@
         "price": 2500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 76,
@@ -961,9 +961,9 @@
         "price": 2700,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 74,
@@ -975,9 +975,9 @@
         "price": 900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 63,
@@ -989,9 +989,9 @@
         "price": 3000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 62,
@@ -1003,9 +1003,9 @@
         "price": 5000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:48",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:48",
+        "isValid": true
     },
     {
         "productId": 60,
@@ -1017,9 +1017,9 @@
         "price": 1500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:48",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:48",
+        "isValid": true
     },
     {
         "productId": 51,
@@ -1031,9 +1031,9 @@
         "price": 6500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 53,
@@ -1045,9 +1045,9 @@
         "price": 15400,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 52,
@@ -1059,9 +1059,9 @@
         "price": 16900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 54,
@@ -1073,9 +1073,9 @@
         "price": 17500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 49,
@@ -1087,9 +1087,9 @@
         "price": 18000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:45",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:45",
+        "isValid": true
     },
     {
         "productId": 48,
@@ -1101,9 +1101,9 @@
         "price": 19700,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:39",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:39",
+        "isValid": true
     },
     {
         "productId": 75,
@@ -1115,9 +1115,9 @@
         "price": 6300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 73,
@@ -1129,9 +1129,9 @@
         "price": 2300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 72,
@@ -1143,9 +1143,9 @@
         "price": 3300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 71,
@@ -1157,9 +1157,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:50",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:50",
+        "isValid": true
     },
     {
         "productId": 64,
@@ -1171,9 +1171,9 @@
         "price": 4000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 65,
@@ -1185,9 +1185,9 @@
         "price": 1200,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 66,
@@ -1199,9 +1199,9 @@
         "price": 16500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 67,
@@ -1213,9 +1213,9 @@
         "price": 2500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 68,
@@ -1227,9 +1227,9 @@
         "price": 2900,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 69,
@@ -1241,9 +1241,9 @@
         "price": 3500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 70,
@@ -1255,9 +1255,9 @@
         "price": 3200,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:49",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:49",
+        "isValid": true
     },
     {
         "productId": 59,
@@ -1269,9 +1269,9 @@
         "price": 12600,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:48",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:48",
+        "isValid": true
     },
     {
         "productId": 57,
@@ -1283,9 +1283,9 @@
         "price": 10000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 58,
@@ -1297,9 +1297,9 @@
         "price": 8500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 56,
@@ -1311,9 +1311,9 @@
         "price": 11500,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 55,
@@ -1325,9 +1325,9 @@
         "price": 2300,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 50,
@@ -1339,9 +1339,9 @@
         "price": 2000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:46",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:46",
+        "isValid": true
     },
     {
         "productId": 47,
@@ -1353,8 +1353,8 @@
         "price": 6000,
         "discountedRate": 0,
         "optionCount":0,
-        "isRecommendated": false,
-        "regisertDate": "2024-07-08 17:39",
-        "isVaild": true
+        "isRecommended": false,
+        "registerDate": "2024-07-08 17:39",
+        "isValid": true
     }
 ]
