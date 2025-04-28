@@ -33,16 +33,16 @@ export default function ProductList() {
     >([]);
     const [minerCategoryId, setMinerCategoryId] = useState<string>("0");
     const [sortKey, setSortKey] = useState<
-        "RecommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
-    >("RecommendedAsc");
+        "recommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
+    >("recommendedAsc");
 
     const handleChangeMinerCategoryId = (categoryId: string) => {
         setMinerCategoryId(categoryId);
-        handleSort("RecommendedAsc");
+        handleSort("recommendedAsc");
     };
 
     const handleSort = (
-        key: "RecommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
+        key: "recommendedAsc" | "registerDateDesc" | "priceAsc" | "priceDesc"
     ) => {
         setSortKey(key);
     };
@@ -69,7 +69,7 @@ export default function ProductList() {
             fetchData();
         }
         setMinerCategoryId("0");
-        setSortKey("RecommendedAsc");
+        setSortKey("recommendedAsc");
     }, [majorCategoryId]);
 
     const filteredAndSortedList = useMemo(() => {
@@ -88,7 +88,7 @@ export default function ProductList() {
                 return sortNumber(filteredList, "discountedPrice", "asc");
             case "priceDesc":
                 return sortNumber(filteredList, "discountedPrice", "desc");
-            case "RecommendedAsc":
+            case "recommendedAsc":
             default:
                 return filteredList;
         }
@@ -152,16 +152,16 @@ export default function ProductList() {
                                     <Nav.Link
                                         as="button"
                                         disabled={
-                                            sortKey === "RecommendedAsc"
+                                            sortKey === "recommendedAsc"
                                         }
                                         style={{
                                             fontWeight:
-                                                sortKey === "RecommendedAsc"
+                                                sortKey === "recommendedAsc"
                                                     ? "bold"
                                                     : "normal",
                                         }}
                                         onClick={() =>
-                                            handleSort("RecommendedAsc")
+                                            handleSort("recommendedAsc")
                                         }
                                     >
                                         {"추천순"}
