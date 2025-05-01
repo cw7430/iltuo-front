@@ -10,7 +10,7 @@ import {
     InputGroup,
 } from "react-bootstrap";
 import Decimal from "decimal.js";
-import { MAIN_PATH, LIST_PATH } from "../../../constants";
+import { MAIN_PATH, LIST_PATH } from "../../../constants/url";
 import Loader from "../../../components/Loader";
 import {
     ProductResponseDto,

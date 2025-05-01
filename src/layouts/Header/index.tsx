@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-import { MAIN_PATH, LIST_PATH } from "../../constants";
+import { MAIN_PATH, LIST_PATH } from "../../constants/url";
 import { useMajorCategoryStore } from "../../stores";
 
 export default function Header() {

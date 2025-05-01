@@ -2,7 +2,7 @@ import React from "react";
 import { ProductResponseDto } from "../../../apis/dto/response/Products";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { DETAIL_PATH } from "../../../constants";
+import { DETAIL_PATH } from "../../../constants/url";
 
 interface Props {
     product: ProductResponseDto;

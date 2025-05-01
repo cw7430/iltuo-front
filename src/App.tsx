@@ -9,7 +9,7 @@ import "./assets/css/responsive.css";
 import "./assets/css/jquery.mCustomScrollbar.min.css";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import { MAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants";
+import { MAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants/url";
 import Main from "./views/Main";
 import { useMajorCategoryStore, useRecommendedProductStore } from "./stores";
 import { RecommendedProductsRequestDto } from "./apis/dto/request/Products";
