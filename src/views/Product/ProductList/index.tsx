@@ -10,7 +10,7 @@ import {
     fetchMinerCategoryList,
     fetchProductList,
 } from "../../../apis/server/Products";
-import Loader from "../../../components/Loader";
+import { Loader } from "../../../components/Gif";
 import { ProductCard } from "../../../components/Cards";
 import CustomPagination from "../../../components/CustomPagination";
 import { sortDate, sortNumber } from "../../../utils/sort";
