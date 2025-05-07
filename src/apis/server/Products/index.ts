@@ -13,20 +13,13 @@ import {
 } from "../../dto/response/Products";
 import { chunkArray } from "../../../utils/array";
 import Decimal from "decimal.js";
+import { apiGet } from "../api.response";
 
-const DOMAIN = "http://localhost:3000";
+const MOCK_DOMAIN = "http://localhost:3000";
+const DOMAIN = "/product";
 
-export const fetchMajorCategoryList = async () => {
-    try {
-        const result = await axios.get(
-            `${DOMAIN}/mock/data/product/major_category.json`
-        );
-        const responseBody: MajorCategoryResponseDto[] = result.data;
-        return responseBody;
-    } catch (error) {
-        console.error("초기데이터 설정 중 오류 발생:", error);
-        return [];
-    }
+export const fetchMajorCategoryList = () => {
+    return apiGet<MajorCategoryResponseDto[]>(`${DOMAIN}/major_category_list`);
 };
 
 export const fetchRecommendedProductList = async (
@@ -34,7 +27,7 @@ export const fetchRecommendedProductList = async (
 ) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/product_view.json`,
+            `${MOCK_DOMAIN}/mock/data/product/product_view.json`,
             {
                 params: requestBody,
             }
@@ -71,7 +64,7 @@ export const fetchMinerCategoryList = async (
 ) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/miner_category.json`,
+            `${MOCK_DOMAIN}/mock/data/product/miner_category.json`,
             {
                 params: requestBody,
             }
@@ -94,7 +87,7 @@ export const fetchMinerCategoryList = async (
 export const fetchProductList = async (requestBody: ProductListRequestDto) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/product_view.json`,
+            `${MOCK_DOMAIN}/mock/data/product/product_view.json`,
             {
                 params: requestBody,
             }
@@ -128,7 +121,7 @@ export const fetchProductDetail = async (
 ) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/product_view.json`,
+            `${MOCK_DOMAIN}/mock/data/product/product_view.json`,
             {
                 params: requestBody,
             }
@@ -163,7 +156,7 @@ export const fetchProductDetail = async (
 export const fetchOptionList = async (requestBody: ProductListRequestDto) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/option.json`,
+            `${MOCK_DOMAIN}/mock/data/product/option.json`,
             {
                 params: requestBody,
             }
@@ -182,10 +175,12 @@ export const fetchOptionList = async (requestBody: ProductListRequestDto) => {
     }
 };
 
-export const fetchOptionDetailList = async (requestBody: ProductListRequestDto) => {
+export const fetchOptionDetailList = async (
+    requestBody: ProductListRequestDto
+) => {
     try {
         const result = await axios.get(
-            `${DOMAIN}/mock/data/product/option_view.json`,
+            `${MOCK_DOMAIN}/mock/data/product/option_view.json`,
             {
                 params: requestBody,
             }
@@ -202,4 +197,4 @@ export const fetchOptionDetailList = async (requestBody: ProductListRequestDto) 
         console.error("옵션 목록 조회 중 오류 발생:", error);
         return [];
     }
-}
+};
