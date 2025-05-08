@@ -10,10 +10,11 @@ interface Props {
 const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
     const [userId, setUserId] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [isPasswordShow, setIsPasswordShow] = useState<boolean>(false);
+    const [passwordType, setPasswordType] = useState<"password" | "text">("password");
 
-    const handleShowPassword = () => setIsPasswordShow(!isPasswordShow);
-    
+    const handleChangePasswordType = () => {
+        setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
+    };
 
     const handleLogin = () => {
         // 로그인 로직 구현 예정
@@ -42,11 +43,15 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                         <Form.Label>{"비밀번호"}</Form.Label>
                         <InputGroup>
                             <Form.Control
-                                type="password"
+                                type={passwordType}
                                 placeholder="비밀번호를 입력하세요"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <Button variant="outline-secondary" onClick={handleChangePasswordType}>
+                                {passwordType === "password" && <EyeOn />}
+                                {passwordType === "text" && <EyeOff />}
+                            </Button>
                         </InputGroup>
                     </Form.Group>
 
@@ -61,10 +66,10 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                         <Button variant="outline-primary" disabled>
                             {"구글 로그인 (예정)"}
                         </Button>
-                        <Button variant="outline-dark" disabled>
+                        <Button variant="outline-warn" disabled>
                             {"카카오 로그인 (예정)"}
                         </Button>
-                        <Button variant="outline-green" disabled>
+                        <Button variant="outline-success" disabled>
                             {"네이버 로그인 (예정)"}
                         </Button>
                     </div>
