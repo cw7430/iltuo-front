@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function ProductCard({ product, isMainPage }: Props) {
-    const { productId, productCode, productName, productComments, price } = product;
+    const { productId, productCode, productName, productComments, discountedPrice } = product;
     return (
         <Card className="w-100" as={Link} to={DETAIL_PATH("product", productId)} style={{ cursor: "pointer" }}>
             <div className="coffee_img">
@@ -24,7 +24,7 @@ export default function ProductCard({ product, isMainPage }: Props) {
                 <Card.Text className="looking_text flex-grow-1">
                     {isMainPage ? productComments || "\u00A0" : productComments}
                 </Card.Text>
-                <div className="types_text">{price.toLocaleString()}</div>
+                <div className="types_text">{discountedPrice.toLocaleString()}</div>
             </Card.Body>
         </Card>
     );

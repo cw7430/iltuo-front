@@ -1,14 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-    Container,
-    Row,
-    Col,
-    Table,
-    Button,
-    Form,
-    InputGroup,
-} from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Form, InputGroup } from "react-bootstrap";
 import Decimal from "decimal.js";
 import { MAIN_PATH, LIST_PATH } from "../../../constants/url";
 import { Loader } from "../../../components/Gif";
@@ -30,19 +22,11 @@ export default function ProuctDetail() {
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [product, setProduct] = useState<ProductResponseDto | undefined>(
-        undefined
-    );
-    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>(
-        []
-    );
-    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>(
-        []
-    );
+    const [product, setProduct] = useState<ProductResponseDto | undefined>(undefined);
+    const [optionCategory, setOptionCategory] = useState<OptionResponseDto[]>([]);
+    const [detailOption, setDetailOption] = useState<OptionDetailResponseDto[]>([]);
     const [totalPrice, setTotalPrice] = useState<number>(0);
-    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>(
-        []
-    );
+    const [optionDetailIdArray, setOptionDetailIdArray] = useState<number[]>([]);
     const [invalidOptions, setInvalidOptions] = useState<number[]>([]);
     const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
     const [confirmTitle, setConfirmTitle] = useState<string>("");
@@ -51,11 +35,7 @@ export default function ProuctDetail() {
 
     const quantityRef = useRef<HTMLInputElement>(null);
 
-    const showGenericConfirmModal = (
-        title: string,
-        text: string,
-        onConfirm: () => void
-    ) => {
+    const showGenericConfirmModal = (title: string, text: string, onConfirm: () => void) => {
         setConfirmTitle(title);
         setConfirmText(text);
         setConfirmAction(() => () => {
@@ -84,9 +64,7 @@ export default function ProuctDetail() {
     };
 
     const updateTotalPrice = (quantity: number) => {
-        if (product) {
-            setTotalPrice(product.discountedPrice * quantity);
-        }
+        calculateTotalPrice(quantity, optionDetailIdArray);
     };
 
     const getQuantity = (): number => {
@@ -120,31 +98,18 @@ export default function ProuctDetail() {
         updateTotalPrice(quantity);
     };
 
-    const getOptionDelta = (
-        basePrice: number,
-        option: OptionDetailResponseDto
-    ): number => {
+    const getOptionDelta = (basePrice: number, option: OptionDetailResponseDto): number => {
         if (option.optionTypeCode === "OPT002") {
             return option.optionFluctuatingPrice;
         } else if (option.optionTypeCode === "OPT001") {
-            const percentage = new Decimal(option.optionFluctuatingPrice).minus(
-                100
-            );
-            const result = new Decimal(basePrice)
-                .mul(percentage)
-                .div(100)
-                .div(10)
-                .floor()
-                .mul(10);
+            const percentage = new Decimal(option.optionFluctuatingPrice).minus(100);
+            const result = new Decimal(basePrice).mul(percentage).div(100).div(10).floor().mul(10);
             return result.toNumber();
         }
         return 0;
     };
 
-    const applyOptionPrice = (
-        basePrice: number,
-        option: OptionDetailResponseDto
-    ): number => {
+    const applyOptionPrice = (basePrice: number, option: OptionDetailResponseDto): number => {
         const delta = getOptionDelta(basePrice, option);
         return basePrice + delta;
     };
@@ -154,18 +119,13 @@ export default function ProuctDetail() {
         return `${prefix}${Math.abs(delta).toLocaleString()}원`;
     };
 
-    const calculateTotalPrice = (
-        quantity: number,
-        selectedOptionIds: number[]
-    ) => {
+    const calculateTotalPrice = (quantity: number, selectedOptionIds: number[]) => {
         if (!product) return;
 
         let basePrice = product.discountedPrice * quantity;
 
         selectedOptionIds.forEach((id) => {
-            const option = detailOption.find(
-                (opt) => opt.optionDetailId === id
-            );
+            const option = detailOptionMap.get(id);
             if (!option) return;
             basePrice = applyOptionPrice(basePrice, option);
         });
@@ -179,26 +139,21 @@ export default function ProuctDetail() {
         const quantity = getQuantity();
         let basePrice = product.discountedPrice * quantity;
 
-        // 우선순위 이하 옵션까지만 계산
         optionDetailIdArray.forEach((id, idx) => {
-            const opt = detailOption.find((o) => o.optionDetailId === id);
+            const opt = detailOptionMap.get(id);
             if (!opt || idx + 1 >= option.priorityIndex) return;
             basePrice = applyOptionPrice(basePrice, opt);
         });
 
         const delta = getOptionDelta(basePrice, option);
-
-        return`${option.optionDetailName} (${formatPriceDelta(delta)})`;
+        return `${option.optionDetailName} (${formatPriceDelta(delta)})`;
     };
 
     const handleOptionChange = (priorityIndex: number, selectedId: number) => {
         const newOptionDetailIdArray = [...optionDetailIdArray];
 
         if (selectedId === 0) {
-            const truncated = newOptionDetailIdArray.slice(
-                0,
-                priorityIndex - 1
-            );
+            const truncated = newOptionDetailIdArray.slice(0, priorityIndex - 1);
             setOptionDetailIdArray(truncated);
             calculateTotalPrice(getQuantity(), truncated);
         } else {
@@ -206,9 +161,7 @@ export default function ProuctDetail() {
             const truncated = newOptionDetailIdArray.slice(0, priorityIndex);
             setOptionDetailIdArray(truncated);
             calculateTotalPrice(getQuantity(), truncated);
-            setInvalidOptions((prev) =>
-                prev.filter((idx) => idx !== priorityIndex)
-            );
+            setInvalidOptions((prev) => prev.filter((idx) => idx !== priorityIndex));
         }
     };
 
@@ -252,16 +205,12 @@ export default function ProuctDetail() {
                         setTotalPrice(productResponse.discountedPrice);
 
                         if (productResponse.optionCount > 0) {
-                            const optionCategoryResponse =
-                                await fetchOptionList({
-                                    majorCategoryId:
-                                        productResponse.majorCategoryId,
-                                });
-                            const detailOptionResponse =
-                                await fetchOptionDetailList({
-                                    majorCategoryId:
-                                        productResponse.majorCategoryId,
-                                });
+                            const optionCategoryResponse = await fetchOptionList({
+                                majorCategoryId: productResponse.majorCategoryId,
+                            });
+                            const detailOptionResponse = await fetchOptionDetailList({
+                                majorCategoryId: productResponse.majorCategoryId,
+                            });
                             setOptionCategory(optionCategoryResponse);
                             setDetailOption(detailOptionResponse);
                         }
@@ -275,6 +224,10 @@ export default function ProuctDetail() {
             fetchData();
         }
     }, [productId]);
+
+    const detailOptionMap = useMemo(() => {
+        return new Map(detailOption.map((opt) => [opt.optionDetailId, opt]));
+    }, [detailOption]);
 
     return (
         <>
@@ -299,9 +252,7 @@ export default function ProuctDetail() {
                         </Col>
                         <Col className="mt-5" md={6}>
                             <h2>{product ? product.productName : "제목"}</h2>
-                            <h6>
-                                {product ? product.productComments : "코멘트"}
-                            </h6>
+                            <h6>{product ? product.productComments : "코멘트"}</h6>
                             <h5>
                                 {product
                                     ? `${product.discountedPrice.toLocaleString()} 원`
@@ -310,25 +261,18 @@ export default function ProuctDetail() {
                             <Table>
                                 <tbody>
                                     <tr>
-                                        <th
-                                            scope="row"
-                                            style={{ width: "100px" }}
-                                        >
+                                        <th scope="row" style={{ width: "100px" }}>
                                             {"수량"}
                                         </th>
                                         <td>
-                                            <InputGroup
-                                                style={{ width: "80px" }}
-                                            >
+                                            <InputGroup style={{ width: "80px" }}>
                                                 <Form.Control
                                                     type="number"
                                                     ref={quantityRef}
                                                     defaultValue={1}
                                                     min={1}
                                                     max={99}
-                                                    onInput={
-                                                        handleQuantityFormat
-                                                    }
+                                                    onInput={handleQuantityFormat}
                                                     onBlur={handleQuantityBlur}
                                                 />
                                             </InputGroup>
@@ -337,83 +281,60 @@ export default function ProuctDetail() {
                                     {product &&
                                         product.optionCount > 0 &&
                                         optionCategory.map((item) => {
-                                            const filteredDetails =
-                                                detailOption.filter(
-                                                    (detail) =>
-                                                        detail.optionId ===
-                                                        item.optionId
-                                                );
+                                            const filteredDetails = detailOption.filter(
+                                                (detail) => detail.optionId === item.optionId
+                                            );
 
                                             return (
                                                 <tr key={item.priorityIndex}>
-                                                    <th scope="row">
-                                                        {item.optionName}
-                                                    </th>
+                                                    <th scope="row">{item.optionName}</th>
                                                     <td>
                                                         <InputGroup
                                                             style={{
-                                                                maxWidth:
-                                                                    "450px",
+                                                                maxWidth: "450px",
                                                             }}
                                                         >
                                                             <Form.Select
                                                                 disabled={
-                                                                    item.priorityIndex ===
-                                                                    1
+                                                                    item.priorityIndex === 1
                                                                         ? false
                                                                         : !optionDetailIdArray[
-                                                                              item.priorityIndex -
-                                                                                  2
+                                                                              item.priorityIndex - 2
                                                                           ]
                                                                 }
                                                                 onChange={(e) =>
                                                                     handleOptionChange(
                                                                         item.priorityIndex,
-                                                                        Number(
-                                                                            e
-                                                                                .target
-                                                                                .value
-                                                                        )
+                                                                        Number(e.target.value)
                                                                     )
                                                                 }
                                                                 value={
                                                                     optionDetailIdArray[
-                                                                        item.priorityIndex -
-                                                                            1
+                                                                        item.priorityIndex - 1
                                                                     ] || 0
                                                                 }
                                                                 isInvalid={invalidOptions.includes(
                                                                     item.priorityIndex
                                                                 )}
                                                             >
-                                                                <option
-                                                                    value={0}
-                                                                >
+                                                                <option value={0}>
                                                                     {"==선택=="}
                                                                 </option>
                                                                 {filteredDetails.map(
-                                                                    (
-                                                                        detail,
-                                                                        detailIdx
-                                                                    ) => (
+                                                                    (detail, detailIdx) => (
                                                                         <option
-                                                                            key={
-                                                                                detailIdx
-                                                                            }
+                                                                            key={detailIdx}
                                                                             value={
                                                                                 detail.optionDetailId
                                                                             }
                                                                         >
-                                                                            {getOptionLabel(
-                                                                                detail
-                                                                            )}
+                                                                            {getOptionLabel(detail)}
                                                                         </option>
                                                                     )
                                                                 )}
                                                             </Form.Select>
                                                             <Form.Control.Feedback type="invalid">
-                                                                옵션을
-                                                                선택해주세요
+                                                                {"옵션을 선택해주세요"}
                                                             </Form.Control.Feedback>
                                                         </InputGroup>
                                                     </td>
@@ -423,18 +344,13 @@ export default function ProuctDetail() {
                                     <tr>
                                         <th scope="row">{"총 상품 가격"}</th>
                                         <td>
-                                            {product
-                                                ? `${totalPrice.toLocaleString()} 원`
-                                                : "총액"}
+                                            {product ? `${totalPrice.toLocaleString()} 원` : "총액"}
                                         </td>
                                     </tr>
                                 </tbody>
                             </Table>
                             <div className="d-flex justify-content-end align-items-center gap-2 mt-5 mb-5">
-                                <Button
-                                    variant="primary"
-                                    onClick={handleAddToCart}
-                                >
+                                <Button variant="primary" onClick={handleAddToCart}>
                                     {"장바구니"}
                                 </Button>
                                 <Button variant="danger" onClick={handleBuyNow}>

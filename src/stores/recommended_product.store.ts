@@ -1,24 +1,31 @@
 import { create } from "zustand";
-import { RecommendedProductsRequestDto } from "../apis/dto/request/Products";
 import { ProductResponseDto } from "../apis/dto/response/Products";
 import { fetchRecommendedProductList } from "../apis/server/Products";
+import { chunkArray } from "../utils/array";
 
 interface RecommendedProductState {
-  data: ProductResponseDto[][];
-  fetchData: (requestBody: RecommendedProductsRequestDto) => Promise<void>;
+    data: ProductResponseDto[][];
+    error: string | null;
+    fetchData: () => Promise<void>;
 }
 
 const useRecommendedProductStore = create<RecommendedProductState>((set) => ({
-  data: [],
-  fetchData: async (requestBody: RecommendedProductsRequestDto) => {
-    try {
-      const data = await fetchRecommendedProductList(requestBody);
-      set({ data });
-    } catch (error) {
-      console.error("데이터를 불러오지 못했습니다:", error);
-      set({ data: [] });
-    }
-  },
+    data: [],
+    error: null,
+    fetchData: async () => {
+        set({ error: null });
+        try {
+            const rawData = await fetchRecommendedProductList();
+            const data = chunkArray(rawData, 4);
+            set({ data });
+        } catch (err: any) {
+            set({
+                error: err.message || "알 수 없는 오류",
+                data: [],
+            });
+            throw err;
+        }
+    },
 }));
 
 export default useRecommendedProductStore;
