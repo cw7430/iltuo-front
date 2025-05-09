@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
-import { MAIN_PATH, LIST_PATH } from "../../constants/url";
+import { MAIN_PATH, PLAIN_PATH, LIST_PATH } from "../../constants/url";
 import { useMajorCategoryStore } from "../../stores";
 import { LogInModal } from "../../components/Modals";
 
 export default function Header() {
     const { pathname } = useLocation();
+
+    const navigate = useNavigate();
 
     const majorCategoryList = useMajorCategoryStore((state) => state.data);
 
@@ -15,6 +17,8 @@ export default function Header() {
     const handleShowLoginModal = () => setShowLogInModal(true);
 
     const handleCloseLogInModal = () => setShowLogInModal(false);
+
+    const handleNavigateSignUpPage = () => navigate(PLAIN_PATH("sign_up", null));
 
     return (
         <>
@@ -49,8 +53,8 @@ export default function Header() {
                                         </Nav.Link>
                                     ))}
                                 </>
-                                <Nav.Link href="#">{"주문내역"}</Nav.Link>
-                                <Nav.Link href="#">{"장바구니"}</Nav.Link>
+                                {/* <Nav.Link href="#">{"주문내역"}</Nav.Link>
+                                <Nav.Link href="#">{"장바구니"}</Nav.Link> */}
                             </Nav>
                             <div className="form-inline my-2 my-lg-0">
                                 <div className="login_bt">
@@ -79,6 +83,9 @@ export default function Header() {
                                                 </span>
                                                 {"로그인"}
                                             </button>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <button onClick={handleNavigateSignUpPage}>{"회원가입"}</button>
                                         </Col>
                                     </Row>
                                 </div>

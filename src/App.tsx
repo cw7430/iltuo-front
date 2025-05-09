@@ -10,11 +10,12 @@ import "./assets/css/jquery.mCustomScrollbar.min.css";
 import AppInitializer from "./AppInitializer";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
-import { MAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants/url";
+import { MAIN_PATH, PLAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants/url";
 import Main from "./views/Main";
 import { useMajorCategoryStore, useRecommendedProductStore } from "./stores";
 import ProductList from "./views/Product/ProductList";
 import ProuctDetail from "./views/Product/ProductDetail";
+import SignUp from "./views/Auth/SignUp";
 
 function App() {
     const fetchMajorCategoryList = useMajorCategoryStore((state) => state.fetchData);
@@ -36,6 +37,7 @@ function App() {
                         element={<ProductList />}
                     />
                     <Route path={DETAIL_PATH("product", ":productId")} element={<ProuctDetail />} />
+                    <Route path={PLAIN_PATH("sign_up", null)} element={<SignUp />} />
                 </Route>
                 <Route path="*" element={<h1>404 Not Found</h1>} />
             </Routes>

@@ -23,8 +23,6 @@ const AppInitializer = ({ children }: { children: React.ReactNode }) => {
         }
     }, [fetchMajor, fetchRecommended]);
 
-    console.log(`에러: ${error}`)
-
     useEffect(() => {
         init();
     }, [init]);
