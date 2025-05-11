@@ -10,6 +10,7 @@ export default function SignUp() {
     const userNameRef = useRef<HTMLInputElement>(null);
     const phoneNumberRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
+    const detailAddressRef = useRef<HTMLInputElement>(null);
 
     const [userId, setUserId] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -23,6 +24,13 @@ export default function SignUp() {
     const [extraAddress, setExtraAddress] = useState<string>("");
     const [passwordType, setPasswordType] = useState<"password" | "text">("password");
     const [checkPasswordType, setCheckPasswordType] = useState<"password" | "text">("password");
+
+    const [isUserIdError, setIsUseIdError] = useState<boolean>(false);
+    const [userIdErrorMessage, setUserIdErrorMessage] = useState<string>("");
+    const [isPasswordError, setIsPasswordError] = useState<boolean>(false);
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+    const [isError, setIsError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     const [showDaumPostCodeModal, setShowDaumPostCodeModal] = useState<boolean>(false);
 
@@ -58,9 +66,12 @@ export default function SignUp() {
                     </Row>
                 </Container>
                 <Container className="py-5" style={{ maxWidth: "800px" }}>
+                    <Row className="text-end">
+                        <Col className="mb-3">{"* 필수입력사항"}</Col>
+                    </Row>
                     <Form>
                         <Form.Group className="mb-3" controlId="signup-userId">
-                            <Form.Label>{"아이디"}</Form.Label>
+                            <Form.Label>{"아이디 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -72,7 +83,7 @@ export default function SignUp() {
                             </InputGroup>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signup-password">
-                            <Form.Label>{"비밀번호"}</Form.Label>
+                            <Form.Label>{"비밀번호 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type={passwordType}
@@ -92,7 +103,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="signup-checkPassword">
-                            <Form.Label>{"비밀번호 확인"}</Form.Label>
+                            <Form.Label>{"비밀번호 확인 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type={checkPasswordType}
@@ -112,7 +123,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="signup-userName">
-                            <Form.Label>{"이름"}</Form.Label>
+                            <Form.Label>{"이름 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -125,7 +136,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="signup-phoneNumber">
-                            <Form.Label>{"전화번호"}</Form.Label>
+                            <Form.Label>{"휴대전화번호 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -138,7 +149,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="signup-email">
-                            <Form.Label>{"이메일"}</Form.Label>
+                            <Form.Label>{"이메일 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -155,7 +166,7 @@ export default function SignUp() {
                             controlId="signup-postalCode"
                             style={{ maxWidth: "388px" }}
                         >
-                            <Form.Label>{"우편번호"}</Form.Label>
+                            <Form.Label>{"우편번호 *"}</Form.Label>
                             <Row>
                                 <Col xs={8}>
                                     <InputGroup>
@@ -180,7 +191,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="signup-defaultAddress">
-                            <Form.Label>{"주소"}</Form.Label>
+                            <Form.Label>{"주소 *"}</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -198,6 +209,7 @@ export default function SignUp() {
                                 <InputGroup>
                                     <Form.Control
                                         type="text"
+                                        ref={detailAddressRef}
                                         value={detailAddress}
                                         onChange={(e) => setDetailAddress(e.target.value)}
                                         placeholder="상세주소"
@@ -232,6 +244,7 @@ export default function SignUp() {
                 setPostalCode={setPostalCode}
                 setDefaultAddress={setDefaultAddress}
                 setExtraAddress={setExtraAddress}
+                detailAddressRef={detailAddressRef}
             />
         </>
     );

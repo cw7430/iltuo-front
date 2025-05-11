@@ -67,7 +67,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
 
         setIsError(true);
         setErrorMessage("메세지 테스트");
-        console.log("로그인 시도:", { userId, password });
+        console.log("로그인 시도:", nativeSignInBody);
     };
 
     useEffect(() => {

@@ -10,6 +10,7 @@ interface props {
     setPostalCode: Dispatch<SetStateAction<string>>;
     setDefaultAddress: Dispatch<SetStateAction<string>>;
     setExtraAddress: Dispatch<SetStateAction<string>>;
+    detailAddressRef: React.RefObject<HTMLInputElement | null>;
 }
 
 const DaumPostCodeModal: FC<props> = ({
@@ -18,6 +19,7 @@ const DaumPostCodeModal: FC<props> = ({
     setPostalCode,
     setDefaultAddress,
     setExtraAddress,
+    detailAddressRef,
 }) => {
     const [isLoading, setIsLoading] = useState(true);
 
@@ -62,6 +64,11 @@ const DaumPostCodeModal: FC<props> = ({
             backdrop="static"
             show={showDaumPostCodeModal}
             onHide={handleCloseDaumPostCodeModal}
+            onExited={() => {
+                requestAnimationFrame(() => {
+                    detailAddressRef.current?.focus();
+                });
+            }}
             size="lg"
         >
             <Modal.Header closeButton>
