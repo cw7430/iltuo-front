@@ -229,6 +229,7 @@ export default function ProuctDetail() {
         return new Map(detailOption.map((opt) => [opt.optionDetailId, opt]));
     }, [detailOption]);
 
+
     return (
         <>
             <Container>
