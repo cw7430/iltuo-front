@@ -1,3 +1,3 @@
 export default interface UserIdDuplicateCheckResponseDto {
-    isDuplicated: boolean;
+    notDuplicated: boolean;
 }

@@ -1,7 +1,10 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOn, EyeOff } from "../../Svg";
-import { NativeSignInRequestDto } from "../../../apis/dto/request/auth";
+import { NativeSignInRequestDto } from "../../../apis/dto/request/Auth";
+import { useAuthStore } from "../../../stores";
+import { fetchSignInNative } from "../../../apis/server/Auth";
+import { ApiError } from "../../../apis/server";
 
 interface Props {
     showLogInModal: boolean;
@@ -34,7 +37,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
 
     const handlePasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== "Enter") return;
-        handleLogin();
+        handleValidate();
     };
 
     const nativeSignInBody: NativeSignInRequestDto = {
@@ -42,7 +45,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
         password: password,
     };
 
-    const handleLogin = () => {
+    const handleValidate = () => {
         let valid = true;
 
         if (!userId.trim()) {
@@ -65,10 +68,27 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
 
         if (!valid) return;
 
-        setIsError(true);
-        setErrorMessage("메세지 테스트");
-        console.log("로그인 시도:", nativeSignInBody);
+        handleSignInNative();
     };
+
+    const handleSignInNative = async () => {
+        try {
+            const result = await fetchSignInNative(nativeSignInBody);
+            console.log("로그인 성공:", result);
+        } catch (e) {
+            if (e instanceof ApiError) {
+                if(e.code === "LGE") {
+                    setIsError(true)
+                    setErrorMessage(e.message)
+                    console.log(e.message)
+                } else {
+                    setIsError(true)
+                    setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요")
+                }
+            }
+        }
+        
+    }
 
     useEffect(() => {
         if (showLogInModal) {
@@ -141,7 +161,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                     </Form.Group>
 
                     <div className="d-grid gap-2 mb-3">
-                        <Button variant="primary" onClick={handleLogin}>
+                        <Button variant="primary" onClick={handleValidate}>
                             {"로그인"}
                         </Button>
                     </div>

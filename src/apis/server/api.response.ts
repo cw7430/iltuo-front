@@ -1,4 +1,5 @@
 import axiosInstance from "./axios.instance";
+import ApiError from "./api.error";
 import { ResponseDto } from "../dto/response";
 
 export async function apiGet<T>(
@@ -9,18 +10,18 @@ export async function apiGet<T>(
     const { code, message, result } = response.data;
 
     if (code !== "SU") {
-        throw new Error(message);
+        throw new ApiError(code, message);
     }
 
     return result;
 }
 
-export async function apiPost<T, B = any>(url: string, body: B): Promise<T> {
+export async function apiPost<T, B = any>(url: string, body?: B): Promise<T> {
   const response = await axiosInstance.post<ResponseDto<T>>(url, body);
   const { code, message, result } = response.data;
 
   if (code !== "SU") {
-    throw new Error(message);
+    throw new ApiError(code, message);
   }
 
   return result;

@@ -1,5 +1,4 @@
-export default interface SignInResponseDto {
+export default interface RefreshAccessTokenResponseDto {
     accessTokenExpiresAt: number;
-    refreshTokenExpiresAt: number;
     userPermission: "ADMIN" | "USER" | null;
 }

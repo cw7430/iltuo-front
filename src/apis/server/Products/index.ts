@@ -10,7 +10,7 @@ import { apiGet } from "../api.response";
 
 const DOMAIN = "/product";
 
-export const fetchMajorCategoryList = () => {
+export const fetchMajorCategoryList = async () => {
     return apiGet<MajorCategoryResponseDto[]>(`${DOMAIN}/major_category_list`);
 };
 
