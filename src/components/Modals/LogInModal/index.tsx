@@ -5,6 +5,7 @@ import { NativeSignInRequestDto } from "../../../apis/dto/request/Auth";
 import { useAuthStore } from "../../../stores";
 import { fetchSignInNative } from "../../../apis/server/Auth";
 import { ApiError } from "../../../apis/server";
+import { Loader } from "../../Gif";
 
 interface Props {
     showLogInModal: boolean;
@@ -24,6 +25,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
     const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleChangePasswordType = () => {
         setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
@@ -73,8 +75,10 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
 
     const handleSignInNative = async () => {
         try {
+            setIsLoading(true);
             const result = await fetchSignInNative(nativeSignInBody);
             console.log("로그인 성공:", result);
+            handleCloseLogInModal();
         } catch (e) {
             if (e instanceof ApiError) {
                 if(e.code === "LGE") {
@@ -86,6 +90,8 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                     setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요")
                 }
             }
+        } finally {
+            setIsLoading(false);
         }
         
     }
@@ -159,6 +165,9 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                             </div>
                         )}
                     </Form.Group>
+                    {isLoading && (
+                        <Loader />
+                    )}
 
                     <div className="d-grid gap-2 mb-3">
                         <Button variant="primary" onClick={handleValidate}>

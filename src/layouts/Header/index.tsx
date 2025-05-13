@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { MAIN_PATH, PLAIN_PATH, LIST_PATH } from "../../constants/url";
+import { useAuthStore } from "../../stores";
 import { useMajorCategoryStore } from "../../stores";
 import { LogInModal } from "../../components/Modals";
 
@@ -9,6 +10,8 @@ export default function Header() {
     const { pathname } = useLocation();
 
     const navigate = useNavigate();
+
+    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
     const majorCategoryList = useMajorCategoryStore((state) => state.data);
 
@@ -53,40 +56,54 @@ export default function Header() {
                                         </Nav.Link>
                                     ))}
                                 </>
-                                {/* <Nav.Link href="#">{"주문내역"}</Nav.Link>
-                                <Nav.Link href="#">{"장바구니"}</Nav.Link> */}
+                                {isLoggedIn && (
+                                    <>
+                                        <Nav.Link href="#">{"주문내역"}</Nav.Link>
+                                        <Nav.Link href="#">{"장바구니"}</Nav.Link>
+                                    </>
+                                )}
                             </Nav>
                             <div className="form-inline my-2 my-lg-0">
                                 <div className="login_bt">
                                     <Row>
-                                        {/* <Col xs={6}>
-                                        <button>
-                                            <span className="user_icon">
-                                                <i
-                                                    className="fa fa-user"
-                                                    aria-hidden="true"
-                                                ></i>
-                                            </span>
-                                            {"내정보"}
-                                        </button>
-                                    </Col>
-                                    <Col xs={6}>
-                                        <button>{"로그아웃"}</button>
-                                    </Col> */}
-                                        <Col xs={6}>
-                                            <button onClick={handleShowLoginModal}>
-                                                <span className="user_icon">
-                                                    <i
-                                                        className="fa fa-user"
-                                                        aria-hidden="true"
-                                                    ></i>
-                                                </span>
-                                                {"로그인"}
-                                            </button>
-                                        </Col>
-                                        <Col xs={6}>
-                                            <button onClick={handleNavigateSignUpPage}>{"회원가입"}</button>
-                                        </Col>
+                                        {isLoggedIn && (
+                                            <>
+                                                <Col xs={6}>
+                                                    <button>
+                                                        <span className="user_icon">
+                                                            <i
+                                                                className="fa fa-user"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                        </span>
+                                                        {"내정보"}
+                                                    </button>
+                                                </Col>
+                                                <Col xs={6}>
+                                                    <button>{"로그아웃"}</button>
+                                                </Col>
+                                            </>
+                                        )}
+                                        {!isLoggedIn && (
+                                            <>
+                                                <Col xs={6}>
+                                                    <button onClick={handleShowLoginModal}>
+                                                        <span className="user_icon">
+                                                            <i
+                                                                className="fa fa-user"
+                                                                aria-hidden="true"
+                                                            ></i>
+                                                        </span>
+                                                        {"로그인"}
+                                                    </button>
+                                                </Col>
+                                                <Col xs={6}>
+                                                    <button onClick={handleNavigateSignUpPage}>
+                                                        {"회원가입"}
+                                                    </button>
+                                                </Col>
+                                            </>
+                                        )}
                                     </Row>
                                 </div>
                             </div>

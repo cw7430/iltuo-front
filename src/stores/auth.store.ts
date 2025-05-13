@@ -28,6 +28,16 @@ const useAuthStore = create<AuthState>()(
                     refreshTokenExpiresAt: refreshTokenExpiresAt,
                 }),
 
+            refresh: (
+                accessTokenExpiresAt: number,
+                userPermission: "ADMIN" | "USER"
+            ) =>
+                set({
+                    isLoggedIn: true,
+                    userPermission: userPermission,
+                    accessTokenExpiresAt: accessTokenExpiresAt,
+                }),
+
             logout: () =>
                 set({
                     isLoggedIn: false,
