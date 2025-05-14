@@ -1,14 +1,20 @@
-import React from "react";
+import React, { FC } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import { Outlet } from "react-router-dom";
 
-export default function Layout() {
+interface Props {
+    handelLogout: () => void;
+}
+
+const Layout : FC<Props> = ({ handelLogout }) => {
     return (
         <div>
-            <Header />
+            <Header handelLogout={handelLogout} />
             <Outlet />
             <Footer />
         </div>
     );
 }
+
+export default Layout;

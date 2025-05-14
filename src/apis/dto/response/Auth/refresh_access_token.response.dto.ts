@@ -1,4 +1,4 @@
 export default interface RefreshAccessTokenResponseDto {
     accessTokenExpiresAt: number;
-    userPermission: "ADMIN" | "USER" | null;
+    userPermission: "ADMIN" | "USER";
 }

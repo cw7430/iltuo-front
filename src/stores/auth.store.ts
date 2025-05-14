@@ -6,6 +6,16 @@ interface AuthState {
     userPermission: "ADMIN" | "USER" | null;
     accessTokenExpiresAt: number | null;
     refreshTokenExpiresAt: number | null;
+
+    login: (
+        accessTokenExpiresAt: number,
+        refreshTokenExpiresAt: number,
+        userPermission: "ADMIN" | "USER"
+    ) => void;
+
+    refresh: (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER") => void;
+
+    logout: () => void;
 }
 
 const useAuthStore = create<AuthState>()(
@@ -28,10 +38,7 @@ const useAuthStore = create<AuthState>()(
                     refreshTokenExpiresAt: refreshTokenExpiresAt,
                 }),
 
-            refresh: (
-                accessTokenExpiresAt: number,
-                userPermission: "ADMIN" | "USER"
-            ) =>
+            refresh: (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER") =>
                 set({
                     isLoggedIn: true,
                     userPermission: userPermission,

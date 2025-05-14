@@ -1,14 +1,25 @@
-import { NativeSignInRequestDto } from "../../dto/request/Auth";
-import { SignInResponseDto } from "../../dto/response/Auth";
-import RefreshAccessTokenResponseDto from "../../dto/response/Auth/refresh_access_token.response.dto";
+import { NativeSignInRequestDto, UserIdDuplicateCheckRequestDto } from "../../dto/request/Auth";
+import {
+    SignInResponseDto,
+    RefreshAccessTokenResponseDto,
+    UserIdDuplicateCheckResponseDto,
+} from "../../dto/response/Auth";
 import { apiGet, apiPost } from "../api.response";
 
 const DOMAIN = "/auth";
 
-export const fetchSignInNative = async (requestBody:NativeSignInRequestDto) => {
-    return apiPost<SignInResponseDto>(`${DOMAIN}/sign_in_native`, requestBody)
-}
+export const fetchSignInNative = async (requestBody: NativeSignInRequestDto) => {
+    return apiPost<SignInResponseDto>(`${DOMAIN}/sign_in_native`, requestBody);
+};
 
-export const fetchCheckLogin = async () => {
-    return apiGet<RefreshAccessTokenResponseDto>(`${DOMAIN}/major_category_list`);
-}
+export const fetchLogout = async () => {
+    return apiGet(`${DOMAIN}/logout`);
+};
+
+export const fetchRefresh = async () => {
+    return apiGet<RefreshAccessTokenResponseDto>(`${DOMAIN}/refresh_Token`);
+};
+
+export const fetchCheckUserIdDuplicate = async (requestBody: UserIdDuplicateCheckRequestDto) => {
+    return apiPost<UserIdDuplicateCheckResponseDto>(`${DOMAIN}/check_id`, requestBody);
+};

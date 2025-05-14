@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOn, EyeOff } from "../../Svg";
 import { NativeSignInRequestDto } from "../../../apis/dto/request/Auth";
-import { useAuthStore } from "../../../stores";
+import { loginUser } from "../../../utils/auth";
 import { fetchSignInNative } from "../../../apis/server/Auth";
 import { ApiError } from "../../../apis/server";
 import { Loader } from "../../Gif";
@@ -77,24 +77,27 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
         try {
             setIsLoading(true);
             const result = await fetchSignInNative(nativeSignInBody);
-            console.log("로그인 성공:", result);
+            loginUser(
+                result.accessTokenExpiresAt,
+                result.refreshTokenExpiresAt,
+                result.userPermission
+            );
             handleCloseLogInModal();
         } catch (e) {
             if (e instanceof ApiError) {
-                if(e.code === "LGE") {
-                    setIsError(true)
-                    setErrorMessage(e.message)
-                    console.log(e.message)
+                if (e.code === "LGE") {
+                    setIsError(true);
+                    setErrorMessage(e.message);
+                    console.log(e.message);
                 } else {
-                    setIsError(true)
-                    setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요")
+                    setIsError(true);
+                    setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요.");
                 }
             }
         } finally {
             setIsLoading(false);
         }
-        
-    }
+    };
 
     useEffect(() => {
         if (showLogInModal) {
@@ -165,9 +168,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                             </div>
                         )}
                     </Form.Group>
-                    {isLoading && (
-                        <Loader />
-                    )}
+                    {isLoading && <Loader />}
 
                     <div className="d-grid gap-2 mb-3">
                         <Button variant="primary" onClick={handleValidate}>

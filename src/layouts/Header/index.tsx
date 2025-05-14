@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { MAIN_PATH, PLAIN_PATH, LIST_PATH } from "../../constants/url";
@@ -6,7 +6,11 @@ import { useAuthStore } from "../../stores";
 import { useMajorCategoryStore } from "../../stores";
 import { LogInModal } from "../../components/Modals";
 
-export default function Header() {
+interface Props {
+    handelLogout: () => void;
+}
+
+const Header: FC<Props> = ({handelLogout}) => {
     const { pathname } = useLocation();
 
     const navigate = useNavigate();
@@ -80,7 +84,7 @@ export default function Header() {
                                                     </button>
                                                 </Col>
                                                 <Col xs={6}>
-                                                    <button>{"로그아웃"}</button>
+                                                    <button onClick={handelLogout}>{"로그아웃"}</button>
                                                 </Col>
                                             </>
                                         )}
@@ -134,3 +138,5 @@ export default function Header() {
         </>
     );
 }
+
+export default Header;
