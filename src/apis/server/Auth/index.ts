@@ -1,4 +1,8 @@
-import { NativeSignInRequestDto, UserIdDuplicateCheckRequestDto } from "../../dto/request/Auth";
+import {
+    NativeSignInRequestDto,
+    UserIdDuplicateCheckRequestDto,
+    NativeSignUpRequestDto,
+} from "../../dto/request/Auth";
 import {
     SignInResponseDto,
     RefreshAccessTokenResponseDto,
@@ -22,4 +26,8 @@ export const fetchRefresh = async () => {
 
 export const fetchCheckUserIdDuplicate = async (requestBody: UserIdDuplicateCheckRequestDto) => {
     return apiPost<UserIdDuplicateCheckResponseDto>(`${DOMAIN}/check_id`, requestBody);
+};
+
+export const fetchSignUpNative = async (requestBody: NativeSignUpRequestDto) => {
+    return apiPost<SignInResponseDto>(`${DOMAIN}/sign_up_native`, requestBody);
 };

@@ -3,11 +3,19 @@ import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOn, EyeOff } from "../../../components/Svg";
 import { DaumPostCodeModal, AlertModal } from "../../../components/Modals";
 import { Loader } from "../../../components/Gif";
-import { fetchCheckUserIdDuplicate } from "../../../apis/server/Auth";
-import { UserIdDuplicateCheckRequestDto, NativeSignUpRequestDto } from "../../../apis/dto/request/Auth";
+import { fetchCheckUserIdDuplicate, fetchSignUpNative } from "../../../apis/server/Auth";
+import {
+    UserIdDuplicateCheckRequestDto,
+    NativeSignUpRequestDto,
+} from "../../../apis/dto/request/Auth";
 import { ApiError } from "../../../apis/server";
+import { loginUser } from "../../../utils/auth";
+import { useNavigate } from "react-router-dom";
+import { MAIN_PATH } from "../../../constants/url";
 
 export default function SignUp() {
+    const navigete = useNavigate();
+
     const userIdRef = useRef<HTMLInputElement>(null);
     const phoneNumberRef = useRef<HTMLInputElement>(null);
     const detailAddressRef = useRef<HTMLInputElement>(null);
@@ -82,9 +90,12 @@ export default function SignUp() {
         setShowAlertModal(true);
     };
 
-    const handleCloseAlertModal = () => setShowAlertModal(false);
+    const handleCloseAlertModal = () => {
+        setShowAlertModal(false);
+        navigete(MAIN_PATH());
+    };
 
-    const handleValidateUserId = async () => {
+    const handleValidateUserId = async (): Promise<boolean> => {
         setIsUserIdValid(false);
         setIsUseIdError(false);
         setUserIdErrorMessage("");
@@ -95,7 +106,7 @@ export default function SignUp() {
             setIsUserIdValid(false);
             setIsUseIdError(true);
             setUserIdErrorMessage("아이디를 입력해주세요.");
-            return;
+            return false;
         }
 
         if (!regex.test(userId)) {
@@ -104,18 +115,18 @@ export default function SignUp() {
             setUserIdErrorMessage(
                 "아이디는 5자 이상 25자 이하, 영문 또는 영문, 숫자의 조합이어야 합니다."
             );
-            return;
+            return false;
         }
 
-        const responseBody: UserIdDuplicateCheckRequestDto = { userId: userId };
+        const requestBody: UserIdDuplicateCheckRequestDto = { userId: userId };
 
         try {
             setIsUseIdError(false);
             setUserIdErrorMessage("");
-            const result = await fetchCheckUserIdDuplicate(responseBody);
+            const result = await fetchCheckUserIdDuplicate(requestBody);
             if (result) {
-                setIsUseIdError(false);
                 setIsUserIdValid(true);
+                return true;
             }
         } catch (e) {
             if (e instanceof ApiError) {
@@ -133,10 +144,14 @@ export default function SignUp() {
                         break;
                 }
             }
+            return false;
         }
+
+        // 혹시라도 예상치 못한 상황이면 false로 처리
+        return false;
     };
 
-    const handleValidatePassword = () => {
+    const handleValidatePassword = (): boolean => {
         setIsPasswordValid(false);
         setIsPasswordError(false);
         setIsPasswordCheckError(false);
@@ -148,7 +163,7 @@ export default function SignUp() {
             setIsPasswordValid(false);
             setIsPasswordError(true);
             setPasswordErrorMessage("비밀번호를 입력해주세요.");
-            return;
+            return false;
         }
 
         if (!regex.test(password)) {
@@ -157,11 +172,13 @@ export default function SignUp() {
             setPasswordErrorMessage(
                 "비밀번호는 10자 이상 25자 이하이며, 영문, 숫자, 특수문자를 각각 1개 이상 포함해야 합니다."
             );
-            return;
+            return false;
         }
+
+        return true;
     };
 
-    const handleValidatePasswordCheck = () => {
+    const handleValidatePasswordCheck = (): boolean => {
         setIsPasswordValid(false);
         setIsPasswordCheckError(false);
         setPasswordCheckErrorMessage("");
@@ -170,20 +187,21 @@ export default function SignUp() {
             setIsPasswordValid(false);
             setIsPasswordCheckError(true);
             setPasswordCheckErrorMessage("비밀번호 조건을 확인해주세요");
-            return;
+            return false;
         }
 
         if (password !== checkPassword) {
             setIsPasswordValid(false);
             setIsPasswordCheckError(true);
             setPasswordCheckErrorMessage("비밀번호가 일치하지 않습니다.");
-            return;
+            return false;
         }
 
         setIsPasswordValid(true);
+        return true;
     };
 
-    const handleValidateUserName = () => {
+    const handleValidateUserName = (): boolean => {
         setIsUserNameValid(false);
         setIsUserNameError(false);
         setUserNameErrorMessage("");
@@ -194,20 +212,21 @@ export default function SignUp() {
             setIsUserNameValid(false);
             setIsUserNameError(true);
             setUserNameErrorMessage("이름을 입력하여주세요.");
-            return;
+            return false;
         }
 
         if (!regex.test(userName)) {
             setIsUserNameValid(false);
             setIsUserNameError(true);
             setUserNameErrorMessage("이름 형식이 올바르지 않습니다.");
-            return;
+            return false;
         }
 
         setIsUserNameValid(true);
+        return true;
     };
 
-    const handleValidatePhoneNumber = () => {
+    const handleValidatePhoneNumber = (): boolean => {
         setIsPhoneNumberValid(false);
         setIsPhoneNumberError(false);
         setPhoneNumberErrorMessage("");
@@ -218,20 +237,21 @@ export default function SignUp() {
             setIsPhoneNumberValid(false);
             setIsPhoneNumberError(true);
             setPhoneNumberErrorMessage("휴대전화 번호를 입력해주세요.");
-            return;
+            return false;
         }
 
         if (!regex.test(phoneNumber)) {
             setIsPhoneNumberValid(false);
             setIsPhoneNumberError(true);
             setPhoneNumberErrorMessage("휴대전화번호 형식이 올바르지 않습니다.");
-            return;
+            return false;
         }
 
         setIsPhoneNumberValid(true);
+        return true;
     };
 
-    const handleValidateEmail = () => {
+    const handleValidateEmail = (): boolean => {
         setIsEmailValid(false);
         setIsEmailError(false);
         setEmailErrorMessage("");
@@ -242,48 +262,58 @@ export default function SignUp() {
             setIsEmailValid(false);
             setIsEmailError(true);
             setEmailErrorMessage("이메일을 입력하여주세요.");
-            return;
+            return false;
         }
 
-        if(!regex.test(email)) {
+        if (!regex.test(email)) {
             setIsEmailValid(false);
             setIsEmailError(true);
             setEmailErrorMessage("이메일 형식이 올바르지 않습니다.");
-            return;
+            return false;
         }
 
         setIsEmailValid(true);
+        return true;
     };
 
-    const handleValidateAddress = () => {
+    const handleValidateAddress = (): boolean => {
         setIsAddressValid(false);
         setIsAddressError(false);
         setAddressErrorMessage("");
 
-        if(!postalCode.trim() || !defaultAddress.trim()) {
+        if (!postalCode.trim() || !defaultAddress.trim()) {
             setIsAddressValid(false);
             setIsAddressError(true);
             setAddressErrorMessage("주소를 선택해주세요");
-            return;
+            return false;
         }
 
         setIsAddressValid(true);
-    }
+        return true;
+    };
 
     const handleValidateTotal = async () => {
         setIsLoading(true);
         setIsError(false);
         setErrorMessage("");
 
-        await handleValidateUserId();
-        handleValidatePassword();
-        handleValidatePasswordCheck();
-        handleValidateUserName();
-        handleValidatePhoneNumber();
-        handleValidateEmail();
-        handleValidateAddress();
+        const userIdValidate = await handleValidateUserId();
+        const passwortValidate = handleValidatePassword();
+        const passwordCheckValidate = handleValidatePasswordCheck();
+        const userNameValidate = handleValidateUserName();
+        const phoneNumberValidate = handleValidatePhoneNumber();
+        const emailValidate = handleValidateEmail();
+        const addressValidate = handleValidateAddress();
 
-        if(isUserIdError || isPasswordError || isPasswordCheckError || isUserIdError || isPhoneNumberError || isEmailError || isAddressError) {
+        if (
+            !userIdValidate ||
+            !passwortValidate ||
+            !passwordCheckValidate ||
+            !userNameValidate ||
+            !phoneNumberValidate ||
+            !emailValidate ||
+            !addressValidate
+        ) {
             setIsError(true);
             setErrorMessage("필수 조건 값을 확인하세요.");
             setIsLoading(false);
@@ -291,24 +321,44 @@ export default function SignUp() {
         }
 
         handleSignUpNative();
-    }
+    };
 
-    const handleSignUpNative = () => {
-        const responseBody:NativeSignUpRequestDto = {
-            userId:userId,
-            password:password,
-            userName:userName,
-            phoneNumber:phoneNumber,
-            email:email,
-            postalCode:postalCode,
-            defaultAddress:defaultAddress,
-            detailAddress:detailAddress,
-            extraAddress:extraAddress
+    const handleSignUpNative = async () => {
+        const resquestBody: NativeSignUpRequestDto = {
+            userId: userId,
+            password: password,
+            userName: userName,
+            phoneNumber: phoneNumber,
+            email: email,
+            postalCode: postalCode,
+            defaultAddress: defaultAddress,
+            detailAddress: detailAddress,
+            extraAddress: extraAddress,
+        };
+
+        try {
+            const result = await fetchSignUpNative(resquestBody);
+            loginUser(
+                result.accessTokenExpiresAt,
+                result.refreshTokenExpiresAt,
+                result.userPermission,
+                result.authMethod
+            );
+            handleShowAlertModal("완료", "회원가입이 완료되었습니다.");
+        } catch (e) {
+            if (e instanceof ApiError) {
+                if (e.code === "DR") {
+                    setIsError(true);
+                    setErrorMessage("필수 조건 값을 확인하세요.");
+                } else {
+                    setIsError(true);
+                    setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요.");
+                }
+            }
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
-        console.log("회원가입 시도", responseBody)
-    }
+    };
 
     useEffect(() => {
         if (!userIdRef.current) return;

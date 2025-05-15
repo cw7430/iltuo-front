@@ -23,7 +23,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
         const init = async () => {
             try {
                 const result = await fetchRefresh();
-                refreshToken(result.accessTokenExpiresAt, result.userPermission);
+                refreshToken(result.accessTokenExpiresAt, result.userPermission, result.authMethod);
                 console.log("로그인유지", result);
             } catch (e) {
                 handleLogout();

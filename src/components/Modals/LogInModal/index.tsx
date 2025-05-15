@@ -6,6 +6,8 @@ import { loginUser } from "../../../utils/auth";
 import { fetchSignInNative } from "../../../apis/server/Auth";
 import { ApiError } from "../../../apis/server";
 import { Loader } from "../../Gif";
+import { useNavigate } from "react-router-dom";
+import { PLAIN_PATH } from "../../../constants/url";
 
 interface Props {
     showLogInModal: boolean;
@@ -13,6 +15,8 @@ interface Props {
 }
 
 const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
+    const navigate = useNavigate();
+
     const userIdRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +30,11 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleNavigateSignUpPage = () => {
+        navigate(PLAIN_PATH("sign_up", null));
+        handleCloseLogInModal();
+    };
 
     const handleChangePasswordType = () => {
         setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
@@ -80,7 +89,8 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
             loginUser(
                 result.accessTokenExpiresAt,
                 result.refreshTokenExpiresAt,
-                result.userPermission
+                result.userPermission,
+                result.authMethod
             );
             handleCloseLogInModal();
         } catch (e) {
@@ -192,11 +202,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                     {/* 회원가입 안내 */}
                     <div className="text-center mt-3">
                         <span>{"계정이 없으신가요?"}</span>
-                        <Button
-                            variant="link"
-                            size="sm"
-                            onClick={() => alert("회원가입 이동 예정")}
-                        >
+                        <Button variant="link" size="sm" onClick={handleNavigateSignUpPage}>
                             {"회원가입"}
                         </Button>
                     </div>

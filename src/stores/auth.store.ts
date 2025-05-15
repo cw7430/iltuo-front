@@ -4,16 +4,22 @@ import { persist } from "zustand/middleware";
 interface AuthState {
     isLoggedIn: boolean;
     userPermission: "ADMIN" | "USER" | null;
+    authMethod: "NATIVE" | "SOCIAL" | "CROSS" | null;
     accessTokenExpiresAt: number | null;
     refreshTokenExpiresAt: number | null;
 
     login: (
         accessTokenExpiresAt: number,
         refreshTokenExpiresAt: number,
-        userPermission: "ADMIN" | "USER"
+        userPermission: "ADMIN" | "USER",
+        authMethod: "NATIVE" | "SOCIAL" | "CROSS"
     ) => void;
 
-    refresh: (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER") => void;
+    refresh: (
+        accessTokenExpiresAt: number,
+        userPermission: "ADMIN" | "USER",
+        authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+    ) => void;
 
     logout: () => void;
 }
@@ -25,23 +31,31 @@ const useAuthStore = create<AuthState>()(
             userPermission: null,
             accessTokenExpiresAt: null,
             refreshTokenExpiresAt: null,
+            authMethod: null,
 
             login: (
                 accessTokenExpiresAt: number,
                 refreshTokenExpiresAt: number,
-                userPermission: "ADMIN" | "USER"
+                userPermission: "ADMIN" | "USER",
+                authMethod: "NATIVE" | "SOCIAL" | "CROSS"
             ) =>
                 set({
                     isLoggedIn: true,
                     userPermission: userPermission,
+                    authMethod: authMethod,
                     accessTokenExpiresAt: accessTokenExpiresAt,
                     refreshTokenExpiresAt: refreshTokenExpiresAt,
                 }),
 
-            refresh: (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER") =>
+            refresh: (
+                accessTokenExpiresAt: number,
+                userPermission: "ADMIN" | "USER",
+                authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+            ) =>
                 set({
                     isLoggedIn: true,
                     userPermission: userPermission,
+                    authMethod: authMethod,
                     accessTokenExpiresAt: accessTokenExpiresAt,
                 }),
 
@@ -49,6 +63,7 @@ const useAuthStore = create<AuthState>()(
                 set({
                     isLoggedIn: false,
                     userPermission: null,
+                    authMethod: null,
                     accessTokenExpiresAt: null,
                     refreshTokenExpiresAt: null,
                 }),

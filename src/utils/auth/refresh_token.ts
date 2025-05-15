@@ -1,7 +1,7 @@
 import { useAuthStore } from "../../stores";
 
-const refreshToken = (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER") => {
-    useAuthStore.getState().refresh(accessTokenExpiresAt, userPermission);
+const refreshToken = (accessTokenExpiresAt: number, userPermission: "ADMIN" | "USER", authMethod: "NATIVE" | "SOCIAL" | "CROSS") => {
+    useAuthStore.getState().refresh(accessTokenExpiresAt, userPermission, authMethod);
 };
 
 export default refreshToken;

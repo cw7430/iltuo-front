@@ -59,7 +59,7 @@ function App() {
             try {
                 const result = await fetchRefresh();
                 try {
-                    refreshToken(result.accessTokenExpiresAt, result.userPermission);
+                    refreshToken(result.accessTokenExpiresAt, result.userPermission, result.authMethod);
                 } catch (e) {
                     console.error("스토어 갱신 실패", e);
                     handleShowAlertModal("갱신 오류", "토큰 갱신 중 오류가 발생했습니다.");
