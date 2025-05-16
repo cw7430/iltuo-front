@@ -188,14 +188,11 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
 
                     {/* 소셜 로그인 버튼 자리 */}
                     <div className="d-grid gap-2 mb-2">
-                        <Button variant="outline-primary" disabled>
-                            {"구글 로그인 (예정)"}
+                        <Button variant="outline-success" disabled>
+                            {"네이버 로그인 (예정)"}
                         </Button>
                         <Button variant="outline-warn" disabled>
                             {"카카오 로그인 (예정)"}
-                        </Button>
-                        <Button variant="outline-success" disabled>
-                            {"네이버 로그인 (예정)"}
                         </Button>
                     </div>
 

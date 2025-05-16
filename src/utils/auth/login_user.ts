@@ -4,7 +4,7 @@ const loginUser = (
     accessTokenExpiresAt: number,
     refreshTokenExpiresAt: number,
     userPermission: "ADMIN" | "USER",
-    authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+    authMethod: "NATIVE" | "SOCIAL"
 ) => {
     useAuthStore.getState().login(accessTokenExpiresAt, refreshTokenExpiresAt, userPermission, authMethod)
 };

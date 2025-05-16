@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware";
 interface AuthState {
     isLoggedIn: boolean;
     userPermission: "ADMIN" | "USER" | null;
-    authMethod: "NATIVE" | "SOCIAL" | "CROSS" | null;
+    authMethod: "NATIVE" | "SOCIAL" | null;
     accessTokenExpiresAt: number | null;
     refreshTokenExpiresAt: number | null;
 
@@ -12,13 +12,13 @@ interface AuthState {
         accessTokenExpiresAt: number,
         refreshTokenExpiresAt: number,
         userPermission: "ADMIN" | "USER",
-        authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+        authMethod: "NATIVE" | "SOCIAL"
     ) => void;
 
     refresh: (
         accessTokenExpiresAt: number,
         userPermission: "ADMIN" | "USER",
-        authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+        authMethod: "NATIVE" | "SOCIAL"
     ) => void;
 
     logout: () => void;
@@ -37,7 +37,7 @@ const useAuthStore = create<AuthState>()(
                 accessTokenExpiresAt: number,
                 refreshTokenExpiresAt: number,
                 userPermission: "ADMIN" | "USER",
-                authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+                authMethod: "NATIVE" | "SOCIAL"
             ) =>
                 set({
                     isLoggedIn: true,
@@ -50,7 +50,7 @@ const useAuthStore = create<AuthState>()(
             refresh: (
                 accessTokenExpiresAt: number,
                 userPermission: "ADMIN" | "USER",
-                authMethod: "NATIVE" | "SOCIAL" | "CROSS"
+                authMethod: "NATIVE" | "SOCIAL"
             ) =>
                 set({
                     isLoggedIn: true,
