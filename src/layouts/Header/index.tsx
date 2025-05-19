@@ -27,6 +27,8 @@ const Header: FC<Props> = ({handelLogout}) => {
 
     const handleNavigateSignUpPage = () => navigate(PLAIN_PATH("sign_up", null));
 
+    const handleNavigateProfilePage = () => navigate(PLAIN_PATH("profile", null));
+
     return (
         <>
             <div className={`header_section ${pathname === MAIN_PATH() ? "" : "header_bg"}`}>
@@ -73,7 +75,7 @@ const Header: FC<Props> = ({handelLogout}) => {
                                         {isLoggedIn && (
                                             <>
                                                 <Col xs={6}>
-                                                    <button>
+                                                    <button type="button" onClick={handleNavigateProfilePage}>
                                                         <span className="user_icon">
                                                             <i
                                                                 className="fa fa-user"
@@ -84,14 +86,14 @@ const Header: FC<Props> = ({handelLogout}) => {
                                                     </button>
                                                 </Col>
                                                 <Col xs={6}>
-                                                    <button onClick={handelLogout}>{"로그아웃"}</button>
+                                                    <button type="button" onClick={handelLogout}>{"로그아웃"}</button>
                                                 </Col>
                                             </>
                                         )}
                                         {!isLoggedIn && (
                                             <>
                                                 <Col xs={6}>
-                                                    <button onClick={handleShowLoginModal}>
+                                                    <button type="button" onClick={handleShowLoginModal}>
                                                         <span className="user_icon">
                                                             <i
                                                                 className="fa fa-user"
@@ -102,7 +104,7 @@ const Header: FC<Props> = ({handelLogout}) => {
                                                     </button>
                                                 </Col>
                                                 <Col xs={6}>
-                                                    <button onClick={handleNavigateSignUpPage}>
+                                                    <button type="button" onClick={handleNavigateSignUpPage}>
                                                         {"회원가입"}
                                                     </button>
                                                 </Col>

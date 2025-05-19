@@ -21,6 +21,8 @@ import { fetchLogout, fetchRefresh } from "./apis/server/Auth";
 import { logoutUser, refreshToken } from "./utils/auth";
 import { Loader } from "./components/Gif";
 import { AlertModal } from "./components/Modals";
+import OAuthSuccess from "./OAuthSuccess";
+import MyProfile from "./views/Auth/MyProfile";
 
 function App() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -99,6 +101,8 @@ function App() {
                             element={<ProuctDetail />}
                         />
                         <Route path={PLAIN_PATH("sign_up", null)} element={<SignUp />} />
+                        <Route path={PLAIN_PATH("oauth2/success", null)} element={<OAuthSuccess />} />
+                        <Route path={PLAIN_PATH("profile", null)} element={<MyProfile />} />
                     </Route>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>

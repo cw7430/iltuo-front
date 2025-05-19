@@ -6,6 +6,7 @@ import { loginUser } from "../../../utils/auth";
 import { fetchSignInNative } from "../../../apis/server/Auth";
 import { ApiError } from "../../../apis/server";
 import { Loader } from "../../Gif";
+import { SocialButton } from "../../Button";
 import { useNavigate } from "react-router-dom";
 import { PLAIN_PATH } from "../../../constants/url";
 
@@ -109,6 +110,10 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
         }
     };
 
+    const handleSignInSocial = (providerName: "naver" | "kakao" | "google") => {
+        window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/social/${providerName}`;
+    };
+
     useEffect(() => {
         if (showLogInModal) {
             if (!userIdRef.current) return;
@@ -187,15 +192,21 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                     </div>
 
                     {/* 소셜 로그인 버튼 자리 */}
-                    <div className="d-grid gap-2 mb-2">
-                        <Button variant="outline-success" disabled>
-                            {"네이버 로그인 (예정)"}
-                        </Button>
-                        <Button variant="outline-warn" disabled>
-                            {"카카오 로그인 (예정)"}
-                        </Button>
-                    </div>
+                    <hr />
+                    <div className="text-center text-muted mb-2">소셜 로그인</div>
 
+                    <div className="d-flex justify-content-center gap-2 mb-3">
+                        <button type="button" onClick={() => handleSignInSocial("naver")}>
+                            <SocialButton providerName="naver" />
+                        </button>
+                        <button type="button" onClick={() => handleSignInSocial("kakao")}>
+                            <SocialButton providerName="kakao" />
+                        </button>
+                        <button type="button" onClick={() => handleSignInSocial("google")}>
+                            <SocialButton providerName="google" />
+                        </button>
+                    </div>
+                    <hr />
                     {/* 회원가입 안내 */}
                     <div className="text-center mt-3">
                         <span>{"계정이 없으신가요?"}</span>
