@@ -1,5 +1,8 @@
 export default interface SocialAuth {
     userIdx: number;
-    authProviderCode: string;
+    userName: string  | null;
+    phoneNumber: string | null;
+    email: string | null;
+    authProvider: "naver" | "kakao" | "google";
     providerUserId: string;
 }

@@ -5,6 +5,6 @@ export default interface Address {
     defaultAddress: string;
     detailAddress: string | null;
     extraAddress: string | null;
-    isMain: boolean;
-    isValid: boolean;
+    main: boolean;
+    valid: boolean;
 }

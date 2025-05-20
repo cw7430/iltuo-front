@@ -19,6 +19,7 @@ const AlertModal: FC<props> = ({
             backdrop="static"
             show={showAlertModal}
             onHide={handleCloseAlertModal}
+            style={{zIndex: 9999}}
         >
             <Modal.Header>
                 <Modal.Title>{alertTitle}</Modal.Title>

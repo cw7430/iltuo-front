@@ -3,10 +3,13 @@ import {
     UserIdDuplicateCheckRequestDto,
     NativeSignUpRequestDto,
 } from "../../dto/request/Auth";
+import { PlainResponseDto } from "../../dto/response";
 import {
     SignInResponseDto,
     RefreshAccessTokenResponseDto,
-    UserIdDuplicateCheckResponseDto,
+    NativeUserResponseDto,
+    SocialUserResponseDto,
+    AddressResponseDto,
 } from "../../dto/response/Auth";
 import { apiGet, apiPost } from "../api.response";
 
@@ -25,9 +28,21 @@ export const fetchRefresh = async () => {
 };
 
 export const fetchCheckUserIdDuplicate = async (requestBody: UserIdDuplicateCheckRequestDto) => {
-    return apiPost<UserIdDuplicateCheckResponseDto>(`${DOMAIN}/check_id`, requestBody);
+    return apiPost<PlainResponseDto>(`${DOMAIN}/check_id`, requestBody);
 };
 
 export const fetchSignUpNative = async (requestBody: NativeSignUpRequestDto) => {
     return apiPost<SignInResponseDto>(`${DOMAIN}/sign_up_native`, requestBody);
 };
+
+export const fetchNativeProfile = async () => {
+    return apiGet<NativeUserResponseDto>(`${DOMAIN}/native_profile`);
+};
+
+export const fetchSocialProfile = async () => {
+    return apiGet<SocialUserResponseDto>(`${DOMAIN}/social_profile`);
+};
+
+export const fetchAddressList = async () => {
+    return apiGet<AddressResponseDto[]>(`${DOMAIN}/address_list`);
+}

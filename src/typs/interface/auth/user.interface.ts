@@ -1,11 +1,8 @@
 export default interface User {
     userIdx: number;
     userId: string;
-    userName: string;
-    phoneNumber: string;
-    email: string;
-    registerDate: string;
+    registerDate: Date;
     userPermissionsCode: string;
     authMethodCode: string;
-    isValid: boolean;
+    valid: boolean;
 }

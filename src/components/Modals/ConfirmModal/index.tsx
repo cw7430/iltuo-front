@@ -21,6 +21,7 @@ const ConfirmModal: FC<props> = ({
             backdrop="static"
             show={showConfirmModal}
             onHide={handleCloseConfirmModal}
+            style={{zIndex: 9999}}
         >
             <Modal.Header>
                 <Modal.Title>{confirmTitle}</Modal.Title>

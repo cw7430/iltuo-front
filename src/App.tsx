@@ -9,6 +9,7 @@ import "./assets/css/responsive.css";
 import "./assets/css/jquery.mCustomScrollbar.min.css";
 import AuthInitializer from "./AuthInitializer";
 import AppInitializer from "./AppInitializer";
+import PrivateRoute from "./PrivateRoute";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import { MAIN_PATH, PLAIN_PATH, LIST_PATH, DETAIL_PATH } from "./constants/url";
@@ -61,7 +62,11 @@ function App() {
             try {
                 const result = await fetchRefresh();
                 try {
-                    refreshToken(result.accessTokenExpiresAt, result.userPermission, result.authMethod);
+                    refreshToken(
+                        result.accessTokenExpiresAt,
+                        result.userPermission,
+                        result.authMethod
+                    );
                 } catch (e) {
                     console.error("스토어 갱신 실패", e);
                     handleShowAlertModal("갱신 오류", "토큰 갱신 중 오류가 발생했습니다.");
@@ -101,8 +106,18 @@ function App() {
                             element={<ProuctDetail />}
                         />
                         <Route path={PLAIN_PATH("sign_up", null)} element={<SignUp />} />
-                        <Route path={PLAIN_PATH("oauth2/success", null)} element={<OAuthSuccess />} />
-                        <Route path={PLAIN_PATH("profile", null)} element={<MyProfile />} />
+                        <Route
+                            path={PLAIN_PATH("oauth2/success", null)}
+                            element={<OAuthSuccess />}
+                        />
+                        <Route
+                            path={PLAIN_PATH("profile", null)}
+                            element={
+                                <PrivateRoute>
+                                    <MyProfile />
+                                </PrivateRoute>
+                            }
+                        />
                     </Route>
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                 </Routes>

@@ -51,9 +51,6 @@ export default function SignUp() {
     const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
     const [isEmailError, setIsEmailError] = useState<boolean>(false);
     const [emailErrorMessage, setEmailErrorMessage] = useState<string>("");
-    const [isAddressValid, setIsAddressValid] = useState<boolean>(false);
-    const [isAddressError, setIsAddressError] = useState<boolean>(false);
-    const [addressErrorMessage, setAddressErrorMessage] = useState<string>("");
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -276,22 +273,6 @@ export default function SignUp() {
         return true;
     };
 
-    const handleValidateAddress = (): boolean => {
-        setIsAddressValid(false);
-        setIsAddressError(false);
-        setAddressErrorMessage("");
-
-        if (!postalCode.trim() || !defaultAddress.trim()) {
-            setIsAddressValid(false);
-            setIsAddressError(true);
-            setAddressErrorMessage("주소를 선택해주세요");
-            return false;
-        }
-
-        setIsAddressValid(true);
-        return true;
-    };
-
     const handleValidateTotal = async () => {
         setIsLoading(true);
         setIsError(false);
@@ -303,7 +284,6 @@ export default function SignUp() {
         const userNameValidate = handleValidateUserName();
         const phoneNumberValidate = handleValidatePhoneNumber();
         const emailValidate = handleValidateEmail();
-        const addressValidate = handleValidateAddress();
 
         if (
             !userIdValidate ||
@@ -311,8 +291,7 @@ export default function SignUp() {
             !passwordCheckValidate ||
             !userNameValidate ||
             !phoneNumberValidate ||
-            !emailValidate ||
-            !addressValidate
+            !emailValidate
         ) {
             setIsError(true);
             setErrorMessage("필수 조건 값을 확인하세요.");
@@ -330,10 +309,6 @@ export default function SignUp() {
             userName: userName,
             phoneNumber: phoneNumber,
             email: email,
-            postalCode: postalCode,
-            defaultAddress: defaultAddress,
-            detailAddress: detailAddress,
-            extraAddress: extraAddress,
         };
 
         try {
@@ -529,12 +504,7 @@ export default function SignUp() {
                                             onChange={(e) => setPostalCode(e.target.value)}
                                             readOnly={true}
                                             placeholder="우편번호"
-                                            isValid={isAddressValid}
-                                            isInvalid={isAddressError}
                                         />
-                                        <Form.Control.Feedback type="invalid">
-                                            {addressErrorMessage}
-                                        </Form.Control.Feedback>
                                     </InputGroup>
                                 </Col>
                                 <Col xs={4}>
@@ -557,8 +527,6 @@ export default function SignUp() {
                                     onChange={(e) => setDefaultAddress(e.target.value)}
                                     readOnly={true}
                                     placeholder="주소"
-                                    isValid={isAddressValid}
-                                    isInvalid={isAddressError}
                                 />
                             </InputGroup>
                         </Form.Group>
@@ -573,7 +541,6 @@ export default function SignUp() {
                                         value={detailAddress}
                                         onChange={(e) => setDetailAddress(e.target.value)}
                                         placeholder="상세주소"
-                                        isValid={isAddressValid}
                                     />
                                 </InputGroup>
                             </Form.Group>
@@ -586,7 +553,6 @@ export default function SignUp() {
                                         onChange={(e) => setExtraAddress(e.target.value)}
                                         readOnly={true}
                                         placeholder="참고항목"
-                                        isValid={isAddressValid}
                                     />
                                 </InputGroup>
                             </Form.Group>

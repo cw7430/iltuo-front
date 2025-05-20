@@ -4,5 +4,5 @@ export default interface Option {
     priorityIndex: number;
     optionName: string;
     optionTypeCode: string;
-    isValid: boolean;
+    valid: boolean;
 }

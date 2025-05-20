@@ -13,7 +13,7 @@ export default function Loader() {
                 top: 0,
                 left: 0,
                 backgroundColor: "rgba(211, 211, 211, 0.8)", // 얕은 회색 배경 (투명도 적용)
-                zIndex: 9999, // 최상단 배치
+                zIndex: 9998, // 최상단 배치
             }}
         >
             <img

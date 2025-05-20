@@ -8,4 +8,5 @@ export default interface Product {
     discountedRate: number;
     isRecommended: boolean;
     registerDate: string;
+    valid: boolean;
 }
