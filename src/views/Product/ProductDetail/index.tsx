@@ -198,7 +198,7 @@ export default function ProuctDetail() {
                 setIsLoading(true);
                 try {
                     const productResponse = await fetchProductDetail({
-                        productId: Number(productId),
+                        idx: Number(productId),
                     });
                     setProduct(productResponse);
                     if (productResponse) {
@@ -206,10 +206,10 @@ export default function ProuctDetail() {
 
                         if (productResponse.optionCount > 0) {
                             const optionCategoryResponse = await fetchOptionList({
-                                majorCategoryId: productResponse.majorCategoryId,
+                                idx: productResponse.majorCategoryId,
                             });
                             const detailOptionResponse = await fetchOptionDetailList({
-                                majorCategoryId: productResponse.majorCategoryId,
+                                idx: productResponse.majorCategoryId,
                             });
                             setOptionCategory(optionCategoryResponse);
                             setDetailOption(detailOptionResponse);

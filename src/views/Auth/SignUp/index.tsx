@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Container, Row, Col, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOn, EyeOff } from "../../../components/Svg";
-import { DaumPostCodeModal, AlertModal } from "../../../components/Modals";
+import { AlertModal } from "../../../components/Modals";
 import { Loader } from "../../../components/Gif";
 import { fetchCheckUserIdDuplicate, fetchSignUpNative } from "../../../apis/server/Auth";
 import {
@@ -18,7 +18,6 @@ export default function SignUp() {
 
     const userIdRef = useRef<HTMLInputElement>(null);
     const phoneNumberRef = useRef<HTMLInputElement>(null);
-    const detailAddressRef = useRef<HTMLInputElement>(null);
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [userId, setUserId] = useState<string>("");
@@ -27,10 +26,6 @@ export default function SignUp() {
     const [userName, setUserName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
     const [email, setEmail] = useState<string>("");
-    const [postalCode, setPostalCode] = useState<string>("");
-    const [defaultAddress, setDefaultAddress] = useState<string>("");
-    const [detailAddress, setDetailAddress] = useState<string>("");
-    const [extraAddress, setExtraAddress] = useState<string>("");
     const [passwordType, setPasswordType] = useState<"password" | "text">("password");
     const [checkPasswordType, setCheckPasswordType] = useState<"password" | "text">("password");
 
@@ -54,8 +49,6 @@ export default function SignUp() {
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const [showDaumPostCodeModal, setShowDaumPostCodeModal] = useState<boolean>(false);
-
     const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
     const [alertTitle, setAlertTitle] = useState<string>("");
     const [alertText, setAlertText] = useState<string>("");
@@ -76,10 +69,6 @@ export default function SignUp() {
         if (!phoneNumberRef.current) return;
         phoneNumberRef.current.value = formattedValue;
     };
-
-    const handelShowDaumPostCodeModal = () => setShowDaumPostCodeModal(true);
-
-    const handleCloseDaumPostCodeModal = () => setShowDaumPostCodeModal(false);
 
     const handleShowAlertModal = (title: string, text: string) => {
         setAlertTitle(title);
@@ -325,6 +314,9 @@ export default function SignUp() {
                 if (e.code === "DR") {
                     setIsError(true);
                     setErrorMessage("필수 조건 값을 확인하세요.");
+                } else if (e.code === "VE") {
+                    setIsError(true);
+                    setErrorMessage("필수 조건 값을 확인하세요.");
                 } else {
                     setIsError(true);
                     setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요.");
@@ -488,76 +480,6 @@ export default function SignUp() {
                                 </Form.Control.Feedback>
                             </InputGroup>
                         </Form.Group>
-
-                        <Form.Group
-                            className="mb-3"
-                            controlId="signup-postalCode"
-                            style={{ maxWidth: "388px" }}
-                        >
-                            <Form.Label>{"우편번호 *"}</Form.Label>
-                            <Row>
-                                <Col xs={8}>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="text"
-                                            value={postalCode}
-                                            onChange={(e) => setPostalCode(e.target.value)}
-                                            readOnly={true}
-                                            placeholder="우편번호"
-                                        />
-                                    </InputGroup>
-                                </Col>
-                                <Col xs={4}>
-                                    <Button
-                                        variant="secondary"
-                                        onClick={handelShowDaumPostCodeModal}
-                                    >
-                                        {"주소찾기"}
-                                    </Button>
-                                </Col>
-                            </Row>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="signup-defaultAddress">
-                            <Form.Label>{"주소 *"}</Form.Label>
-                            <InputGroup>
-                                <Form.Control
-                                    type="text"
-                                    value={defaultAddress}
-                                    onChange={(e) => setDefaultAddress(e.target.value)}
-                                    readOnly={true}
-                                    placeholder="주소"
-                                />
-                            </InputGroup>
-                        </Form.Group>
-
-                        <Row className="mb-5">
-                            <Form.Group as={Col} xs={6} controlId="signup-detailAddress">
-                                <Form.Label>{"상세주소"}</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type="text"
-                                        ref={detailAddressRef}
-                                        value={detailAddress}
-                                        onChange={(e) => setDetailAddress(e.target.value)}
-                                        placeholder="상세주소"
-                                    />
-                                </InputGroup>
-                            </Form.Group>
-                            <Form.Group as={Col} xs={6} controlId="signup-extraAddress">
-                                <Form.Label>{"참고항목"}</Form.Label>
-                                <InputGroup>
-                                    <Form.Control
-                                        type="text"
-                                        value={extraAddress}
-                                        onChange={(e) => setExtraAddress(e.target.value)}
-                                        readOnly={true}
-                                        placeholder="참고항목"
-                                    />
-                                </InputGroup>
-                            </Form.Group>
-                        </Row>
-
                         <Form.Group className="mb-3">
                             {isError && (
                                 <div className="invalid-feedback" style={{ display: "block" }}>
@@ -575,14 +497,6 @@ export default function SignUp() {
                 </Container>
             </div>
             {isLoading && <Loader />}
-            <DaumPostCodeModal
-                showDaumPostCodeModal={showDaumPostCodeModal}
-                handleCloseDaumPostCodeModal={handleCloseDaumPostCodeModal}
-                setPostalCode={setPostalCode}
-                setDefaultAddress={setDefaultAddress}
-                setExtraAddress={setExtraAddress}
-                detailAddressRef={detailAddressRef}
-            />
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}

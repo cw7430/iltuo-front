@@ -1,4 +1,4 @@
-import { ProductDetailRequestDto, ProductListRequestDto } from "../../dto/request/Products";
+import { IdxSingleRequestDto } from "../../dto/request";
 import {
     ProductResponseDto,
     MajorCategoryResponseDto,
@@ -18,22 +18,22 @@ export const fetchRecommendedProductList = async () => {
     return apiGet<ProductResponseDto[]>(`${DOMAIN}/recommended_product_list`);
 };
 
-export const fetchMinerCategoryList = async (requestBody: ProductListRequestDto) => {
+export const fetchMinerCategoryList = async (requestBody: IdxSingleRequestDto) => {
     return apiGet<MinerCategoryResponseDto[]>(`${DOMAIN}/miner_category_list`, requestBody);
 };
 
-export const fetchProductList = async (requestBody: ProductListRequestDto) => {
+export const fetchProductList = async (requestBody: IdxSingleRequestDto) => {
     return apiGet<ProductResponseDto[]>(`${DOMAIN}/product_list`, requestBody);
 };
 
-export const fetchProductDetail = async (requestBody: ProductDetailRequestDto) => {
+export const fetchProductDetail = async (requestBody: IdxSingleRequestDto) => {
     return apiGet<ProductResponseDto>(`${DOMAIN}/product_detail`, requestBody);
 };
 
-export const fetchOptionList = async (requestBody: ProductListRequestDto) => {
+export const fetchOptionList = async (requestBody: IdxSingleRequestDto) => {
     return apiGet<OptionResponseDto[]>(`${DOMAIN}/option_list`, requestBody);
 };
 
-export const fetchOptionDetailList = async (requestBody: ProductListRequestDto) => {
+export const fetchOptionDetailList = async (requestBody: IdxSingleRequestDto) => {
     return apiGet<OptionDetailResponseDto[]>(`${DOMAIN}/option_detail_list`, requestBody);
 };

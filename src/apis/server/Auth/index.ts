@@ -2,6 +2,7 @@ import {
     NativeSignInRequestDto,
     UserIdDuplicateCheckRequestDto,
     NativeSignUpRequestDto,
+    AddressRequestDto,
 } from "../../dto/request/Auth";
 import { PlainResponseDto } from "../../dto/response";
 import {
@@ -45,4 +46,8 @@ export const fetchSocialProfile = async () => {
 
 export const fetchAddressList = async () => {
     return apiGet<AddressResponseDto[]>(`${DOMAIN}/address_list`);
-}
+};
+
+export const fetchAddAddress = async (requestBody: AddressRequestDto) => {
+    return apiPost<PlainResponseDto>(`${DOMAIN}/add_address`, requestBody);
+};

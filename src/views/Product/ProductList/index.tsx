@@ -53,10 +53,10 @@ export default function ProductList() {
                 setIsLoading(true);
                 try {
                     const minerCategoryResponse = await fetchMinerCategoryList({
-                        majorCategoryId: Number(majorCategoryId),
+                        idx: Number(majorCategoryId),
                     });
                     const productResponse = await fetchProductList({
-                        majorCategoryId: Number(majorCategoryId),
+                        idx: Number(majorCategoryId),
                     });
                     setMinerCategoryList(minerCategoryResponse);
                     setProductList(productResponse);

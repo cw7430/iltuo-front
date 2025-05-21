@@ -16,7 +16,9 @@ import { ApiError } from "../../../apis/server";
 import { MAIN_PATH } from "../../../constants/url";
 import { AlertModal } from "../../../components/Modals";
 import { Loader } from "../../../components/Gif";
-import { Button, Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
+import { convertUtcToLocalDate } from "../../../utils/convert";
+import { AddressFormCard } from "../../../components/Cards";
 
 export default function MyProfile() {
     const navigate = useNavigate();
@@ -28,6 +30,9 @@ export default function MyProfile() {
         NativeUserResponseDto | SocialUserResponseDto | undefined
     >(undefined);
     const [addressList, setAddressList] = useState<AddressResponseDto[]>([]);
+    const [checkedAddress, setcheckedAddress] = useState<number[]>([]);
+
+    const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
 
     const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
     const [alertTitle, setAlertTitle] = useState<string>("");
@@ -41,6 +46,12 @@ export default function MyProfile() {
     const handleCloseAlertModal = () => {
         setShowAlertModal(false);
         navigate(MAIN_PATH());
+    };
+
+    const handleCheck = (addressId: number, checked: boolean) => {
+        setcheckedAddress((prev) =>
+            checked ? [...prev, addressId] : prev.filter((id) => id !== addressId)
+        );
     };
 
     const fetchUserInfo = useCallback(async () => {
@@ -100,7 +111,11 @@ export default function MyProfile() {
                 <Container className="py-5">
                     <Row className="justify-content-center">
                         {/* 프로필 정보 카드 */}
-                        <Col md={6} className="mb-4" style={{minWidth:"480px", maxWidth:"600px"}}>
+                        <Col
+                            md={6}
+                            className="mb-4"
+                            style={{ minWidth: "480px", maxWidth: "600px" }}
+                        >
                             <Card>
                                 <Card.Header>
                                     <h5 className="mb-0">{"프로필 정보"}</h5>
@@ -121,14 +136,7 @@ export default function MyProfile() {
                                     <p>
                                         <strong>{"가입일: "}</strong>
                                         {profile?.registerDate
-                                            ? new Date(profile.registerDate)
-                                                  .toLocaleDateString("ko-KR", {
-                                                      year: "numeric",
-                                                      month: "2-digit",
-                                                      day: "2-digit",
-                                                  })
-                                                  .replaceAll(". ", "-")
-                                                  .replace(".", "")
+                                            ? convertUtcToLocalDate(profile.registerDate)
                                             : ""}
                                     </p>
                                 </Card.Body>
@@ -136,7 +144,11 @@ export default function MyProfile() {
                         </Col>
 
                         {/* 배송지 목록 카드 */}
-                        <Col md={6} className="mb-4" style={{minWidth:"480px" , maxWidth:"600px"}}>
+                        <Col
+                            md={6}
+                            className="mb-4"
+                            style={{ minWidth: "480px", maxWidth: "600px" }}
+                        >
                             <Card>
                                 <Card.Header>
                                     <h5 className="mb-0">{"배송지 목록"}</h5>
@@ -153,7 +165,19 @@ export default function MyProfile() {
                                                             xs={1}
                                                             className="d-flex align-items-center"
                                                         >
-                                                            {"체크"}
+                                                            <Form.Check
+                                                                type="checkbox"
+                                                                value={addr.addressId}
+                                                                checked={checkedAddress.includes(
+                                                                    addr.addressId
+                                                                )}
+                                                                onChange={(e) =>
+                                                                    handleCheck(
+                                                                        addr.addressId,
+                                                                        e.target.checked
+                                                                    )
+                                                                }
+                                                            />
                                                         </Col>
                                                         <Col xs={6}>
                                                             {addr.main && (
@@ -189,7 +213,6 @@ export default function MyProfile() {
                                                             </Button>
                                                         </Col>
                                                     </Row>
-                                                    {idx + 1 < addressList.length && <hr />}
                                                 </ListGroup.Item>
                                             ))}
                                         </ListGroup>
@@ -199,8 +222,14 @@ export default function MyProfile() {
                                     <Row className="text-end">
                                         <Col>
                                             {addressList.length < 5 && (
-                                                <Button type="button" variant="primary">
-                                                    {"주소추가"}
+                                                <Button
+                                                    type="button"
+                                                    variant={showAddressForm ? "danger" : "primary"}
+                                                    onClick={() =>
+                                                        setShowAddressForm((prev) => !prev)
+                                                    }
+                                                >
+                                                    {showAddressForm ? "취소" : "주소추가"}
                                                 </Button>
                                             )}
                                             <Button type="button" variant="danger" className="ms-2">
@@ -212,6 +241,13 @@ export default function MyProfile() {
                             </Card>
                         </Col>
                     </Row>
+                    {showAddressForm && (
+                        <Row className="justify-content-center">
+                            <Col className="mt-3" style={{ minWidth: "480px", maxWidth: "600px" }}>
+                                <AddressFormCard setShowAddressForm={setShowAddressForm} updateData={fetchUserInfo} />
+                            </Col>
+                        </Row>
+                    )}
                 </Container>
             </div>
             {loading && <Loader />}
