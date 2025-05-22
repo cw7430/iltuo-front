@@ -3,5 +3,5 @@ export default interface AddressRequestDto {
     defaultAddress: string;
     detailAddress: string | null;
     extraAddress: string | null;
-    isMain: boolean;
+    main: boolean;
 }

@@ -4,25 +4,24 @@ import {
     NativeUserResponseDto,
     SocialUserResponseDto,
 } from "../../../apis/dto/response/Auth";
-import { useNavigate } from "react-router-dom";
 import {
     fetchNativeProfile,
     fetchSocialProfile,
     fetchAddressList,
+    fetchCangeMainAddress,
+    fetchInvalidateAddress,
 } from "../../../apis/server/Auth";
 import { useAuthStore } from "../../../stores";
 import { logoutUser } from "../../../utils/auth";
 import { ApiError } from "../../../apis/server";
-import { MAIN_PATH } from "../../../constants/url";
-import { AlertModal } from "../../../components/Modals";
+import { AlertModal, ConfirmModal } from "../../../components/Modals";
 import { Loader } from "../../../components/Gif";
 import { Button, Card, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
-import { convertUtcToLocalDate } from "../../../utils/convert";
+import { convertAuthProvider, convertUtcToLocalDate } from "../../../utils/convert";
 import { AddressFormCard } from "../../../components/Cards";
+import { IdxRequestDto } from "../../../apis/dto/request";
 
 export default function MyProfile() {
-    const navigate = useNavigate();
-
     const authMethod = useAuthStore((state) => state.authMethod);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -30,7 +29,7 @@ export default function MyProfile() {
         NativeUserResponseDto | SocialUserResponseDto | undefined
     >(undefined);
     const [addressList, setAddressList] = useState<AddressResponseDto[]>([]);
-    const [checkedAddress, setcheckedAddress] = useState<number[]>([]);
+    const [checkedAddress, setCheckedAddress] = useState<number[]>([]);
 
     const [showAddressForm, setShowAddressForm] = useState<boolean>(false);
 
@@ -38,18 +37,35 @@ export default function MyProfile() {
     const [alertTitle, setAlertTitle] = useState<string>("");
     const [alertText, setAlertText] = useState<string>("");
 
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+    const [confirmTitle, setConfirmTitle] = useState<string>("");
+    const [confirmText, setConfirmText] = useState<string>("");
+    const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
     const handleShowAlertModal = (title: string, text: string) => {
         setAlertTitle(title);
         setAlertText(text);
         setShowAlertModal(true);
     };
-    const handleCloseAlertModal = () => {
-        setShowAlertModal(false);
-        navigate(MAIN_PATH());
+
+    const handleCloseAlertModal = () => setShowAlertModal(false);
+
+    const handleShowConfirmModal = (title: string, text: string, onConfirm: () => void) => {
+        setConfirmTitle(title);
+        setConfirmText(text);
+        setConfirmAction(() => () => {
+            onConfirm();
+            setShowConfirmModal(false);
+        });
+        setShowConfirmModal(true);
     };
 
+    const handleConfirm = () => confirmAction();
+
+    const handleCloseConfirmModal = () => setShowConfirmModal(false);
+
     const handleCheck = (addressId: number, checked: boolean) => {
-        setcheckedAddress((prev) =>
+        setCheckedAddress((prev) =>
             checked ? [...prev, addressId] : prev.filter((id) => id !== addressId)
         );
     };
@@ -98,6 +114,77 @@ export default function MyProfile() {
         fetchUserInfo();
     }, [fetchUserInfo]);
 
+    const handleChangeMainAddress = async (addressId: number) => {
+        handleShowConfirmModal("확인", "메인주소를 변경하시겠습니까?", async () => {
+            setLoading(true);
+            const requestBody: IdxRequestDto = { idx: addressId };
+
+            try {
+                const response = await fetchCangeMainAddress(requestBody);
+                if (response.success) {
+                    handleShowAlertModal("완료", "메인주소가 변경되었습니다.");
+                    fetchUserInfo();
+                }
+            } catch (e) {
+                if (e instanceof ApiError) {
+                    if (e.code === "UA") {
+                        handleShowAlertModal("세션만료", "세션이 만료되었습니다. 로그아웃합니다.");
+                        logoutUser();
+                    } else {
+                        handleShowAlertModal("오류", "서버 오류입니다. 나중에 다시 시도하세요.");
+                    }
+                }
+            } finally {
+                setLoading(false);
+            }
+        });
+    };
+
+    const handleDeleteAddress = async (addressIds: number[], type: "SINGLE" | "MULTIPLE") => {
+        handleShowConfirmModal(
+            "확인",
+            `${type === "MULTIPLE" ? "선택한 주소들을" : "주소를"} 삭제하시겠습니까?`,
+            async () => {
+                setLoading(true);
+                if (type === "MULTIPLE" && checkedAddress.length < 1) {
+                    handleShowAlertModal("경고", "체크된 주소가 없습니다.");
+                    return;
+                }
+                const responseBody: IdxRequestDto[] = addressIds.map((idx) => ({ idx: idx }));
+                try {
+                    const response = await fetchInvalidateAddress(responseBody);
+                    if (response.success) {
+                        handleShowAlertModal(
+                            "완료",
+                            `${type === "MULTIPLE" ? "선택한 주소들이" : "주소가"} 삭제되었습니다.`
+                        );
+
+                        setCheckedAddress([]);
+
+                        fetchUserInfo();
+                    }
+                } catch (e) {
+                    if (e instanceof ApiError) {
+                        if (e.code === "UA") {
+                            handleShowAlertModal(
+                                "세션만료",
+                                "세션이 만료되었습니다. 로그아웃합니다."
+                            );
+                            logoutUser();
+                        } else {
+                            handleShowAlertModal(
+                                "오류",
+                                "서버 오류입니다. 나중에 다시 시도하세요."
+                            );
+                        }
+                    }
+                } finally {
+                    setLoading(false);
+                }
+            }
+        );
+    };
+
     return (
         <>
             <div className="coffee_section layout_padding">
@@ -124,9 +211,21 @@ export default function MyProfile() {
                                     <p>
                                         <strong>{"이름: "}</strong> {profile?.userName}
                                     </p>
-                                    <p>
-                                        <strong>{"아이디: "}</strong> {profile?.userId}
-                                    </p>
+                                    {profile &&
+                                        (authMethod === "NATIVE" ? (
+                                            <p>
+                                                <strong>{"아이디: "}</strong>{" "}
+                                                {"userId" in profile ? profile.userId : ""}
+                                            </p>
+                                        ) : (
+                                            <p>
+                                                <strong>{"인증 수단: "}</strong>{" "}
+                                                {"authProvider" in profile
+                                                    ? convertAuthProvider(profile.authProvider)
+                                                    : ""}
+                                            </p>
+                                        ))}
+
                                     <p>
                                         <strong>{"이메일: "}</strong> {profile?.email}
                                     </p>
@@ -140,6 +239,25 @@ export default function MyProfile() {
                                             : ""}
                                     </p>
                                 </Card.Body>
+                                {authMethod === "NATIVE" && (
+                                    <Card.Footer>
+                                        <Row className="text-end">
+                                            <Col>
+                                                <Button type="button" variant="primary">
+                                                    {"회원정보 변경"}
+                                                </Button>
+
+                                                <Button
+                                                    type="button"
+                                                    variant="danger"
+                                                    className="ms-2"
+                                                >
+                                                    {"비밀번호 변경"}
+                                                </Button>
+                                            </Col>
+                                        </Row>
+                                    </Card.Footer>
+                                )}
                             </Card>
                         </Col>
 
@@ -200,6 +318,11 @@ export default function MyProfile() {
                                                                 <Button
                                                                     type="button"
                                                                     variant="warning"
+                                                                    onClick={() =>
+                                                                        handleChangeMainAddress(
+                                                                            addr.addressId
+                                                                        )
+                                                                    }
                                                                 >
                                                                     {"메인지정"}
                                                                 </Button>
@@ -208,6 +331,12 @@ export default function MyProfile() {
                                                                 type="button"
                                                                 variant="danger"
                                                                 className="ms-2"
+                                                                onClick={() =>
+                                                                    handleDeleteAddress(
+                                                                        [addr.addressId],
+                                                                        "SINGLE"
+                                                                    )
+                                                                }
                                                             >
                                                                 {"삭제"}
                                                             </Button>
@@ -232,7 +361,14 @@ export default function MyProfile() {
                                                     {showAddressForm ? "취소" : "주소추가"}
                                                 </Button>
                                             )}
-                                            <Button type="button" variant="danger" className="ms-2">
+                                            <Button
+                                                type="button"
+                                                variant="danger"
+                                                className="ms-2"
+                                                onClick={() =>
+                                                    handleDeleteAddress(checkedAddress, "MULTIPLE")
+                                                }
+                                            >
                                                 {"선택삭제"}
                                             </Button>
                                         </Col>
@@ -244,7 +380,10 @@ export default function MyProfile() {
                     {showAddressForm && (
                         <Row className="justify-content-center">
                             <Col className="mt-3" style={{ minWidth: "480px", maxWidth: "600px" }}>
-                                <AddressFormCard setShowAddressForm={setShowAddressForm} updateData={fetchUserInfo} />
+                                <AddressFormCard
+                                    setShowAddressForm={setShowAddressForm}
+                                    updateData={fetchUserInfo}
+                                />
                             </Col>
                         </Row>
                     )}
@@ -256,6 +395,13 @@ export default function MyProfile() {
                 handleCloseAlertModal={handleCloseAlertModal}
                 alertTitle={alertTitle}
                 alertText={alertText}
+            />
+            <ConfirmModal
+                showConfirmModal={showConfirmModal}
+                handleCloseConfirmModal={handleCloseConfirmModal}
+                handleConfirm={handleConfirm}
+                confirmTitle={confirmTitle}
+                confirmText={confirmText}
             />
         </>
     );

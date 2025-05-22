@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { DaumPostCodeModal, ConfirmModal } from "../../Modals";
+import { DaumPostCodeModal, ConfirmModal, AlertModal } from "../../Modals";
 import { Loader } from "../../Gif";
 import { fetchAddAddress } from "../../../apis/server/Auth";
 import { AddressRequestDto } from "../../../apis/dto/request/Auth";
 import { ApiError } from "../../../apis/server";
+import { logoutUser } from "../../../utils/auth";
 
 interface Props {
     setShowAddressForm: Dispatch<SetStateAction<boolean>>;
@@ -29,16 +30,28 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
         defaultAddress: defaultAddress,
         detailAddress: detailAddress,
         extraAddress: extraAddress,
-        isMain: main,
+        main: main,
     };
 
     const [showDaumPostCodeModal, setShowDaumPostCodeModal] = useState<boolean>(false);
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
+    const [alertTitle, setAlertTitle] = useState<string>("");
+    const [alertText, setAlertText] = useState<string>("");
+
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
     const handelShowDaumPostCodeModal = () => setShowDaumPostCodeModal(true);
 
     const handleCloseDaumPostCodeModal = () => setShowDaumPostCodeModal(false);
+
+    const handleShowAlertModal = (title: string, text: string) => {
+        setAlertTitle(title);
+        setAlertText(text);
+        setShowAlertModal(true);
+    };
+
+    const handleCloseAlertModal = () => setShowAlertModal(false);
 
     const handleShowConfirmModal = () => setShowConfirmModal(true);
 
@@ -59,6 +72,7 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
         try {
             const response = await fetchAddAddress(requestBody);
             if (response) {
+                handleShowAlertModal("완료", "주소가 등록되었습니다.");
                 updateData();
                 setShowAddressForm(false);
             }
@@ -66,6 +80,9 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
             if (e instanceof ApiError) {
                 if (e.code === "VE") {
                     setIsAddressError(true);
+                } if (e.code === "UA") {
+                    handleShowAlertModal("세션만료", "세션이 만료되었습니다. 로그아웃합니다.");
+                    logoutUser();
                 } else {
                     setIsError(true);
                     setErrorMessage("서버 오류입니다. 나중에 다시 시도하세요.");
@@ -178,6 +195,12 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
                 setDetailAddress={setDetailAddress}
                 setExtraAddress={setExtraAddress}
                 detailAddressRef={detailAddressRef}
+            />
+            <AlertModal
+                showAlertModal={showAlertModal}
+                handleCloseAlertModal={handleCloseAlertModal}
+                alertTitle={alertTitle}
+                alertText={alertText}
             />
             <ConfirmModal
                 confirmTitle="확인"

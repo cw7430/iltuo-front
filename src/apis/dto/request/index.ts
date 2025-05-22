@@ -1,3 +1,3 @@
-import IdxSingleRequestDto from "./idx_single.request.dto";
+import IdxRequestDto from "./idx.request.dto";
 
-export type { IdxSingleRequestDto };
+export type { IdxRequestDto };

@@ -1,8 +1,11 @@
+import { IdxRequestDto } from "../../dto/request";
 import {
     NativeSignInRequestDto,
     UserIdDuplicateCheckRequestDto,
     NativeSignUpRequestDto,
     AddressRequestDto,
+    PasswordRequestDto,
+    ProfileRequestDto,
 } from "../../dto/request/Auth";
 import { PlainResponseDto } from "../../dto/response";
 import {
@@ -48,6 +51,22 @@ export const fetchAddressList = async () => {
     return apiGet<AddressResponseDto[]>(`${DOMAIN}/address_list`);
 };
 
+export const fetchChangePassword = async (requestBody: PasswordRequestDto) => {
+    return apiPost<PlainResponseDto>(`${DOMAIN}/change_password`, requestBody);
+};
+
+export const fetchChangeProfile = async (requestBody: ProfileRequestDto) => {
+    return apiPost<PlainResponseDto>(`${DOMAIN}/change_profile`, requestBody);
+};
+
 export const fetchAddAddress = async (requestBody: AddressRequestDto) => {
     return apiPost<PlainResponseDto>(`${DOMAIN}/add_address`, requestBody);
+};
+
+export const fetchCangeMainAddress = async (requestBody: IdxRequestDto) => {
+    return apiPost<PlainResponseDto>(`${DOMAIN}/change_main_address`, requestBody);
+};
+
+export const fetchInvalidateAddress = async (requestBody: IdxRequestDto[]) => {
+    return apiPost<PlainResponseDto>(`${DOMAIN}/invalidate_addresses`, requestBody);
 };

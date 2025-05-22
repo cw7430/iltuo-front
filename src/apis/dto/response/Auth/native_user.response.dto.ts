@@ -1,5 +1,5 @@
 import { NativeAuth, User } from "../../../../typs/interface/auth";
 
-type NativeUserResponseDto = Omit<User & NativeAuth, "isValid"|"password">;
+type NativeUserResponseDto = Omit<User & NativeAuth, "valid"|"password">;
 
 export default NativeUserResponseDto;
