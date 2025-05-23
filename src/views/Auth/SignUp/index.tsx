@@ -384,6 +384,7 @@ export default function SignUp() {
                                 />
                                 <Button
                                     variant="outline-secondary"
+                                    type="button"
                                     onClick={handleChangePasswordType}
                                 >
                                     {passwordType === "password" && <EyeOn />}
@@ -410,6 +411,7 @@ export default function SignUp() {
                                 />
                                 <Button
                                     variant="outline-secondary"
+                                    type="button"
                                     onClick={handleChangeCheckPasswordType}
                                 >
                                     {checkPasswordType === "password" && <EyeOn />}
@@ -489,7 +491,7 @@ export default function SignUp() {
                         </Form.Group>
 
                         <div className="d-grid gap-2">
-                            <Button variant="primary" size="lg" onClick={handleValidateTotal}>
+                            <Button variant="primary" type="button" size="lg" onClick={handleValidateTotal}>
                                 {"회원가입"}
                             </Button>
                         </div>

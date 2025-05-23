@@ -167,7 +167,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                                 onKeyDown={handlePasswordKeyDown}
                                 isInvalid={isPasswordError}
                             />
-                            <Button variant="outline-secondary" onClick={handleChangePasswordType}>
+                            <Button variant="outline-secondary" type="button" onClick={handleChangePasswordType}>
                                 {passwordType === "password" && <EyeOn />}
                                 {passwordType === "text" && <EyeOff />}
                             </Button>
@@ -186,7 +186,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                     {isLoading && <Loader />}
 
                     <div className="d-grid gap-2 mb-3">
-                        <Button variant="primary" onClick={handleValidate}>
+                        <Button variant="primary" type="button" onClick={handleValidate}>
                             {"로그인"}
                         </Button>
                     </div>
@@ -217,7 +217,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleCloseLogInModal}>
+                <Button variant="danger" type="button" onClick={handleCloseLogInModal}>
                     {"닫기"}
                 </Button>
             </Modal.Footer>

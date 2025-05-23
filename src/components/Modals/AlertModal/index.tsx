@@ -26,7 +26,7 @@ const AlertModal: FC<props> = ({
             </Modal.Header>
             <Modal.Body>{alertText}</Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleCloseAlertModal}>
+                <Button variant="primary" type="button" onClick={handleCloseAlertModal}>
                     {"확인"}
                 </Button>
             </Modal.Footer>

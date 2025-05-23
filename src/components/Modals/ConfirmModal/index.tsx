@@ -28,10 +28,10 @@ const ConfirmModal: FC<props> = ({
             </Modal.Header>
             <Modal.Body>{confirmText}</Modal.Body>
             <Modal.Footer>
-                <Button variant="success" onClick={handleConfirm}>
+                <Button variant="success" type="button" onClick={handleConfirm}>
                     {"확인"}
                 </Button>
-                <Button variant="danger" onClick={handleCloseConfirmModal}>
+                <Button variant="danger" type="button" onClick={handleCloseConfirmModal}>
                     {"취소"}
                 </Button>
             </Modal.Footer>

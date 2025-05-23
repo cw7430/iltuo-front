@@ -14,7 +14,12 @@ import {
 import { useAuthStore } from "../../../stores";
 import { logoutUser } from "../../../utils/auth";
 import { ApiError } from "../../../apis/server";
-import { AlertModal, ConfirmModal } from "../../../components/Modals";
+import {
+    AlertModal,
+    ConfirmModal,
+    ChangePasswordModal,
+    ChangeProfileModal,
+} from "../../../components/Modals";
 import { Loader } from "../../../components/Gif";
 import { Button, Card, Col, Container, Form, ListGroup, Row } from "react-bootstrap";
 import { convertAuthProvider, convertUtcToLocalDate } from "../../../utils/convert";
@@ -41,6 +46,10 @@ export default function MyProfile() {
     const [confirmTitle, setConfirmTitle] = useState<string>("");
     const [confirmText, setConfirmText] = useState<string>("");
     const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState<boolean>(false);
+
+    const [showChangeProfileModal, setShowChangeProfileModal] = useState<boolean>(false);
 
     const handleShowAlertModal = (title: string, text: string) => {
         setAlertTitle(title);
@@ -69,6 +78,14 @@ export default function MyProfile() {
             checked ? [...prev, addressId] : prev.filter((id) => id !== addressId)
         );
     };
+
+    const handleShowChangePasswordModal = () => setShowChangePasswordModal(true);
+
+    const handleCloseChangePasswordModal = () => setShowChangePasswordModal(false);
+
+    const handleShowChangeProfileModal = () => setShowChangeProfileModal(true);
+
+    const handleCloseChangeProfileModal = () => setShowChangeProfileModal(false);
 
     const fetchUserInfo = useCallback(async () => {
         setLoading(true);
@@ -208,9 +225,6 @@ export default function MyProfile() {
                                     <h5 className="mb-0">{"프로필 정보"}</h5>
                                 </Card.Header>
                                 <Card.Body>
-                                    <p>
-                                        <strong>{"이름: "}</strong> {profile?.userName}
-                                    </p>
                                     {profile &&
                                         (authMethod === "NATIVE" ? (
                                             <p>
@@ -225,7 +239,9 @@ export default function MyProfile() {
                                                     : ""}
                                             </p>
                                         ))}
-
+                                    <p>
+                                        <strong>{"이름: "}</strong> {profile?.userName}
+                                    </p>
                                     <p>
                                         <strong>{"이메일: "}</strong> {profile?.email}
                                     </p>
@@ -243,7 +259,11 @@ export default function MyProfile() {
                                     <Card.Footer>
                                         <Row className="text-end">
                                             <Col>
-                                                <Button type="button" variant="primary">
+                                                <Button
+                                                    type="button"
+                                                    variant="primary"
+                                                    onClick={handleShowChangeProfileModal}
+                                                >
                                                     {"회원정보 변경"}
                                                 </Button>
 
@@ -251,6 +271,7 @@ export default function MyProfile() {
                                                     type="button"
                                                     variant="danger"
                                                     className="ms-2"
+                                                    onClick={handleShowChangePasswordModal}
                                                 >
                                                     {"비밀번호 변경"}
                                                 </Button>
@@ -403,6 +424,23 @@ export default function MyProfile() {
                 confirmTitle={confirmTitle}
                 confirmText={confirmText}
             />
+            {authMethod === "NATIVE" && (
+                <ChangePasswordModal
+                    showChangePasswordModal={showChangePasswordModal}
+                    handleCloseChangePasswordModal={handleCloseChangePasswordModal}
+                />
+            )}
+            {authMethod === "NATIVE" && profile && (
+                <ChangeProfileModal
+                    showChangeProfileModal={showChangeProfileModal}
+                    handleCloseChangeProfileModal={handleCloseChangeProfileModal}
+                    updateData={fetchUserInfo}
+                    userId={profile.userId}
+                    userName={profile.userName}
+                    phoneNumber={profile.phoneNumber}
+                    email={profile.email}
+                />
+            )}
         </>
     );
 }

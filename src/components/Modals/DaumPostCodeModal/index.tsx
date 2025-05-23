@@ -91,7 +91,7 @@ const DaumPostCodeModal: FC<props> = ({
                 )}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={handleCloseDaumPostCodeModal}>
+                <Button variant="danger" type="button" onClick={handleCloseDaumPostCodeModal}>
                     {"닫기"}
                 </Button>
             </Modal.Footer>
