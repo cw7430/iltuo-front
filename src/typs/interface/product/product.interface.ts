@@ -7,6 +7,6 @@ export default interface Product {
     price: number;
     discountedRate: number;
     recommended: boolean;
-    registerDate: string;
+    registerDate: Date;
     valid: boolean;
 }

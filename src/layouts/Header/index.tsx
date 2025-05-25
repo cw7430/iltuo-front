@@ -10,7 +10,7 @@ interface Props {
     handelLogout: () => void;
 }
 
-const Header: FC<Props> = ({handelLogout}) => {
+const Header: FC<Props> = ({ handelLogout }) => {
     const { pathname } = useLocation();
 
     const navigate = useNavigate();
@@ -65,7 +65,13 @@ const Header: FC<Props> = ({handelLogout}) => {
                                 {isLoggedIn && (
                                     <>
                                         <Nav.Link href="#">{"주문내역"}</Nav.Link>
-                                        <Nav.Link href="#">{"장바구니"}</Nav.Link>
+                                        <Nav.Link
+                                            as={Link}
+                                            to={PLAIN_PATH("cart", null)}
+                                            active={pathname === PLAIN_PATH("cart", null)}
+                                        >
+                                            {"장바구니"}
+                                        </Nav.Link>
                                     </>
                                 )}
                             </Nav>
@@ -75,7 +81,10 @@ const Header: FC<Props> = ({handelLogout}) => {
                                         {isLoggedIn && (
                                             <>
                                                 <Col xs={6}>
-                                                    <button type="button" onClick={handleNavigateProfilePage}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleNavigateProfilePage}
+                                                    >
                                                         <span className="user_icon">
                                                             <i
                                                                 className="fa fa-user"
@@ -86,14 +95,19 @@ const Header: FC<Props> = ({handelLogout}) => {
                                                     </button>
                                                 </Col>
                                                 <Col xs={6}>
-                                                    <button type="button" onClick={handelLogout}>{"로그아웃"}</button>
+                                                    <button type="button" onClick={handelLogout}>
+                                                        {"로그아웃"}
+                                                    </button>
                                                 </Col>
                                             </>
                                         )}
                                         {!isLoggedIn && (
                                             <>
                                                 <Col xs={6}>
-                                                    <button type="button" onClick={handleShowLoginModal}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleShowLoginModal}
+                                                    >
                                                         <span className="user_icon">
                                                             <i
                                                                 className="fa fa-user"
@@ -104,7 +118,10 @@ const Header: FC<Props> = ({handelLogout}) => {
                                                     </button>
                                                 </Col>
                                                 <Col xs={6}>
-                                                    <button type="button" onClick={handleNavigateSignUpPage}>
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleNavigateSignUpPage}
+                                                    >
                                                         {"회원가입"}
                                                     </button>
                                                 </Col>
@@ -139,6 +156,6 @@ const Header: FC<Props> = ({handelLogout}) => {
             />
         </>
     );
-}
+};
 
 export default Header;

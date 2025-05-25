@@ -24,6 +24,7 @@ import { Loader } from "./components/Gif";
 import { AlertModal } from "./components/Modals";
 import OAuthSuccess from "./OAuthSuccess";
 import MyProfile from "./views/Auth/MyProfile";
+import Cart from "./views/Order/Cart";
 
 function App() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -115,6 +116,14 @@ function App() {
                             element={
                                 <PrivateRoute>
                                     <MyProfile />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path={PLAIN_PATH("cart", null)}
+                            element={
+                                <PrivateRoute>
+                                    <Cart />
                                 </PrivateRoute>
                             }
                         />

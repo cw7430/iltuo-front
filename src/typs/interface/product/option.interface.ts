@@ -3,6 +3,6 @@ export default interface Option {
     majorCategoryId: number;
     priorityIndex: number;
     optionName: string;
-    optionTypeCode: string;
+    optionTypeCode: "OPT001 | OPT002";
     valid: boolean;
 }
