@@ -1,4 +1,4 @@
-import CartListResponseDto from "./cart_list.response.dto";
-import CartOptionListResponseDto from "./cart_option_list.response.dto";
+import CartResponseDto from "./cart.response.dto";
+import CartOptionResponseDto from "./cart_option.response.dto";
 
-export type { CartListResponseDto, CartOptionListResponseDto };
+export type { CartResponseDto, CartOptionResponseDto };

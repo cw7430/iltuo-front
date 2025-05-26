@@ -4,7 +4,6 @@ import { Product } from "../../../../typs/interface/product";
 type CartOmit = "cartDate";
 
 type ProductOmit =
-    | "productCode"
     | "minerCategoryId"
     | "productComments"
     | "discountedRate"
@@ -16,6 +15,6 @@ type OmitedCart = Omit<Cart, CartOmit>;
 
 type OmitedProduct = Omit<Product, ProductOmit>;
 
-type CartListResponseDto = OmitedCart & OmitedProduct;
+type CartResponseDto = OmitedCart & OmitedProduct;
 
-export default CartListResponseDto;
+export default CartResponseDto;

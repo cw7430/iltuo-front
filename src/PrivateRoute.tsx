@@ -36,6 +36,7 @@ const PrivateRoute = ({ children }: Props) => {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleCloseAlertModal}
                 alertTitle="로그인 필요"
                 alertText="로그인이 필요한 페이지입니다."
             />

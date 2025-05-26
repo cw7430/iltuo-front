@@ -44,6 +44,7 @@ export default function OAuthSuccess() {
         <AlertModal
             showAlertModal={showAlertModal}
             handleCloseAlertModal={handleCloseAlertModal}
+            handleAfterAlert={handleCloseAlertModal}
             alertTitle={alertTitle}
             alertText={alertText}
         />

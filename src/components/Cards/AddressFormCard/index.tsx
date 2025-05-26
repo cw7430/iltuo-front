@@ -199,6 +199,7 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleCloseAlertModal}
                 alertTitle={alertTitle}
                 alertText={alertText}
             />

@@ -36,6 +36,7 @@ const AdminRoute = ({ children }: Props) => {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleCloseAlertModal}
                 alertTitle="접근 불가"
                 alertText="관리자만 접근 가능한 페이지입니다."
             />

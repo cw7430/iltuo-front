@@ -76,10 +76,12 @@ export default function SignUp() {
         setShowAlertModal(true);
     };
 
-    const handleCloseAlertModal = () => {
+    const handleCloseAlertModal = () => setShowAlertModal(false);
+
+    const handleAfterAlert = () => {
         setShowAlertModal(false);
         navigete(MAIN_PATH());
-    };
+    }
 
     const handleValidateUserId = async (): Promise<boolean> => {
         setIsUserIdValid(false);
@@ -502,6 +504,7 @@ export default function SignUp() {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleAfterAlert}
                 alertTitle={alertTitle}
                 alertText={alertText}
             />

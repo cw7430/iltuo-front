@@ -59,11 +59,13 @@ const ChangeProfileModal: FC<Props> = (props) => {
 
     const handleShowAlertModal = () => setShowAlertModal(true);
 
-    const handleCloseAlertModal = () => {
+    const handleCloseAlertModal = () => setShowAlertModal(false);
+
+    const handleAfterAlert = () => {
         setShowAlertModal(false);
         updateData();
         handleCloseChangeProfileModal();
-    };
+    }
 
     const handleChangePasswordType = () => {
         setPasswordType((prevType) => (prevType === "password" ? "text" : "password"));
@@ -316,6 +318,7 @@ const ChangeProfileModal: FC<Props> = (props) => {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleAfterAlert}
                 alertTitle="완료"
                 alertText="프로필이 변경되었습니다."
             />

@@ -21,16 +21,19 @@ import SignUp from "./views/Auth/SignUp";
 import { fetchLogout, fetchRefresh } from "./apis/server/Auth";
 import { logoutUser, refreshToken } from "./utils/auth";
 import { Loader } from "./components/Gif";
-import { AlertModal } from "./components/Modals";
+import { AlertModal, LogInModal } from "./components/Modals";
 import OAuthSuccess from "./OAuthSuccess";
 import MyProfile from "./views/Auth/MyProfile";
 import Cart from "./views/Order/Cart";
 
 function App() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
     const [alertTitle, setAlertTitle] = useState<string>("");
     const [alertText, setAlertText] = useState<string>("");
+
+    const [showLogInModal, setShowLogInModal] = useState<boolean>(false);
 
     const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
     const accessTokenExpiresAt = useAuthStore((state) => state.accessTokenExpiresAt);
@@ -52,6 +55,10 @@ function App() {
     };
 
     const handleCloseAlertModal = () => setShowAlertModal(false);
+
+    const handleShowLoginModal = () => setShowLogInModal(true);
+
+    const handleCloseLogInModal = () => setShowLogInModal(false);
 
     useEffect(() => {
         if (!isLoggedIn || !accessTokenExpiresAt) return;
@@ -96,7 +103,14 @@ function App() {
         <AuthInitializer>
             <AppInitializer>
                 <Routes>
-                    <Route element={<Layout handelLogout={handelLogout} />}>
+                    <Route
+                        element={
+                            <Layout
+                                handelLogout={handelLogout}
+                                handleShowLoginModal={handleShowLoginModal}
+                            />
+                        }
+                    >
                         <Route path={MAIN_PATH()} element={<Main />} />
                         <Route
                             path={LIST_PATH("product", ":majorCategoryId")}
@@ -104,7 +118,7 @@ function App() {
                         />
                         <Route
                             path={DETAIL_PATH("product", ":productId")}
-                            element={<ProuctDetail />}
+                            element={<ProuctDetail handleShowLoginModal={handleShowLoginModal} />}
                         />
                         <Route path={PLAIN_PATH("sign_up", null)} element={<SignUp />} />
                         <Route
@@ -134,8 +148,13 @@ function App() {
                 <AlertModal
                     showAlertModal={showAlertModal}
                     handleCloseAlertModal={handleCloseAlertModal}
+                    handleAfterAlert={handleCloseAlertModal}
                     alertTitle={alertTitle}
                     alertText={alertText}
+                />
+                <LogInModal
+                    showLogInModal={showLogInModal}
+                    handleCloseLogInModal={handleCloseLogInModal}
                 />
             </AppInitializer>
         </AuthInitializer>

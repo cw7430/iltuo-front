@@ -51,10 +51,12 @@ const ChangePasswordModal: FC<Props> = ({
 
     const handleShowAlertModal = () => setShowAlertModal(true);
 
-    const handleCloseAlertModal = () => {
+    const handleCloseAlertModal = () => setShowAlertModal(false);
+
+    const handleAfterAlert = () => {
         setShowAlertModal(false);
         handleCloseChangePasswordModal();
-    };
+    }
 
     const handlePrevPasswordKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== "Enter") return;
@@ -337,6 +339,7 @@ const ChangePasswordModal: FC<Props> = ({
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleAfterAlert}
                 alertTitle="완료"
                 alertText="비밀번호가 변경되었습니다."
             />

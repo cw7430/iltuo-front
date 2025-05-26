@@ -414,6 +414,7 @@ export default function MyProfile() {
             <AlertModal
                 showAlertModal={showAlertModal}
                 handleCloseAlertModal={handleCloseAlertModal}
+                handleAfterAlert={handleCloseAlertModal}
                 alertTitle={alertTitle}
                 alertText={alertText}
             />

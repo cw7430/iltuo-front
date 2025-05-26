@@ -15,6 +15,6 @@ type OmitedOptionDetail = Omit<OptionDetail, OptionDetailOmit>;
 
 type OmitedOption = Omit<Option, OptionOmit>;
 
-type CartOptionListResponseDto = CartOption & OmitedCart & OmitedOptionDetail & OmitedOption;
+type CartOptionResponseDto = CartOption & OmitedCart & OmitedOptionDetail & OmitedOption;
 
-export default CartOptionListResponseDto;
+export default CartOptionResponseDto;
