@@ -17,7 +17,7 @@ import {
 import { AlertModal, ConfirmModal } from "../../../components/Modals";
 import { useAuthStore } from "../../../stores";
 import { fetchAddCart } from "../../../apis/server/Order";
-import { AddCartRequestDto } from "../../../apis/dto/request/Order";
+import { AddOrderRequestDto } from "../../../apis/dto/request/Order";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
 
@@ -222,7 +222,7 @@ const ProuctDetail: FC<Props> = ({ handleShowLoginModal }) => {
             return;
         }
 
-        const requestBody: AddCartRequestDto = {
+        const requestBody: AddOrderRequestDto = {
             productId: product.productId,
             quantity: Number(quantityRef.current.value),
             options: optionDetailIdArray.map((idx) => ({ idx: idx })),

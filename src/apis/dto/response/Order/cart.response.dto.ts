@@ -1,20 +1,12 @@
-import { Cart } from "../../../../typs/interface/order";
-import { Product } from "../../../../typs/interface/product";
+import CartOptionResponseDto from "./cart_option.response.dto";
 
-type CartOmit = "cartDate";
-
-type ProductOmit =
-    | "minerCategoryId"
-    | "productComments"
-    | "discountedRate"
-    | "recommended"
-    | "registerDate"
-    | "valid";
-
-type OmitedCart = Omit<Cart, CartOmit>;
-
-type OmitedProduct = Omit<Product, ProductOmit>;
-
-type CartResponseDto = OmitedCart & OmitedProduct;
-
-export default CartResponseDto;
+export default interface CartResponseDto {
+    cartId: number;
+    productId: number;
+    productName: string;
+    productCode: string;
+    userIdx: number;
+    price: number;
+    quantity: number;
+    options: CartOptionResponseDto[];
+}

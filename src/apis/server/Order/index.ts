@@ -1,7 +1,7 @@
 import { IdxRequestDto } from "../../dto/request";
-import { AddCartRequestDto } from "../../dto/request/Order";
+import { AddOrderRequestDto } from "../../dto/request/Order";
 import { PlainResponseDto } from "../../dto/response";
-import { CartResponseDto, CartOptionResponseDto } from "../../dto/response/Order";
+import { CartResponseDto } from "../../dto/response/Order";
 import { apiGet, apiPost } from "../api.response";
 
 const DOMAIN = "/order";
@@ -10,11 +10,7 @@ export const fetchCartList = async () => {
     return apiGet<CartResponseDto[]>(`${DOMAIN}/cart`);
 };
 
-export const fetchCartOptionList = async () => {
-    return apiGet<CartOptionResponseDto[]>(`${DOMAIN}/cart_options`);
-};
-
-export const fetchAddCart = async (requestBody: AddCartRequestDto) => {
+export const fetchAddCart = async (requestBody: AddOrderRequestDto) => {
     return apiPost<PlainResponseDto>(`${DOMAIN}/add_cart`, requestBody);
 };
 

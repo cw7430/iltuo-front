@@ -1,14 +1,12 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import { Card } from "react-bootstrap";
-import { CartResponseDto, CartOptionResponseDto } from "../../../apis/dto/response/Order";
+import { CartResponseDto } from "../../../apis/dto/response/Order";
 import CartItems from "./CartItems";
 
 type CartProps = {
     type: "cart";
     cartItems: CartResponseDto[];
-    cartOptions: CartOptionResponseDto[];
     handleDeleteCart: (cartId: number) => void;
-    setTotalItemsPrice: Dispatch<SetStateAction<number>>;
 };
 
 type Props = CartProps;
@@ -23,9 +21,7 @@ const SelectedItemsCard: FC<Props> = (props: Props) => {
                 {props.type === "cart" && (
                     <CartItems
                         cartItems={props.cartItems}
-                        cartOptions={props.cartOptions}
                         handleDeleteCart={props.handleDeleteCart}
-                        setTotalItemsPrice={props.setTotalItemsPrice}
                     />
                 )}
             </Card.Body>

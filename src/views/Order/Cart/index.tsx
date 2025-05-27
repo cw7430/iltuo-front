@@ -1,19 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Loader } from "../../../components/Gif";
-import { CartOptionResponseDto, CartResponseDto } from "../../../apis/dto/response/Order";
-import { fetchCartList, fetchCartOptionList, fetchDeleteCart } from "../../../apis/server/Order";
+import { CartResponseDto } from "../../../apis/dto/response/Order";
+import { fetchCartList, fetchDeleteCart } from "../../../apis/server/Order";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
 import { AlertModal } from "../../../components/Modals";
-import { SelectedItemsCard } from "../../../components/Cards";
+import { SelectedItemsCard, TotalPriceCard } from "../../../components/Cards";
 import { IdxRequestDto } from "../../../apis/dto/request";
 
 export default function Cart() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [cartList, setCartList] = useState<CartResponseDto[]>([]);
-    const [cartOptionList, setCartOptionList] = useState<CartOptionResponseDto[]>([]);
-    const [totalItemsPrice, setTotalItemsPrice] = useState<number>(0);
+    const [totalPrice, setTotalPrice] = useState<number>(0);
 
     const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
     const [alertTitle, setAlertTitle] = useState<string>("");
@@ -39,9 +38,9 @@ export default function Cart() {
 
         try {
             const cartData = await fetchCartList();
-            const cartOptionData = await fetchCartOptionList();
+            const sum = cartData.reduce((acc, cart) => acc + cart.price, 0);
             setCartList(cartData);
-            setCartOptionList(cartOptionData);
+            setTotalPrice(sum);
         } catch (e) {
             if (e instanceof ApiError) {
                 if (e.code === "UA") {
@@ -118,51 +117,11 @@ export default function Cart() {
                         <SelectedItemsCard
                             type="cart"
                             cartItems={cartList}
-                            cartOptions={cartOptionList}
                             handleDeleteCart={handleDeleteCart}
-                            setTotalItemsPrice={setTotalItemsPrice}
                         />
                     </Col>
                     <Col lg={4}>
-                        <Card>
-                            <Card.Header>
-                                <h4>{"주문 요약"}</h4>
-                            </Card.Header>
-                            <Card.Body>
-                                <Row>
-                                    <Col className="text-start">
-                                        <p>{"총 상품가격: "}</p>
-                                    </Col>
-                                    <Col className="text-end">
-                                        <p>{"총 상품가격"}</p>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className="text-start">
-                                        <p>{"배송비: "}</p>
-                                    </Col>
-                                    <Col className="text-end">
-                                        <p>{"배송비"}</p>
-                                    </Col>
-                                </Row>
-                                <hr />
-                                <Row>
-                                    <Col className="text-start">
-                                        <h5>{"총 주문금액: "}</h5>
-                                    </Col>
-                                    <Col className="text-end">
-                                        <h5>{"총 주문금액"}</h5>
-                                    </Col>
-                                </Row>
-                            </Card.Body>
-                            <Card.Footer>
-                                <div className="d-grid gap-2">
-                                    <Button variant="primary" type="button">
-                                        {"주문하기"}
-                                    </Button>
-                                </div>
-                            </Card.Footer>
-                        </Card>
+                        <TotalPriceCard type="cart" totalPrice={totalPrice} />
                     </Col>
                 </Row>
             </Container>

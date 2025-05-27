@@ -1,6 +1,6 @@
 import IdxRequestDto from "../idx.request.dto";
 
-export default interface AddCartRequestDto {
+export default interface AddOrderRequestDto {
     productId: number;
     quantity: number;
     options: IdxRequestDto[];

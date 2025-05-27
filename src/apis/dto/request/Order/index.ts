@@ -1,3 +1,3 @@
-import AddCartRequestDto from "./add_cart.request.dto";
+import AddOrderRequestDto from "./add_order.request.dto";
 
-export type { AddCartRequestDto };
+export type { AddOrderRequestDto };

@@ -1,16 +1,19 @@
-import { Dispatch, FC, SetStateAction } from "react";
-import { CartOptionResponseDto, CartResponseDto } from "../../../../apis/dto/response/Order";
+import { FC } from "react";
+import { CartResponseDto } from "../../../../apis/dto/response/Order";
 import { ListGroup, Row, Col, Button } from "react-bootstrap";
 
 interface Props {
     cartItems: CartResponseDto[];
-    cartOptions: CartOptionResponseDto[];
     handleDeleteCart: (cartId: number) => void;
-    setTotalItemsPrice: Dispatch<SetStateAction<number>>;
 }
 
 const CartItems: FC<Props> = (props) => {
-    const { cartItems, cartOptions, handleDeleteCart, setTotalItemsPrice } = props;
+    const { cartItems, handleDeleteCart } = props;
+
+    const handleConvertOptionPrice = (price: number): string => {
+        if (price < 0) return `${price.toLocaleString()}원`;
+        return `+${price.toLocaleString()}원`;
+    };
 
     return (
         <>
@@ -29,14 +32,15 @@ const CartItems: FC<Props> = (props) => {
                                 </Col>
                                 <Col xs={6}>
                                     <p>{cart.productName}</p>
-                                    {cartOptions
-                                        .filter((option) => cart.cartId === option.cartId)
-                                        .map((option) => (
-                                            <p key={option.priorityIndex}>
-                                                {`${option.optionName}: ${option.optionDetailName}`}
-                                            </p>
-                                        ))}
+                                    {cart.options.map((option) => (
+                                        <p key={option.priorityIndex}>
+                                            {`${option.optionName}: ${
+                                                option.optionDetailName
+                                            } (${handleConvertOptionPrice(option.optionPrice)})`}
+                                        </p>
+                                    ))}
                                     <p>{`개수: ${cart.quantity}개`}</p>
+                                    <p>{`가격: ${cart.price.toLocaleString()}원`}</p>
                                 </Col>
                                 <Col xs={3}>
                                     <Button
