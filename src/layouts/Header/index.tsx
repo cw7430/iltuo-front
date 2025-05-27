@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Row, Col } from "react-bootstrap";
 import { MAIN_PATH, PLAIN_PATH, LIST_PATH } from "../../constants/url";
