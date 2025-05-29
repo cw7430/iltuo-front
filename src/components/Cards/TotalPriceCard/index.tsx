@@ -1,24 +1,33 @@
 import { FC, useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 
-interface Props {
-    type: "cart" | "order";
+type DefaultProps = {
     totalPrice: number;
-}
+};
 
-const TotalPriceCard: FC<Props> = (props) => {
-    const { type, totalPrice } = props;
+type CartProps = {
+    type: "cart";
+    handleOrder: () => void;
+};
 
+type OrderProps = {
+    type: "order";
+    handlePayment: () => void;
+};
+
+type Props = DefaultProps & (CartProps | OrderProps);
+
+const TotalPriceCard: FC<Props> = (props: Props) => {
     const [deliveryPrice, setDeliveryPrice] = useState<number>(3000);
 
     useEffect(() => {
-        if (totalPrice >= 50000) {
+        if (props.totalPrice >= 50000) {
             setDeliveryPrice(0);
         } else {
-            const remaining = 50000 - totalPrice;
+            const remaining = 50000 - props.totalPrice;
             setDeliveryPrice(Math.min(remaining, 3000));
         }
-    }, [totalPrice]);
+    }, [props.totalPrice]);
 
     return (
         <Card>
@@ -31,7 +40,7 @@ const TotalPriceCard: FC<Props> = (props) => {
                         <p>{"총 상품가격: "}</p>
                     </Col>
                     <Col className="text-end">
-                        <p>{`${totalPrice.toLocaleString()}원`}</p>
+                        <p>{`${props.totalPrice.toLocaleString()}원`}</p>
                     </Col>
                 </Row>
                 <Row>
@@ -48,15 +57,30 @@ const TotalPriceCard: FC<Props> = (props) => {
                         <h5>{"총 주문금액: "}</h5>
                     </Col>
                     <Col className="text-end">
-                        <h5>{`${(totalPrice + deliveryPrice).toLocaleString()}원`}</h5>
+                        <h5>{`${(props.totalPrice + deliveryPrice).toLocaleString()}원`}</h5>
                     </Col>
                 </Row>
             </Card.Body>
             <Card.Footer>
-                {(type === "cart" || type === "order") && (
+                {props.type === "cart" && (
                     <div className="d-grid gap-2">
-                        <Button variant="primary" type="button">
+                        <Button variant="primary" type="button" onClick={props.handleOrder}>
                             {"주문하기"}
+                        </Button>
+                    </div>
+                )}
+                {props.type === "order" && (
+                    <div className="d-flex gap-2">
+                        <Button
+                            variant="primary"
+                            type="button"
+                            className="flex-grow-1"
+                            onClick={props.handlePayment}
+                        >
+                            {"주문하기"}
+                        </Button>
+                        <Button variant="danger" type="button" className="flex-grow-1">
+                            {"취소하기"}
                         </Button>
                     </div>
                 )}

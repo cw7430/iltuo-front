@@ -140,7 +140,7 @@ export default function MyProfile() {
                 const response = await fetchCangeMainAddress(requestBody);
                 if (response.success) {
                     handleShowAlertModal("완료", "메인주소가 변경되었습니다.");
-                    fetchUserInfo();
+                    await fetchUserInfo();
                 }
             } catch (e) {
                 if (e instanceof ApiError) {
@@ -178,7 +178,7 @@ export default function MyProfile() {
 
                         setCheckedAddress([]);
 
-                        fetchUserInfo();
+                        await fetchUserInfo();
                     }
                 } catch (e) {
                     if (e instanceof ApiError) {

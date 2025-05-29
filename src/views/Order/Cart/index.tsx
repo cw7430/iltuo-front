@@ -2,12 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Loader } from "../../../components/Gif";
 import { CartResponseDto } from "../../../apis/dto/response/Order";
-import { fetchCartList, fetchDeleteCart } from "../../../apis/server/Order";
+import { fetchAddOrders, fetchCartList, fetchDeleteCart } from "../../../apis/server/Order";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
-import { AlertModal } from "../../../components/Modals";
+import { AlertModal, ConfirmModal } from "../../../components/Modals";
 import { SelectedItemsCard, TotalPriceCard } from "../../../components/Cards";
 import { IdxRequestDto } from "../../../apis/dto/request";
+import { AddOrderRequestDto } from "../../../apis/dto/request/Order";
 
 export default function Cart() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,6 +19,11 @@ export default function Cart() {
     const [alertTitle, setAlertTitle] = useState<string>("");
     const [alertText, setAlertText] = useState<string>("");
     const [alertAction, setAlertAction] = useState<() => void>(() => {});
+
+    const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+    const [confirmTitle, setConfirmTitle] = useState<string>("");
+    const [confirmText, setConfirmText] = useState<string>("");
+    const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
 
     const showGenericAlertModal = (title: string, text: string, onAlert: () => void) => {
         setAlertTitle(title);
@@ -32,6 +38,20 @@ export default function Cart() {
     const handleCloseAlertModal = () => setShowAlertModal(false);
 
     const handleAfterAlert = () => alertAction();
+
+    const showGenericConfirmModal = (title: string, text: string, onConfirm: () => void) => {
+        setConfirmTitle(title);
+        setConfirmText(text);
+        setConfirmAction(() => () => {
+            onConfirm();
+            setShowConfirmModal(false);
+        });
+        setShowConfirmModal(true);
+    };
+
+    const handleCloseConfirmModal = () => setShowConfirmModal(false);
+
+    const handleConfirm = () => confirmAction();
 
     const fetchCartData = useCallback(async () => {
         setIsLoading(true);
@@ -78,7 +98,7 @@ export default function Cart() {
         try {
             setIsLoading(true);
             const response = await fetchDeleteCart(requestBody);
-            if (response) fetchCartData();
+            if (response) await fetchCartData();
         } catch (e) {
             if (e instanceof ApiError) {
                 if (e.code === "UA") {
@@ -104,6 +124,54 @@ export default function Cart() {
         }
     };
 
+    const handleOrder = () => {
+        if (cartList.length === 0) {
+            showGenericAlertModal("경고", "장바구니에 담긴 상품이 없습니다.", () => {});
+            return;
+        }
+
+        const requestBody: AddOrderRequestDto[] = cartList.map((cart) => ({
+            productId: cart.productId,
+            quantity: cart.quantity,
+            options: cart.options.map((option) => ({
+                idx: option.optionDetailId,
+            })),
+        }));
+
+        showGenericConfirmModal("확인", "장바구니에 담긴 상품을 구매하시겠습니까?", async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetchAddOrders(requestBody);
+                if (response) {
+                    console.log(`성공 : ${JSON.stringify(response)}`);
+                    showGenericAlertModal("성공", `성공`, () => {});
+                }
+            } catch (e) {
+                if (e instanceof ApiError) {
+                    if (e.code === "UA") {
+                        showGenericAlertModal(
+                            "세션만료",
+                            "세션이 만료되었습니다. 로그아웃합니다.",
+                            () => {
+                                logoutUser();
+                            }
+                        );
+                    } else if (e.code === "VF") {
+                        showGenericAlertModal("경고", "장바구니에 담긴 상품이 없습니다.", () => {});
+                    } else {
+                        showGenericAlertModal(
+                            "오류",
+                            "서버 오류입니다. 나중에 다시 시도하세요.",
+                            () => {}
+                        );
+                    }
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        });
+    };
+
     return (
         <>
             <Container className="mb-4">
@@ -121,7 +189,11 @@ export default function Cart() {
                         />
                     </Col>
                     <Col lg={4}>
-                        <TotalPriceCard type="cart" totalPrice={totalPrice} />
+                        <TotalPriceCard
+                            type="cart"
+                            totalPrice={totalPrice}
+                            handleOrder={handleOrder}
+                        />
                     </Col>
                 </Row>
             </Container>
@@ -132,6 +204,13 @@ export default function Cart() {
                 handleAfterAlert={handleAfterAlert}
                 alertTitle={alertTitle}
                 alertText={alertText}
+            />
+            <ConfirmModal
+                showConfirmModal={showConfirmModal}
+                handleCloseConfirmModal={handleCloseConfirmModal}
+                handleConfirm={handleConfirm}
+                confirmTitle={confirmTitle}
+                confirmText={confirmText}
             />
         </>
     );

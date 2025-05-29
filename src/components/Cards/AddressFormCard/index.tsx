@@ -9,7 +9,7 @@ import { logoutUser } from "../../../utils/auth";
 
 interface Props {
     setShowAddressForm: Dispatch<SetStateAction<boolean>>;
-    updateData: () => void;
+    updateData: () => Promise<void>;
 }
 
 const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
@@ -73,14 +73,15 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
             const response = await fetchAddAddress(requestBody);
             if (response) {
                 handleShowAlertModal("완료", "주소가 등록되었습니다.");
-                updateData();
+                await updateData();
                 setShowAddressForm(false);
             }
         } catch (e) {
             if (e instanceof ApiError) {
                 if (e.code === "VE") {
                     setIsAddressError(true);
-                } if (e.code === "UA") {
+                }
+                if (e.code === "UA") {
                     handleShowAlertModal("세션만료", "세션이 만료되었습니다. 로그아웃합니다.");
                     logoutUser();
                 } else {

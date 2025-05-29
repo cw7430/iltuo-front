@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Card } from "react-bootstrap";
-import { CartResponseDto } from "../../../apis/dto/response/Order";
+import { CartResponseDto, OrderGroupResponseDto } from "../../../apis/dto/response/Order";
 import CartItems from "./CartItems";
+import OrderItems from "./OrderItems";
 
 type CartProps = {
     type: "cart";
@@ -9,13 +10,21 @@ type CartProps = {
     handleDeleteCart: (cartId: number) => void;
 };
 
-type Props = CartProps;
+type OrderProps = {
+    type: "order";
+    orderItems: OrderGroupResponseDto | undefined;
+};
+
+type Props = CartProps | OrderProps;
 
 const SelectedItemsCard: FC<Props> = (props: Props) => {
     return (
         <Card>
             <Card.Header>
-                <h4>{props.type === "cart" && "내 장바구니"}</h4>
+                <h4>
+                    {props.type === "cart" && "내 장바구니"}
+                    {props.type === "order" && "주문 내역"}
+                </h4>
             </Card.Header>
             <Card.Body>
                 {props.type === "cart" && (
@@ -24,6 +33,7 @@ const SelectedItemsCard: FC<Props> = (props: Props) => {
                         handleDeleteCart={props.handleDeleteCart}
                     />
                 )}
+                {props.type === "order" && <OrderItems orderItems={props.orderItems} />}
             </Card.Body>
         </Card>
     );

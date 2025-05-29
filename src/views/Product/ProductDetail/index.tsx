@@ -16,7 +16,7 @@ import {
 } from "../../../apis/server/Products";
 import { AlertModal, ConfirmModal } from "../../../components/Modals";
 import { useAuthStore } from "../../../stores";
-import { fetchAddCart } from "../../../apis/server/Order";
+import { fetchAddCart, fetchAddOrder } from "../../../apis/server/Order";
 import { AddOrderRequestDto } from "../../../apis/dto/request/Order";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
@@ -260,6 +260,10 @@ const ProuctDetail: FC<Props> = ({ handleShowLoginModal }) => {
     };
 
     const handleBuyNow = () => {
+        if (!product) return;
+
+        if (!quantityRef.current) return;
+
         if (!validateOptions()) return;
 
         if (!isLoggedIn) {
@@ -269,8 +273,40 @@ const ProuctDetail: FC<Props> = ({ handleShowLoginModal }) => {
             return;
         }
 
-        showGenericConfirmModal("확인", "상품을 구매하시겠습니까?", () => {
-            console.log("✅ 상품 구매 처리 로직 실행");
+        const requestBody: AddOrderRequestDto = {
+            productId: product.productId,
+            quantity: Number(quantityRef.current.value),
+            options: optionDetailIdArray.map((idx) => ({ idx: idx })),
+        };
+
+        showGenericConfirmModal("확인", "상품을 구매하시겠습니까?", async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetchAddOrder(requestBody);
+                if (response) {
+                    showGenericAlertModal("성공", "성공", () => {});
+                }
+            } catch (e) {
+                if (e instanceof ApiError) {
+                    if (e.code === "UA") {
+                        showGenericAlertModal(
+                            "세션만료",
+                            "세션이 만료되었습니다. 로그아웃합니다.",
+                            () => {
+                                logoutUser();
+                            }
+                        );
+                    } else {
+                        showGenericAlertModal(
+                            "오류",
+                            "서버 오류입니다. 나중에 다시 시도하세요.",
+                            () => {}
+                        );
+                    }
+                }
+            } finally {
+                setIsLoading(false);
+            }
         });
     };
 

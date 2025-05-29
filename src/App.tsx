@@ -25,6 +25,7 @@ import { AlertModal, LogInModal } from "./components/Modals";
 import OAuthSuccess from "./OAuthSuccess";
 import MyProfile from "./views/Auth/MyProfile";
 import Cart from "./views/Order/Cart";
+import Order from "./views/Order/Order";
 
 function App() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -138,6 +139,14 @@ function App() {
                             element={
                                 <PrivateRoute>
                                     <Cart />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path={DETAIL_PATH("order", "paymentId")}
+                            element={
+                                <PrivateRoute>
+                                    <Order />
                                 </PrivateRoute>
                             }
                         />
