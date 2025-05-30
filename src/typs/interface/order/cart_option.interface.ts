@@ -1,5 +1,5 @@
 export default interface CartOption {
-    cartOptionId: number;
-    cartId: number;
-    optionDetailId: number;
+  cartOptionId: number;
+  cartId: number;
+  optionDetailId: number;
 }

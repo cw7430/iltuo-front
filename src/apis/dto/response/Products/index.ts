@@ -5,9 +5,9 @@ import OptionResponseDto from "./option.response.dto";
 import OptionDetailResponseDto from "./option_detail.response.dto";
 
 export type {
-    ProductResponseDto,
-    MajorCategoryResponseDto,
-    MinerCategoryResponseDto,
-    OptionResponseDto,
-    OptionDetailResponseDto,
+  ProductResponseDto,
+  MajorCategoryResponseDto,
+  MinerCategoryResponseDto,
+  OptionResponseDto,
+  OptionDetailResponseDto,
 };

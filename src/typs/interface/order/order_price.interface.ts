@@ -1,4 +1,4 @@
 export default interface OrderPrice {
-    orderId: number;
-    price: number;
+  orderId: number;
+  price: number;
 }

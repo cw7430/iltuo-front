@@ -1,3 +1,3 @@
 export default interface UserIdDuplicateCheckRequestDto {
-    userId: string;
+  userId: string;
 }

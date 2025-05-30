@@ -1,4 +1,4 @@
 export default interface PasswordRequestDto {
-    prevPassword: string;
-    newPassword: string;
+  prevPassword: string;
+  newPassword: string;
 }

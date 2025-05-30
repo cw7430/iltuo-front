@@ -1,6 +1,6 @@
 export default interface MinerCategory {
-    minerCategoryId: number;
-    majorCategoryId: number;
-    minerCategoryName: string;
-    valid: boolean;
+  minerCategoryId: number;
+  majorCategoryId: number;
+  minerCategoryName: string;
+  valid: boolean;
 }

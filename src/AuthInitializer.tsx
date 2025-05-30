@@ -5,39 +5,39 @@ import { logoutUser, refreshToken } from "./utils/auth";
 import { Loader } from "./components/Gif";
 
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
-    const [ready, setReady] = useState<boolean>(false);
+  const [ready, setReady] = useState<boolean>(false);
 
-    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
-    const handleLogout = async () => {
-        await fetchLogout();
-        logoutUser();
+  const handleLogout = async () => {
+    await fetchLogout();
+    logoutUser();
+  };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setReady(true); // 바로 준비 완료
+      return;
+    }
+
+    const init = async () => {
+      try {
+        const result = await fetchRefresh();
+        refreshToken(result.accessTokenExpiresAt, result.userPermission, result.authMethod);
+        console.log("로그인유지", result);
+      } catch (e) {
+        handleLogout();
+      } finally {
+        setReady(true);
+      }
     };
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            setReady(true); // 바로 준비 완료
-            return;
-        }
+    init();
+  }, [isLoggedIn]);
 
-        const init = async () => {
-            try {
-                const result = await fetchRefresh();
-                refreshToken(result.accessTokenExpiresAt, result.userPermission, result.authMethod);
-                console.log("로그인유지", result);
-            } catch (e) {
-                handleLogout();
-            } finally {
-                setReady(true);
-            }
-        };
+  if (!ready) return <Loader />;
 
-        init();
-    }, [isLoggedIn]);
-
-    if (!ready) return <Loader />;
-
-    return <>{children}</>;
+  return <>{children}</>;
 };
 
 export default AuthInitializer;

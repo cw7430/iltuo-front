@@ -1,5 +1,5 @@
-export default interface ProfileRequestDto  {
-    password: string;
-    phoneNumber: string;
-    email: string;
+export default interface ProfileRequestDto {
+  password: string;
+  phoneNumber: string;
+  email: string;
 }

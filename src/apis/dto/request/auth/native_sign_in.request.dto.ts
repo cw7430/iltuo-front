@@ -1,4 +1,4 @@
 export default interface NativeSignInRequestDto {
-    userId: string;
-    password: string;
+  userId: string;
+  password: string;
 }

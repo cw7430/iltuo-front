@@ -5,9 +5,9 @@ import SocialUserResponseDto from "./social_user.response.dto";
 import AddressResponseDto from "./address.response.dto";
 
 export type {
-    SignInResponseDto,
-    RefreshAccessTokenResponseDto,
-    NativeUserResponseDto,
-    SocialUserResponseDto,
-    AddressResponseDto,
+  SignInResponseDto,
+  RefreshAccessTokenResponseDto,
+  NativeUserResponseDto,
+  SocialUserResponseDto,
+  AddressResponseDto,
 };
