@@ -146,6 +146,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                 placeholder="아이디를 입력하세요"
                 ref={userIdRef}
                 value={userId}
+                maxLength={25}
                 onChange={(e) => setUserId(e.target.value)}
                 onKeyDown={handleUserIdKeyDown}
                 isInvalid={isUserIdError}
@@ -161,6 +162,7 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
                 placeholder="비밀번호를 입력하세요"
                 ref={passwordRef}
                 value={password}
+                maxLength={25}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handlePasswordKeyDown}
                 isInvalid={isPasswordError}

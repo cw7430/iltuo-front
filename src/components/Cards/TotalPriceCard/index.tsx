@@ -12,11 +12,17 @@ type CartProps = {
 
 type OrderProps = {
   type: "order";
-  handlePayment: () => void;
+  handleOrder: () => void;
   handleDeleteOrder: () => void;
 };
 
-type Props = DefaultProps & (CartProps | OrderProps);
+type PaymentProps = {
+  type: "payment";
+  handleValidate: () => void;
+  handleDeleteOrder: () => void;
+};
+
+type Props = DefaultProps & (CartProps | OrderProps | PaymentProps);
 
 const TotalPriceCard: FC<Props> = (props: Props) => {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(3000);
@@ -33,7 +39,7 @@ const TotalPriceCard: FC<Props> = (props: Props) => {
   return (
     <Card>
       <Card.Header>
-        <h4>{"주문 요약"}</h4>
+        <h4>{"금액"}</h4>
       </Card.Header>
       <Card.Body>
         <Row>
@@ -70,16 +76,28 @@ const TotalPriceCard: FC<Props> = (props: Props) => {
             </Button>
           </div>
         )}
-        {props.type === "order" && (
+        {(props.type === "order" || props.type === "payment") && (
           <div className="d-flex gap-2">
-            <Button
-              variant="primary"
-              type="button"
-              className="flex-grow-1"
-              onClick={props.handlePayment}
-            >
-              {"주문하기"}
-            </Button>
+            {props.type === "order" && (
+              <Button
+                variant="primary"
+                type="button"
+                className="flex-grow-1"
+                onClick={props.handleOrder}
+              >
+                {"주문하기"}
+              </Button>
+            )}
+            {props.type === "payment" && (
+              <Button
+                variant="primary"
+                type="button"
+                className="flex-grow-1"
+                onClick={props.handleValidate}
+              >
+                {"주문하기"}
+              </Button>
+            )}
             <Button
               variant="danger"
               type="button"

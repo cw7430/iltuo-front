@@ -43,7 +43,7 @@ export default function Order() {
     navigate(MAIN_PATH());
   }, [navigate]);
 
-  const handlePayment = () => {
+  const handleOrder = () => {
     navigate(DETAIL_PATH("payment", Number(paymentId)));
   };
 
@@ -121,7 +121,7 @@ export default function Order() {
             <TotalPriceCard
               type="order"
               totalPrice={totalPrice}
-              handlePayment={handlePayment}
+              handleOrder={handleOrder}
               handleDeleteOrder={handleDeleteOrder}
             />
           </Col>
