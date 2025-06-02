@@ -162,6 +162,8 @@ export default function Cart() {
           } else {
             showGenericAlertModal("오류", "서버 오류입니다. 나중에 다시 시도하세요.", () => {});
           }
+        } else {
+          showGenericAlertModal("오류", "서버 오류입니다. 나중에 다시 시도하세요.", () => {});
         }
       } finally {
         setIsLoading(false);

@@ -1,6 +1,5 @@
 export default interface Delivery {
   paymentId: number;
-  deliveryStatusCode: "DS001" | "DS002" | "DS003" | "DS004";
   postalCode: string;
   defaultAddress: string;
   detailAddress: string | null;

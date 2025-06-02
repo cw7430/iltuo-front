@@ -1,5 +1,5 @@
 import { IdxRequestDto } from "../../dto/request";
-import { AddOrderRequestDto } from "../../dto/request/Order";
+import { AddOrderRequestDto, AddPaymentRequestDto } from "../../dto/request/Order";
 import { IdxResponseDto, PlainResponseDto } from "../../dto/response";
 import { CartResponseDto, OrderGroupResponseDto } from "../../dto/response/Order";
 import { apiGet, apiPost } from "../api.response";
@@ -40,4 +40,8 @@ export const fetchAddOrders = async (requestBody: AddOrderRequestDto[]) => {
 
 export const fetchDeleteOrder = async (requestBody: IdxRequestDto) => {
   return apiPost<PlainResponseDto>(`${DOMAIN}/delete_order`, requestBody);
+};
+
+export const fetchAddPayment = async (requestBody: AddPaymentRequestDto) => {
+  return apiPost<PlainResponseDto>(`${DOMAIN}/add_payment`, requestBody);
 };

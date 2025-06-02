@@ -121,6 +121,7 @@ export default function Order() {
             <TotalPriceCard
               type="order"
               totalPrice={totalPrice}
+              orderStatusCode={orderGroup ? orderGroup.orderStatusCode : "OS001"}
               handleOrder={handleOrder}
               handleDeleteOrder={handleDeleteOrder}
             />
