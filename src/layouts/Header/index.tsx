@@ -50,7 +50,13 @@ const Header: FC<Props> = ({ handelLogout, handleShowLoginModal }) => {
               </>
               {isLoggedIn && (
                 <>
-                  <Nav.Link href="#">{"주문내역"}</Nav.Link>
+                  <Nav.Link
+                    as={Link}
+                    to={LIST_PATH("order", null)}
+                    active={pathname === LIST_PATH("order", null)}
+                  >
+                    {"주문내역"}
+                  </Nav.Link>
                   <Nav.Link
                     as={Link}
                     to={PLAIN_PATH("cart", null)}

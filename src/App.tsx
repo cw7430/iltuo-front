@@ -27,6 +27,7 @@ import MyProfile from "./views/Auth/MyProfile";
 import Cart from "./views/Order/Cart";
 import Order from "./views/Order/Order";
 import Payment from "./views/Order/Payment";
+import OrderGroup from "./views/Order/OrderGroup";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -119,6 +120,14 @@ function App() {
               element={
                 <PrivateRoute>
                   <MyProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path={LIST_PATH("order", null)}
+              element={
+                <PrivateRoute>
+                  <OrderGroup />
                 </PrivateRoute>
               }
             />
