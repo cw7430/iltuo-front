@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { Loader } from "../../../components/Gif";
 import { OrderGroupResponseDto } from "../../../apis/dto/response/Order";
 import { fetchOrderList } from "../../../apis/server/Order";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
 import { AlertModal } from "../../../components/Modals";
+import { useNavigate } from "react-router-dom";
+import { DETAIL_PATH } from "../../../constants/url";
 
 function OrderGroup() {
+  const navigate = useNavigate();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [orderGroupList, setOrderGroupList] = useState<OrderGroupResponseDto[]>([]);
 
@@ -64,7 +68,38 @@ function OrderGroup() {
             <h1 className="mb-4">{"주문내역"}</h1>
           </Col>
         </Row>
-        <Row></Row>
+        <Row>
+          <Col>
+            <Card>
+              <Card.Body>
+                {!orderGroupList ? (
+                  <p className="text-muted">{"주문내역이 없습니다."}</p>
+                ) : (
+                  <ListGroup variant="flush">
+                    {orderGroupList.map((group, idx) => (
+                      <ListGroup.Item
+                        key={idx}
+                        className="py-2"
+                        action
+                        onClick={() => {
+                          navigate(DETAIL_PATH("order", group.paymentId));
+                        }}
+                      >
+                        {group.orders.map((order, idx) => (
+                          <Row key={idx}>
+                            <Col>
+                              <p>{order.productName}</p>
+                            </Col>
+                          </Row>
+                        ))}
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
       </Container>
       {isLoading && <Loader />}
       <AlertModal
