@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { Card } from "react-bootstrap";
 import { CartResponseDto, OrderGroupResponseDto } from "../../../apis/dto/response/Order";
 import CartItems from "./CartItems";
@@ -17,7 +16,7 @@ type OrderProps = {
 
 type Props = CartProps | OrderProps;
 
-const SelectedItemsCard: FC<Props> = (props: Props) => {
+function SelectedItemsCard (props: Props)  {
   return (
     <Card>
       <Card.Header>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 
 type DefaultProps = {
@@ -25,7 +25,7 @@ type PaymentProps = {
 
 type Props = DefaultProps & (CartProps | OrderProps | PaymentProps);
 
-const TotalPriceCard: FC<Props> = (props: Props) => {
+function TotalPriceCard(props: Props) {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(3000);
 
   useEffect(() => {
@@ -40,17 +40,19 @@ const TotalPriceCard: FC<Props> = (props: Props) => {
   const renderButtons = () => {
     if (props.type === "cart") {
       return (
-        <div className="d-grid gap-2">
-          <Button variant="primary" type="button" onClick={props.handleOrder}>
-            {"주문하기"}
-          </Button>
-        </div>
+        <Card.Footer>
+          <div className="d-grid gap-2">
+            <Button variant="primary" type="button" onClick={props.handleOrder}>
+              {"주문하기"}
+            </Button>
+          </div>
+        </Card.Footer>
       );
     }
 
     if (props.type === "order" && props.orderStatusCode === "OS001") {
       return (
-        <>
+        <Card.Footer>
           <div className="d-flex gap-2">
             <Button variant="primary" className="flex-grow-1" onClick={props.handleOrder}>
               {"주문하기"}
@@ -59,20 +61,22 @@ const TotalPriceCard: FC<Props> = (props: Props) => {
               {"취소하기"}
             </Button>
           </div>
-        </>
+        </Card.Footer>
       );
     }
 
     if (props.type === "payment") {
       return (
-        <div className="d-flex gap-2">
-          <Button variant="primary" className="flex-grow-1" onClick={props.handleValidate}>
-            {"주문하기"}
-          </Button>
-          <Button variant="danger" className="flex-grow-1" onClick={props.handleDeleteOrder}>
-            {"취소하기"}
-          </Button>
-        </div>
+        <Card.Footer>
+          <div className="d-flex gap-2">
+            <Button variant="primary" className="flex-grow-1" onClick={props.handleValidate}>
+              {"주문하기"}
+            </Button>
+            <Button variant="danger" className="flex-grow-1" onClick={props.handleDeleteOrder}>
+              {"취소하기"}
+            </Button>
+          </div>
+        </Card.Footer>
       );
     }
 
@@ -111,9 +115,9 @@ const TotalPriceCard: FC<Props> = (props: Props) => {
           </Col>
         </Row>
       </Card.Body>
-      <Card.Footer>{renderButtons()}</Card.Footer>
+      <>{renderButtons()}</>
     </Card>
   );
-};
+}
 
 export default TotalPriceCard;

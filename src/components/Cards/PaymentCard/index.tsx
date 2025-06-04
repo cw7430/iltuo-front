@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Card } from "react-bootstrap";
 import { AddressResponseDto } from "../../../apis/dto/response/Auth";
 import PaymentCardAddressPart from "./PaymentCardAddressPart";
@@ -46,7 +46,7 @@ interface Props {
   handleSearchAddress: () => void;
 }
 
-const PaymentCard: FC<Props> = (props: Props) => {
+function PaymentCard(props: Props) {
   const {
     addressList,
     addressMethod,
@@ -141,6 +141,6 @@ const PaymentCard: FC<Props> = (props: Props) => {
       </Card.Body>
     </Card>
   );
-};
+}
 
 export default PaymentCard;

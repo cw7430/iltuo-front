@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { Col, Form, InputGroup, Row } from "react-bootstrap";
 
 interface Props {
@@ -29,7 +29,7 @@ interface Props {
   setCardPassword: Dispatch<SetStateAction<string>>;
 }
 
-const PaymentCardPayPart: FC<Props> = (props: Props) => {
+function PaymentCardPayPart(props: Props) {
   const {
     paymentMethod,
     cardNumber1,
@@ -319,22 +319,22 @@ const PaymentCardPayPart: FC<Props> = (props: Props) => {
             <strong>{"무통장입금 안내"}</strong>
           </h5>
           <p>
-            <strong>{"은행명:"}</strong>
+            <strong>{"은행명: "}</strong>
             {"신한은행"}
           </p>
           <p>
-            <strong>{"계좌번호:"}</strong>
+            <strong>{"계좌번호: "}</strong>
             {"110-456-789123"}
           </p>
           <p>
-            <strong>{"입금자명"}</strong>
+            <strong>{"입금자명: "}</strong>
             {"최사장"}
           </p>
-          <p>{"입금하실 계좌번호는 주문 목록에서 다시 확인하실 수 있습니다."}</p>
+          <p>{"입금하실 계좌번호는 주문 내역에서 다시 확인하실 수 있습니다."}</p>
         </>
       )}
     </>
   );
-};
+}
 
 export default PaymentCardPayPart;

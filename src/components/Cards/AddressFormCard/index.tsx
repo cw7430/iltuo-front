@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
 import { DaumPostCodeModal, ConfirmModal, AlertModal } from "../../Modals";
 import { Loader } from "../../Gif";
@@ -12,7 +12,9 @@ interface Props {
   updateData: () => Promise<void>;
 }
 
-const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
+function AddressFormCard(props: Props) {
+  const { setShowAddressForm, updateData } = props;
+
   const detailAddressRef = useRef<HTMLInputElement>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -210,6 +212,6 @@ const AddressFormCard: FC<Props> = ({ setShowAddressForm, updateData }) => {
       {loading && <Loader />}
     </>
   );
-};
+}
 
 export default AddressFormCard;

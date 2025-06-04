@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Table, Button, Form, InputGroup } from "react-bootstrap";
 import Decimal from "decimal.js";
@@ -25,7 +25,9 @@ interface Props {
   handleShowLoginModal: () => void;
 }
 
-const ProuctDetail: FC<Props> = ({ handleShowLoginModal }) => {
+function ProuctDetail(props: Props) {
+  const { handleShowLoginModal } = props;
+
   const { productId } = useParams<{ productId: string }>();
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
@@ -461,6 +463,6 @@ const ProuctDetail: FC<Props> = ({ handleShowLoginModal }) => {
       />
     </>
   );
-};
+}
 
 export default ProuctDetail;

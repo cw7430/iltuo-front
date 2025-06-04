@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { AddressResponseDto } from "../../../../apis/dto/response/Auth";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
 
@@ -19,7 +19,7 @@ interface Props {
   handleSearchAddress: () => void;
 }
 
-const PaymentCardAddressPart: FC<Props> = (props: Props) => {
+function PaymentCardAddressPart(props: Props) {
   const {
     addressList,
     addressMethod,
@@ -131,6 +131,6 @@ const PaymentCardAddressPart: FC<Props> = (props: Props) => {
       </Row>
     </>
   );
-};
+}
 
 export default PaymentCardAddressPart;

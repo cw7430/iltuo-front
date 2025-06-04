@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Col, Container, Row, Table } from "react-bootstrap";
 import { Loader } from "../../../components/Gif";
 import { OrderGroupResponseDto } from "../../../apis/dto/response/Order";
 import { fetchOrderList } from "../../../apis/server/Order";
@@ -8,6 +8,7 @@ import { logoutUser } from "../../../utils/auth";
 import { AlertModal } from "../../../components/Modals";
 import { useNavigate } from "react-router-dom";
 import { DETAIL_PATH } from "../../../constants/url";
+import { convertOrderStatus } from "../../../utils/convert";
 
 function OrderGroup() {
   const navigate = useNavigate();
@@ -60,6 +61,18 @@ function OrderGroup() {
     fetchData();
   }, []);
 
+  const FREE_DELIVERY_THRESHOLD = 50000;
+  const DELIVERY_FEE = 3000;
+
+  const calculateTotalPrice = (group: OrderGroupResponseDto): string => {
+    const itemTotal = group.orders.reduce((sum, order) => sum + order.price, 0);
+    if (itemTotal >= FREE_DELIVERY_THRESHOLD) return `${itemTotal.toLocaleString()}원`;
+    const withDelivery = itemTotal + DELIVERY_FEE;
+    return withDelivery >= FREE_DELIVERY_THRESHOLD
+      ? `${FREE_DELIVERY_THRESHOLD.toLocaleString()}원`
+      : `${withDelivery.toLocaleString()}원`;
+  };
+
   return (
     <>
       <Container className="mb-4">
@@ -70,34 +83,37 @@ function OrderGroup() {
         </Row>
         <Row>
           <Col>
-            <Card>
-              <Card.Body>
-                {!orderGroupList ? (
-                  <p className="text-muted">{"주문내역이 없습니다."}</p>
-                ) : (
-                  <ListGroup variant="flush">
-                    {orderGroupList.map((group, idx) => (
-                      <ListGroup.Item
-                        key={idx}
-                        className="py-2"
-                        action
-                        onClick={() => {
-                          navigate(DETAIL_PATH("order", group.paymentId));
-                        }}
-                      >
-                        {group.orders.map((order, idx) => (
-                          <Row key={idx}>
-                            <Col>
-                              <p>{order.productName}</p>
-                            </Col>
-                          </Row>
-                        ))}
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                )}
-              </Card.Body>
-            </Card>
+            <Table responsive hover>
+              <thead className="table-dark">
+                <tr>
+                  <th className="text-start">{"주문일자"}</th>
+                  <th className="text-start">{"상품명"}</th>
+                  <th className="text-end">{"총액"}</th>
+                  <th className="text-center">{"상태"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orderGroupList.map((group, groupIdx) => (
+                  <tr
+                    key={groupIdx}
+                    onClick={() => navigate(DETAIL_PATH("order", group.paymentId))}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <td className="text-start">{new Date(group.orderDate).toLocaleDateString()}</td>
+                    <td className="text-start">
+                      {group.orders.map((order, orderIdx) => (
+                        <span key={orderIdx}>
+                          {`${order.productName} (${order.quantity}개)`}
+                          <br />
+                        </span>
+                      ))}
+                    </td>
+                    <td className="text-end">{calculateTotalPrice(group)}</td>
+                    <td className="text-center">{convertOrderStatus(group.orderStatusCode)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
           </Col>
         </Row>
       </Container>

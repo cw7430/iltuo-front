@@ -3,13 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { Loader } from "../../../components/Gif";
 import { AlertModal } from "../../../components/Modals";
-import { OrderGroupResponseDto } from "../../../apis/dto/response/Order";
-import { fetchDeleteOrder, fetchOrderData } from "../../../apis/server/Order";
+import { OrderGroupResponseDto, PaymentResponseDto } from "../../../apis/dto/response/Order";
+import { fetchDeleteOrder, fetchOrderData, fetchPayment } from "../../../apis/server/Order";
 import { IdxRequestDto } from "../../../apis/dto/request";
 import { ApiError } from "../../../apis/server";
 import { logoutUser } from "../../../utils/auth";
 import { DETAIL_PATH, MAIN_PATH } from "../../../constants/url";
-import { SelectedItemsCard, TotalPriceCard } from "../../../components/Cards";
+import { OrderInfoCard, SelectedItemsCard, TotalPriceCard } from "../../../components/Cards";
 
 export default function Order() {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ export default function Order() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [orderGroup, setOrderGroup] = useState<OrderGroupResponseDto | undefined>(undefined);
+  const [payment, setPayment] = useState<PaymentResponseDto | undefined>(undefined);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const [showAlertModal, setShowAlertModal] = useState<boolean>(false);
@@ -77,6 +78,10 @@ export default function Order() {
         const sum = orderData.orders.reduce((sum, order) => sum + order.price, 0);
         setOrderGroup(orderData);
         setTotalPrice(sum);
+        if (orderData.orderStatusCode !== "OS001") {
+          const paymentData = await fetchPayment(requestBody);
+          setPayment(paymentData);
+        }
       } catch (e) {
         if (e instanceof ApiError) {
           if (e.code === "UA") {
@@ -118,13 +123,31 @@ export default function Order() {
             <SelectedItemsCard type="order" orderItems={orderGroup} />
           </Col>
           <Col lg={4}>
-            <TotalPriceCard
-              type="order"
-              totalPrice={totalPrice}
-              orderStatusCode={orderGroup ? orderGroup.orderStatusCode : "OS001"}
-              handleOrder={handleOrder}
-              handleDeleteOrder={handleDeleteOrder}
-            />
+            <Row>
+              <Col>
+                <TotalPriceCard
+                  type="order"
+                  totalPrice={totalPrice}
+                  orderStatusCode={orderGroup ? orderGroup.orderStatusCode : "OS001"}
+                  handleOrder={handleOrder}
+                  handleDeleteOrder={handleDeleteOrder}
+                />
+              </Col>
+            </Row>
+            <br />
+            {orderGroup
+              ? orderGroup.orderStatusCode !== "OS001" &&
+                orderGroup.orderStatusCode !== "OS006" && (
+                  <Row>
+                    <Col>
+                      <OrderInfoCard
+                        orderStatusCode={orderGroup.orderStatusCode}
+                        payment={payment}
+                      />
+                    </Col>
+                  </Row>
+                )
+              : null}
           </Col>
         </Row>
       </Container>
