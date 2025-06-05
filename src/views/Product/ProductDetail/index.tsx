@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Table, Button, Form, InputGroup } from "react-bootstrap";
 import Decimal from "decimal.js";
-import { MAIN_PATH, LIST_PATH, PLAIN_PATH, DETAIL_PATH } from "../../../constants/url";
+import { MAIN_PATH, LIST_PATH, PLAIN_PATH, DETAIL_PATH, API_PATH } from "../../../constants/url";
 import { Loader } from "../../../components/Gif";
 import {
   ProductResponseDto,
@@ -63,7 +63,7 @@ export default function ProuctDetail(props: Props) {
     setConfirmText(text);
     setConfirmAction(() => () => {
       onConfirm();
-      setShowConfirmModal(false); // 모달 닫기
+      setShowConfirmModal(false);
     });
     setShowConfirmModal(true);
   };
@@ -350,10 +350,7 @@ export default function ProuctDetail(props: Props) {
           <Col className="mt-5" md={6}>
             <div>
               {product ? (
-                <img
-                  src={`http://localhost:3000/mock/images/product/${product.productCode}.jpg`}
-                  alt="사진"
-                />
+                <img src={`${API_PATH}/images/product/${product.productCode}.jpg`} alt="사진" />
               ) : (
                 <div>{"사진"}</div>
               )}

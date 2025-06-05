@@ -109,127 +109,121 @@ export default function ProductList() {
   }, [productList, minerCategoryId, sortKey]);
 
   return (
-    <div className="coffee_section layout_padding">
-      <Container>
-        <Row>
-          <Col md={12}>
-            <h1 className="coffee_taital">{majorCategoryName || "카테고리 없음"}</h1>
-          </Col>
-        </Row>
-      </Container>
-
-      {isLoading ? (
-        <div className="d-flex justify-content-center my-5">
-          <Loader />
-        </div>
-      ) : (
-        <>
-          <Container>
-            <Row className="my-5 justify-content-center">
-              <Col xs="auto">
+    <>
+      <div className="coffee_section layout_padding">
+        <Container>
+          <Row>
+            <Col md={12}>
+              <h1 className="coffee_taital">{majorCategoryName || "카테고리 없음"}</h1>
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row className="my-3 justify-content-center">
+            <Col xs="auto">
+              <Button
+                variant="outline-secondary"
+                active={minerCategoryId === "0"}
+                onClick={() => handleChangeMinerCategoryId("0")}
+              >
+                {"전체"}
+              </Button>
+            </Col>
+            {minerCategoryList.map((item, itemIdx) => (
+              <Col xs="auto" key={itemIdx}>
                 <Button
                   variant="outline-secondary"
-                  active={minerCategoryId === "0"}
-                  onClick={() => handleChangeMinerCategoryId("0")}
+                  active={minerCategoryId === String(item.minerCategoryId)}
+                  onClick={() => handleChangeMinerCategoryId(String(item.minerCategoryId))}
                 >
-                  {"전체"}
+                  {item.minerCategoryName}
                 </Button>
               </Col>
-              {minerCategoryList.map((item, itemIdx) => (
-                <Col xs="auto" key={itemIdx}>
-                  <Button
-                    variant="outline-secondary"
-                    active={minerCategoryId === String(item.minerCategoryId)}
-                    onClick={() => handleChangeMinerCategoryId(String(item.minerCategoryId))}
-                  >
-                    {item.minerCategoryName}
-                  </Button>
+            ))}
+          </Row>
+        </Container>
+        <div className="coffee_section_2">
+          <Container>
+            <Row className="my-5 justify-content-end">
+              <Col xs="auto" className="d-flex">
+                <Nav.Link
+                  as="button"
+                  disabled={sortKey === "recommendedAsc"}
+                  style={{
+                    fontWeight: sortKey === "recommendedAsc" ? "bold" : "normal",
+                  }}
+                  onClick={() => handleSort("recommendedAsc")}
+                >
+                  {"추천순"}
+                </Nav.Link>
+              </Col>
+              <Col xs="auto" className="d-flex">
+                <Nav.Link
+                  as="button"
+                  disabled={sortKey === "registerDateDesc"}
+                  style={{
+                    fontWeight: sortKey === "registerDateDesc" ? "bold" : "normal",
+                  }}
+                  onClick={() => handleSort("registerDateDesc")}
+                >
+                  {"등록순"}
+                </Nav.Link>
+              </Col>
+              <Col xs="auto" className="d-flex">
+                <Nav.Link
+                  as="button"
+                  disabled={sortKey === "priceAsc"}
+                  style={{
+                    fontWeight: sortKey === "priceAsc" ? "bold" : "normal",
+                  }}
+                  onClick={() => handleSort("priceAsc")}
+                >
+                  {"낮은가격순"}
+                </Nav.Link>
+              </Col>
+              <Col xs="auto" className="d-flex">
+                <Nav.Link
+                  as="button"
+                  disabled={sortKey === "priceDesc"}
+                  style={{
+                    fontWeight: sortKey === "priceDesc" ? "bold" : "normal",
+                  }}
+                  onClick={() => handleSort("priceDesc")}
+                >
+                  {"높은가격순"}
+                </Nav.Link>
+              </Col>
+            </Row>
+            <Row className="my-5 d-flex align-items-stretch">
+              {pagedProductList.map((item, itemIdx) => (
+                <Col lg={3} md={6} className="mb-4 d-flex" key={itemIdx}>
+                  <ProductCard product={item} isMainPage={false} />
                 </Col>
               ))}
             </Row>
           </Container>
-          <div className="coffee_section_2">
-            <Container>
-              <Row className="my-5 justify-content-end">
-                <Col xs="auto" className="d-flex">
-                  <Nav.Link
-                    as="button"
-                    disabled={sortKey === "recommendedAsc"}
-                    style={{
-                      fontWeight: sortKey === "recommendedAsc" ? "bold" : "normal",
-                    }}
-                    onClick={() => handleSort("recommendedAsc")}
-                  >
-                    {"추천순"}
-                  </Nav.Link>
-                </Col>
-                <Col xs="auto" className="d-flex">
-                  <Nav.Link
-                    as="button"
-                    disabled={sortKey === "registerDateDesc"}
-                    style={{
-                      fontWeight: sortKey === "registerDateDesc" ? "bold" : "normal",
-                    }}
-                    onClick={() => handleSort("registerDateDesc")}
-                  >
-                    {"등록순"}
-                  </Nav.Link>
-                </Col>
-                <Col xs="auto" className="d-flex">
-                  <Nav.Link
-                    as="button"
-                    disabled={sortKey === "priceAsc"}
-                    style={{
-                      fontWeight: sortKey === "priceAsc" ? "bold" : "normal",
-                    }}
-                    onClick={() => handleSort("priceAsc")}
-                  >
-                    {"낮은가격순"}
-                  </Nav.Link>
-                </Col>
-                <Col xs="auto" className="d-flex">
-                  <Nav.Link
-                    as="button"
-                    disabled={sortKey === "priceDesc"}
-                    style={{
-                      fontWeight: sortKey === "priceDesc" ? "bold" : "normal",
-                    }}
-                    onClick={() => handleSort("priceDesc")}
-                  >
-                    {"높은가격순"}
-                  </Nav.Link>
-                </Col>
-              </Row>
-              <Row className="my-5 d-flex align-items-stretch">
-                {pagedProductList.map((item, itemIdx) => (
-                  <Col lg={3} md={6} className="mb-4 d-flex" key={itemIdx}>
-                    <ProductCard product={item} isMainPage={false} />
-                  </Col>
-                ))}
-              </Row>
-            </Container>
-            <Container>
-              <Row className="my-5 justify-content-center">
-                <Col xs="auto">
-                  <CustomPagination
-                    data={filteredAndSortedList}
-                    itemsPerPage={4}
-                    pageBlockSize={5}
-                    setPagedData={setPagedProductList}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </div>
-          <AlertModal
-            showAlertModal={showAlertModal}
-            alertTitle={alertTitle}
-            alertText={alertText}
-            handleAfterAlert={handleAfterAlert}
-            handleCloseAlertModal={handleCloseAlertModal}
-          />
-        </>
-      )}
-    </div>
+          <Container>
+            <Row className="my-5 justify-content-center">
+              <Col xs="auto">
+                <CustomPagination
+                  data={filteredAndSortedList}
+                  itemsPerPage={4}
+                  pageBlockSize={5}
+                  setPagedData={setPagedProductList}
+                />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
+      <AlertModal
+        showAlertModal={showAlertModal}
+        alertTitle={alertTitle}
+        alertText={alertText}
+        handleAfterAlert={handleAfterAlert}
+        handleCloseAlertModal={handleCloseAlertModal}
+      />
+      {isLoading && <Loader />}
+    </>
   );
 }

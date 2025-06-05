@@ -1,5 +1,6 @@
 import { OrderGroupResponseDto } from "../../../../apis/dto/response/Order";
 import { Col, ListGroup, Row } from "react-bootstrap";
+import { API_PATH } from "../../../../constants/url";
 
 interface Props {
   orderItems: OrderGroupResponseDto | undefined;
@@ -24,7 +25,7 @@ export default function OrderItems(props: Props) {
               <Row>
                 <Col xs={4}>
                   <img
-                    src={`http://localhost:3000/mock/images/product/${order.productCode}.jpg`}
+                    src={`${API_PATH}/images/product/${order.productCode}.jpg`}
                     alt="사진"
                   />
                 </Col>

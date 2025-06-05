@@ -1,7 +1,8 @@
 import axios from "axios";
 import ApiError from "./api.error";
+import { API_PATH } from "../../constants/url";
 
-const DOMAIN = `${process.env.REACT_APP_API_BASE_URL}`;
+const DOMAIN = API_PATH;
 
 const axiosInstance = axios.create({
   baseURL: DOMAIN,

@@ -1,5 +1,6 @@
 import { CartResponseDto } from "../../../../apis/dto/response/Order";
 import { ListGroup, Row, Col, Button } from "react-bootstrap";
+import { API_PATH } from "../../../../constants/url";
 
 interface Props {
   cartItems: CartResponseDto[];
@@ -25,7 +26,7 @@ export default function CartItems(props: Props) {
               <Row className="align-items-center">
                 <Col xs={3}>
                   <img
-                    src={`http://localhost:3000/mock/images/product/${cart.productCode}.jpg`}
+                    src={`${API_PATH}/images/product/${cart.productCode}.jpg`}
                     alt="사진"
                   />
                 </Col>

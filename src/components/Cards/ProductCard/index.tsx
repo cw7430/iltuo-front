@@ -1,7 +1,7 @@
 import { ProductResponseDto } from "../../../apis/dto/response/Products";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { DETAIL_PATH } from "../../../constants/url";
+import { API_PATH, DETAIL_PATH } from "../../../constants/url";
 
 interface Props {
   product: ProductResponseDto;
@@ -10,6 +10,7 @@ interface Props {
 
 export default function ProductCard({ product, isMainPage }: Props) {
   const { productId, productCode, productName, productComments, discountedPrice } = product;
+
   return (
     <Card
       className="w-100"
@@ -18,7 +19,7 @@ export default function ProductCard({ product, isMainPage }: Props) {
       style={{ cursor: "pointer" }}
     >
       <div className="coffee_img">
-        <img src={`http://localhost:3000/mock/images/product/${productCode}.jpg`} alt="#" />
+        <img src={`${API_PATH}/images/product/${productCode}.jpg`} alt="#" />
       </div>
       <Card.Body className="coffee_box d-flex flex-column flex-grow-1">
         <Card.Title className="types_text">{productName}</Card.Title>
