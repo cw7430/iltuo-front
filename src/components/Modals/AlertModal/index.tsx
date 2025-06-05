@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 interface Props {
@@ -10,6 +11,22 @@ interface Props {
 
 export default function AlertModal(props: Props) {
   const { showAlertModal, handleCloseAlertModal, handleAfterAlert, alertTitle, alertText } = props;
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleAfterAlert();
+      }
+    };
+
+    if (showAlertModal) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showAlertModal, handleAfterAlert]);
 
   return (
     <Modal

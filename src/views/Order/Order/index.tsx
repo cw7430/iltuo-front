@@ -78,7 +78,7 @@ export default function Order() {
         const sum = orderData.orders.reduce((sum, order) => sum + order.price, 0);
         setOrderGroup(orderData);
         setTotalPrice(sum);
-        if (orderData.orderStatusCode !== "OS001") {
+        if (orderData.orderStatusCode !== "OS001" && orderData.orderStatusCode !== "OS006") {
           const paymentData = await fetchPayment(requestBody);
           setPayment(paymentData);
         }

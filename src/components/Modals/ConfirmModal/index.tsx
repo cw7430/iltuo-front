@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 interface Props {
@@ -11,6 +12,22 @@ interface Props {
 export default function ConfirmModal(props: Props) {
   const { showConfirmModal, handleCloseConfirmModal, handleConfirm, confirmTitle, confirmText } =
     props;
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleConfirm();
+      }
+    };
+    
+    if (showConfirmModal) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showConfirmModal, handleConfirm]);
 
   return (
     <Modal
