@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { CartResponseDto } from "../../../../apis/dto/response/Order";
 import { ListGroup, Row, Col, Button } from "react-bootstrap";
 
@@ -7,7 +6,7 @@ interface Props {
   handleDeleteCart: (cartId: number) => void;
 }
 
-const CartItems: FC<Props> = (props) => {
+export default function CartItems(props: Props) {
   const { cartItems, handleDeleteCart } = props;
 
   const handleConvertOptionPrice = (price: number): string => {
@@ -58,6 +57,4 @@ const CartItems: FC<Props> = (props) => {
       )}
     </>
   );
-};
-
-export default CartItems;
+}

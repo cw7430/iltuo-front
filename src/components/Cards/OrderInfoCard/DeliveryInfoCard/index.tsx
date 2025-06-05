@@ -7,7 +7,7 @@ interface Props {
   payment: PaymentResponseDto | undefined;
 }
 
-function DeliveryInfoCard(props: Props) {
+export default function DeliveryInfoCard(props: Props) {
   const { orderStatusCode, payment } = props;
   return payment ? (
     <Card>
@@ -43,5 +43,3 @@ function DeliveryInfoCard(props: Props) {
     </Card>
   ) : null;
 }
-
-export default DeliveryInfoCard;

@@ -1,7 +1,6 @@
-import { FC } from "react";
 import { Button, Modal } from "react-bootstrap";
 
-interface props {
+interface Props {
   showAlertModal: boolean;
   handleCloseAlertModal: () => void;
   handleAfterAlert: () => void;
@@ -9,13 +8,9 @@ interface props {
   alertText: string;
 }
 
-const AlertModal: FC<props> = ({
-  showAlertModal,
-  handleCloseAlertModal,
-  handleAfterAlert,
-  alertTitle,
-  alertText,
-}) => {
+export default function AlertModal(props: Props) {
+  const { showAlertModal, handleCloseAlertModal, handleAfterAlert, alertTitle, alertText } = props;
+
   return (
     <Modal
       backdrop="static"
@@ -34,6 +29,4 @@ const AlertModal: FC<props> = ({
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default AlertModal;
+}

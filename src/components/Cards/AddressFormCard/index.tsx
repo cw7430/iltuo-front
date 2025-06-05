@@ -12,7 +12,7 @@ interface Props {
   updateData: () => Promise<void>;
 }
 
-function AddressFormCard(props: Props) {
+export default function AddressFormCard(props: Props) {
   const { setShowAddressForm, updateData } = props;
 
   const detailAddressRef = useRef<HTMLInputElement>(null);
@@ -213,5 +213,3 @@ function AddressFormCard(props: Props) {
     </>
   );
 }
-
-export default AddressFormCard;

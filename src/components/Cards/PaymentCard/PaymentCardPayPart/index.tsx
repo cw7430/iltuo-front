@@ -29,7 +29,7 @@ interface Props {
   setCardPassword: Dispatch<SetStateAction<string>>;
 }
 
-function PaymentCardPayPart(props: Props) {
+export default function PaymentCardPayPart(props: Props) {
   const {
     paymentMethod,
     cardNumber1,
@@ -336,5 +336,3 @@ function PaymentCardPayPart(props: Props) {
     </>
   );
 }
-
-export default PaymentCardPayPart;

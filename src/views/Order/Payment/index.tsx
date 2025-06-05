@@ -15,7 +15,7 @@ import SearchExistAddressModal from "../../../components/Modals/SearchExistAddre
 import { PaymentCard, TotalPriceCard } from "../../../components/Cards";
 import { AddPaymentRequestDto } from "../../../apis/dto/request/Order";
 
-function Payment() {
+export default function Payment() {
   const navigate = useNavigate();
 
   const { paymentId } = useParams<{ paymentId: string }>();
@@ -422,5 +422,3 @@ function Payment() {
     </>
   );
 }
-
-export default Payment;

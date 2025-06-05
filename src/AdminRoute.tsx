@@ -9,7 +9,9 @@ interface Props {
   children: JSX.Element;
 }
 
-const AdminRoute = ({ children }: Props) => {
+export default function AdminRoute(props: Props) {
+  const { children } = props;
+
   const navigate = useNavigate();
   const { isLoggedIn, userPermission } = useAuthStore();
 
@@ -42,6 +44,4 @@ const AdminRoute = ({ children }: Props) => {
       />
     </>
   );
-};
-
-export default AdminRoute;
+}

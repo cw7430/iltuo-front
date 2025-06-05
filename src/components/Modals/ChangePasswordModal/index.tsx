@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOff, EyeOn } from "../../Svg";
 import ConfirmModal from "../ConfirmModal";
@@ -13,10 +13,9 @@ interface Props {
   handleCloseChangePasswordModal: () => void;
 }
 
-const ChangePasswordModal: FC<Props> = ({
-  showChangePasswordModal,
-  handleCloseChangePasswordModal,
-}) => {
+export default function ChangePasswordModal(props: Props) {
+  const { showChangePasswordModal, handleCloseChangePasswordModal } = props;
+
   const prevPasswordRef = useRef<HTMLInputElement>(null);
   const newPasswordRef = useRef<HTMLInputElement>(null);
   const newPasswordCheckRef = useRef<HTMLInputElement>(null);
@@ -333,6 +332,4 @@ const ChangePasswordModal: FC<Props> = ({
       {isLoading && <Loader />}
     </>
   );
-};
-
-export default ChangePasswordModal;
+}

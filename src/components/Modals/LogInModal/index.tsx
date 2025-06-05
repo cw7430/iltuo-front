@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { EyeOn, EyeOff } from "../../Svg";
 import { NativeSignInRequestDto } from "../../../apis/dto/request/Auth";
@@ -15,7 +15,9 @@ interface Props {
   handleCloseLogInModal: () => void;
 }
 
-const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
+export default function LogInModal(props: Props) {
+  const { showLogInModal, handleCloseLogInModal } = props;
+
   const navigate = useNavigate();
 
   const userIdRef = useRef<HTMLInputElement>(null);
@@ -221,6 +223,4 @@ const LogInModal: FC<Props> = ({ showLogInModal, handleCloseLogInModal }) => {
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default LogInModal;
+}

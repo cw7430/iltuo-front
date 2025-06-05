@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { OrderGroupResponseDto } from "../../../../apis/dto/response/Order";
 import { Col, ListGroup, Row } from "react-bootstrap";
 
@@ -6,7 +5,7 @@ interface Props {
   orderItems: OrderGroupResponseDto | undefined;
 }
 
-const OrderItems: FC<Props> = (props) => {
+export default function OrderItems(props: Props) {
   const { orderItems } = props;
 
   const handleConvertOptionPrice = (price: number): string => {
@@ -48,6 +47,4 @@ const OrderItems: FC<Props> = (props) => {
       )}
     </>
   );
-};
-
-export default OrderItems;
+}

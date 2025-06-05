@@ -1,7 +1,6 @@
-import { FC } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-interface props {
+interface Props {
   showConfirmModal: boolean;
   handleCloseConfirmModal: () => void;
   handleConfirm: () => void;
@@ -9,13 +8,10 @@ interface props {
   confirmText: string;
 }
 
-const ConfirmModal: FC<props> = ({
-  showConfirmModal,
-  handleCloseConfirmModal,
-  handleConfirm,
-  confirmTitle,
-  confirmText,
-}) => {
+export default function ConfirmModal(props: Props) {
+  const { showConfirmModal, handleCloseConfirmModal, handleConfirm, confirmTitle, confirmText } =
+    props;
+
   return (
     <Modal
       backdrop="static"
@@ -37,6 +33,4 @@ const ConfirmModal: FC<props> = ({
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default ConfirmModal;
+}

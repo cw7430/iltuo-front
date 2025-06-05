@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import ConfirmModal from "../ConfirmModal";
 import AlertModal from "../AlertModal";
@@ -18,7 +18,7 @@ interface Props {
   updateData: () => void;
 }
 
-const ChangeProfileModal: FC<Props> = (props) => {
+export default function ChangeProfileModal(props: Props) {
   const {
     showChangeProfileModal,
     handleCloseChangeProfileModal,
@@ -313,6 +313,4 @@ const ChangeProfileModal: FC<Props> = (props) => {
       />
     </>
   );
-};
-
-export default ChangeProfileModal;
+}

@@ -25,7 +25,7 @@ type PaymentProps = {
 
 type Props = DefaultProps & (CartProps | OrderProps | PaymentProps);
 
-function TotalPriceCard(props: Props) {
+export default function TotalPriceCard(props: Props) {
   const [deliveryPrice, setDeliveryPrice] = useState<number>(3000);
 
   useEffect(() => {
@@ -119,5 +119,3 @@ function TotalPriceCard(props: Props) {
     </Card>
   );
 }
-
-export default TotalPriceCard;

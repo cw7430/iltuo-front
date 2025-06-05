@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
 
-function BankAccountCard() {
+export default function BankAccountCard() {
   return (
     <Card>
       <Card.Header>
@@ -23,5 +23,3 @@ function BankAccountCard() {
     </Card>
   );
 }
-
-export default BankAccountCard;

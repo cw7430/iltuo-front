@@ -7,12 +7,10 @@ interface Props {
   payment: PaymentResponseDto | undefined;
 }
 
-function OrderInfoCard(props: Props) {
+export default function OrderInfoCard(props: Props) {
   const { orderStatusCode, payment } = props;
 
   if (orderStatusCode === "OS002") return <BankAccountCard />;
 
   return <DeliveryInfoCard orderStatusCode={orderStatusCode} payment={payment} />;
 }
-
-export default OrderInfoCard;

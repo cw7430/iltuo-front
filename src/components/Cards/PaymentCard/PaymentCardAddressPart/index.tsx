@@ -19,7 +19,7 @@ interface Props {
   handleSearchAddress: () => void;
 }
 
-function PaymentCardAddressPart(props: Props) {
+export default function PaymentCardAddressPart(props: Props) {
   const {
     addressList,
     addressMethod,
@@ -132,5 +132,3 @@ function PaymentCardAddressPart(props: Props) {
     </>
   );
 }
-
-export default PaymentCardAddressPart;

@@ -1,9 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMajorCategoryStore, useRecommendedProductStore } from "./stores";
 import InitFailed from "./InitFailed";
 import { Loader } from "./components/Gif";
 
-const AppInitializer = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function AppInitializer (props: Props) {
+
+  const { children } = props;
+
   const fetchMajor = useMajorCategoryStore((state) => state.fetchData);
   const fetchRecommended = useRecommendedProductStore((state) => state.fetchData);
 
@@ -30,5 +37,3 @@ const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 
   return <>{children}</>;
 };
-
-export default AppInitializer;

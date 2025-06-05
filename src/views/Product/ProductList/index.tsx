@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMajorCategoryStore } from "../../../stores";
 import { Container, Row, Col, Button, Nav } from "react-bootstrap";

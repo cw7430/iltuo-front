@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { Address } from "react-daum-postcode";
 import { Modal, Button } from "react-bootstrap";
@@ -14,15 +14,17 @@ interface Props {
   detailAddressRef: React.RefObject<HTMLInputElement | null>;
 }
 
-const DaumPostCodeModal: FC<Props> = ({
-  showDaumPostCodeModal,
-  handleCloseDaumPostCodeModal,
-  setPostalCode,
-  setDefaultAddress,
-  setDetailAddress,
-  setExtraAddress,
-  detailAddressRef,
-}) => {
+export default function DaumPostCodeModal(props: Props) {
+  const {
+    showDaumPostCodeModal,
+    handleCloseDaumPostCodeModal,
+    setPostalCode,
+    setDefaultAddress,
+    setDetailAddress,
+    setExtraAddress,
+    detailAddressRef,
+  } = props;
+
   const [isLoading, setIsLoading] = useState(true);
 
   const handleComplete = (data: Address) => {
@@ -97,6 +99,4 @@ const DaumPostCodeModal: FC<Props> = ({
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default DaumPostCodeModal;
+}

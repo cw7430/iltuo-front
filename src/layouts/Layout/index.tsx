@@ -1,4 +1,3 @@
-import React, { FC } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import { Outlet } from "react-router-dom";
@@ -8,7 +7,9 @@ interface Props {
   handleShowLoginModal: () => void;
 }
 
-const Layout: FC<Props> = ({ handelLogout, handleShowLoginModal }) => {
+function Layout(props: Props) {
+  const { handelLogout, handleShowLoginModal } = props;
+
   return (
     <div>
       <Header handelLogout={handelLogout} handleShowLoginModal={handleShowLoginModal} />
@@ -16,6 +17,6 @@ const Layout: FC<Props> = ({ handelLogout, handleShowLoginModal }) => {
       <Footer />
     </div>
   );
-};
+}
 
 export default Layout;

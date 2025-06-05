@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { DETAIL_PATH } from "../../../constants/url";
 import { convertOrderStatus } from "../../../utils/convert";
 
-function OrderGroup() {
+export default function OrderGroup() {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -128,5 +128,3 @@ function OrderGroup() {
     </>
   );
 }
-
-export default OrderGroup;

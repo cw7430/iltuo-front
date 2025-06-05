@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthStore } from "./stores";
 import { fetchLogout, fetchRefresh } from "./apis/server/Auth";
 import { logoutUser, refreshToken } from "./utils/auth";
 import { Loader } from "./components/Gif";
 
-const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function AuthInitializer(props: Props) {
+  const { children } = props;
+
   const [ready, setReady] = useState<boolean>(false);
 
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
@@ -38,6 +44,4 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   if (!ready) return <Loader />;
 
   return <>{children}</>;
-};
-
-export default AuthInitializer;
+}

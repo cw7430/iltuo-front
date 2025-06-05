@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Row, Col, Table, Button, Form, InputGroup } from "react-bootstrap";
 import Decimal from "decimal.js";
@@ -25,7 +25,7 @@ interface Props {
   handleShowLoginModal: () => void;
 }
 
-function ProuctDetail(props: Props) {
+export default function ProuctDetail(props: Props) {
   const { handleShowLoginModal } = props;
 
   const { productId } = useParams<{ productId: string }>();
@@ -464,5 +464,3 @@ function ProuctDetail(props: Props) {
     </>
   );
 }
-
-export default ProuctDetail;

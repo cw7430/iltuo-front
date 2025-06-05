@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Button, Card, Col, ListGroup, Modal, Row } from "react-bootstrap";
 import { AddressResponseDto } from "../../../apis/dto/response/Auth";
 
@@ -12,7 +12,7 @@ interface Props {
   setExtraAddress: Dispatch<SetStateAction<string>>;
 }
 
-const SearchExistAddressModal: FC<Props> = (props) => {
+export default function SearchExistAddressModal(props: Props) {
   const {
     showSearchExistAddressModal,
     handleCloseSearchExistAddressModal,
@@ -72,6 +72,4 @@ const SearchExistAddressModal: FC<Props> = (props) => {
       </Modal.Footer>
     </Modal>
   );
-};
-
-export default SearchExistAddressModal;
+}

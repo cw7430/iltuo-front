@@ -9,7 +9,9 @@ interface Props {
   children: JSX.Element;
 }
 
-const PrivateRoute = ({ children }: Props) => {
+export default function PrivateRoute(props: Props) {
+  const { children } = props;
+
   const navigate = useNavigate();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
@@ -42,6 +44,4 @@ const PrivateRoute = ({ children }: Props) => {
       />
     </>
   );
-};
-
-export default PrivateRoute;
+}

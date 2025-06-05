@@ -1,7 +1,12 @@
-import React from "react";
 import { Container, Card, Button, Alert } from "react-bootstrap";
 
-const InitFailed = ({ retry }: { retry: () => void }) => {
+interface Props {
+  retry: () => void;
+}
+
+export default function InitFailed(props: Props) {
+  const { retry } = props;
+
   return (
     <Container
       className="d-flex justify-content-center align-items-center"
@@ -20,6 +25,4 @@ const InitFailed = ({ retry }: { retry: () => void }) => {
       </Card>
     </Container>
   );
-};
-
-export default InitFailed;
+}

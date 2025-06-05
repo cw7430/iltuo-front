@@ -16,7 +16,7 @@ type OrderProps = {
 
 type Props = CartProps | OrderProps;
 
-function SelectedItemsCard (props: Props)  {
+export default function SelectedItemsCard(props: Props) {
   return (
     <Card>
       <Card.Header>
@@ -33,6 +33,4 @@ function SelectedItemsCard (props: Props)  {
       </Card.Body>
     </Card>
   );
-};
-
-export default SelectedItemsCard;
+}
